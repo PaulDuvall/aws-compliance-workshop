@@ -1,0 +1,96 @@
+Description: Setup AWS Config Service
+Resources:
+  ConfigBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub '${AWS::AccountId}-${AWS::StackName}-awsconfig'
+  DeliveryChannel: 
+    Type: AWS::Config::DeliveryChannel
+    Properties: 
+      ConfigSnapshotDeliveryProperties: 
+        DeliveryFrequency: "Six_Hours"
+      S3BucketName: 
+        Ref: ConfigBucket
+      SnsTopicARN: 
+        Ref: ConfigTopic
+  ConfigBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'ConfigBucket'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Id: PutObjPolicy
+        Statement:
+          - Sid: DenyUnEncryptedObjects
+            Effect: Deny
+            Principal: '*'
+            Action: s3:PutObject
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref 'ConfigBucket'
+                - /*
+            Condition:
+              StringNotEquals:
+                s3:x-amz-server-side-encryption: AES256
+  ConfigTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: config-sns-topic
+      TopicName: config-sns-topic
+  ConfigRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: !Ref 'ConfigTopic'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource:
+                  - !Join
+                    - ''
+                    - - 'arn:aws:s3:::'
+                      - !Ref 'ConfigBucket'
+                      - /AWSLogs/
+                      - !Ref 'AWS::AccountId'
+                      - /*
+                Condition:
+                  StringLike:
+                    s3:x-amz-acl: bucket-owner-full-control
+              - Effect: Allow
+                Action:
+                  - s3:GetBucketAcl
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref 'ConfigBucket'
+          PolicyName: root
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSConfigRole
+  ConfigRecorder:
+    Type: AWS::Config::ConfigurationRecorder
+    Properties:
+      Name: aws-config-recorder
+      RecordingGroup:
+        AllSupported: true
+        IncludeGlobalResourceTypes: true
+      RoleARN: !GetAtt 'ConfigRole.Arn'
+Outputs:
+  StackName:
+    Value: !Ref 'AWS::StackName'

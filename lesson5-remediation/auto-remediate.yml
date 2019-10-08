@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Auto Remediation Config Rule'
+Parameters:
+  InstanceType:
+    Description: EC2 instanceType
+    Type: String
+    Default: t2.medium
+Resources:
+  DesiredInstanceTypeRule:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: desired-instance-type
+      Description: >-
+        Auto remediation configuration to stop or terminate EC2 instances using
+        unapproved instance types. Detection uses a managed AWS Config Rule and
+        remediation is with SSM Automation.
+      Scope:
+        ComplianceResourceTypes:
+          - 'AWS::EC2::Instance'
+      Source:
+        Owner: AWS
+        SourceIdentifier: DESIRED_INSTANCE_TYPE
+      InputParameters:
+        instanceType: !Ref InstanceType
+  AuoRemediationEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name: auto-remediate-desired-instance-type
+      Description: 'auto remediation rule for config rule: desired-instance-type'
+      State: ENABLED
+      EventPattern:
+        detail-type:
+          - Config Rules Compliance Change
+        source:
+          - aws.config
+        detail:
+          newEvaluationResult:
+            complianceType:
+              - NON_COMPLIANT
+          configRuleARN:
+            - 'Fn::GetAtt':
+                - DesiredInstanceTypeRule
+                - Arn
+      Targets:
+        - Id: RemediationAction
+          RoleArn:
+            'Fn::GetAtt':
+              - AutoRemediationRole
+              - Arn
+          Arn:
+            'Fn::Sub': >-
+              arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/AWS-StopEC2Instance
+          InputTransformer:
+            InputPathsMap:
+              instance_id: $.detail.resourceId
+            InputTemplate:
+              'Fn::Sub': >-
+                {"InstanceId":[<instance_id>],"AutomationAssumeRole":["${AutoRemediationRole.Arn}"]}
+  AutoRemediationRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - events.amazonaws.com
+                - ssm.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole'
+      Policies: []
+  AutomationPassRolePolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: passAutomationRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'iam:PassRole'
+            Resource:
+              'Fn::GetAtt':
+                - AutoRemediationRole
+                - Arn
+      Roles:
+        - Ref: AutoRemediationRole

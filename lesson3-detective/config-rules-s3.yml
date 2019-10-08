@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy AWS Config Rules for S3
+Parameters:
+  ConfigRuleName3:
+    Type: String
+    Default: s3-bucket-public-read-prohibited
+    Description: The name that you assign to the AWS Config rule for S3-BUCKET-PUBLIC-READ-PROHIBITED.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+  ConfigRuleName4:
+    Type: String
+    Default: s3-bucket-public-write-prohibited
+    Description: The name that you assign to the AWS Config rule for S3-BUCKET-PUBLIC-WRITE-PROHIBITED.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+Resources:
+  AWSConfigRuleForS3PublicRead:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: !Ref 'ConfigRuleName3'
+      Description: Checks that your S3 buckets do not allow public read access. If an S3 bucket policy or bucket ACL allows public read access, the bucket is noncompliant.
+      Scope:
+        ComplianceResourceTypes:
+          - AWS::S3::Bucket
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_READ_PROHIBITED
+  AWSConfigRuleForPublicWrite:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: !Ref 'ConfigRuleName4'
+      Description: Checks that your S3 buckets do not allow public write access. If an S3 bucket policy or bucket ACL allows public write access, the bucket is noncompliant.
+      Scope:
+        ComplianceResourceTypes:
+          - AWS::S3::Bucket
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED

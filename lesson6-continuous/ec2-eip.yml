@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Detect and automatically release unattached EIPs'
+Resources:
+  ConfigRule:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: eip-attached
+      Description: >-
+        Detects and automatically remediates configuration to release unattached EIPs. Uses managed config rule for detection, and runs SSM Automation triggered via CloudWatch Event rules.
+      Scope:
+        ComplianceResourceTypes:
+          - 'AWS::EC2::EIP'
+      Source:
+        Owner: AWS
+        SourceIdentifier: EIP_ATTACHED
+  AuoRemediationEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name: auto-remediate-eip-attached
+      Description: 'auto remediation rule for config rule: eip-attached'
+      State: ENABLED
+      EventPattern:
+        detail-type:
+          - Config Rules Compliance Change
+        source:
+          - aws.config
+        detail:
+          newEvaluationResult:
+            complianceType:
+              - NON_COMPLIANT
+          configRuleARN:
+            - 'Fn::GetAtt':
+                - ConfigRule
+                - Arn
+      Targets:
+        - Id: RemediationAction
+          RoleArn:
+            'Fn::GetAtt':
+              - AutoRemediateRole
+              - Arn
+          Arn:
+            'Fn::Sub': >-
+              arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/AWS-ReleaseElasticIP
+          InputTransformer:
+            InputPathsMap:
+              eip_allocid: $.detail.resourceId
+            InputTemplate:
+              'Fn::Sub': >-
+                {"AllocationId":[<eip_allocid>],"AutomationAssumeRole":["${AutoRemediateRole.Arn}"]}
+  AutoRemediateRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - events.amazonaws.com
+                - ssm.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole'
+      Policies:
+        - PolicyName: ReleaseElasticIPPermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: ReleaseElasticIPPermissions
+                Effect: Allow
+                Action: 'ec2:ReleaseAddress'
+                Resource: '*'
+  AutoRemediateRolePolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: autoRemediateRolePolicy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'iam:PassRole'
+            Resource:
+              'Fn::GetAtt':
+                - AutoRemediateRole
+                - Arn
+      Roles:
+        - Ref: AutoRemediateRole
+Parameters: {}
+Metadata: {}
+Conditions: {}
