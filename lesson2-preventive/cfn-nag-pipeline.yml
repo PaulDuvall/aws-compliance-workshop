@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Simple CodePipeline example with CodeCommit and Approval
+Description: Run cfn_nag as part of AWS CodeBuild in CodePipeline
 Parameters:
   EmailAddress:
     Description: Email Address for sending SNS notifications for CodeCommit
@@ -14,11 +14,11 @@ Parameters:
   CodeCommitS3Bucket:
     Description: S3 bucket that holds zip of source code for CodeCommit Repo
     Type: String
-    Default: pmd-initial-code-for-codecommit
+    Default: paulduvall.io
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    Default: readme.zip
+    Default: ccoa-workshop/ccoa-lesson2-examples.zip
 Resources:
   MySNSTopic:
     Type: AWS::SNS::Topic
