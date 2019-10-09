@@ -18,7 +18,7 @@ Parameters:
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    Default: ccoa-workshop/ccoa-lesson1-examples.zip
+    Default: ccoa-workshop/ccoa-lesson2-examples.zip
 Resources:
   MyEIP:
     Type: AWS::EC2::EIP
