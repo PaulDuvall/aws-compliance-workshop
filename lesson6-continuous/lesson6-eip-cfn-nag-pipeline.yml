@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Simple CodePipeline example with CodeCommit and Approval
+Description: CodePipeline with cfn_nag
 Parameters:
   EmailAddress:
     Description: Email Address for sending SNS notifications for CodeCommit
@@ -20,8 +20,6 @@ Parameters:
     Type: String
     Default: ccoa-workshop/ccoa-lesson2-examples.zip
 Resources:
-  MyEIP:
-    Type: AWS::EC2::EIP
   MySNSTopic:
     Type: AWS::SNS::Topic
     Properties:
