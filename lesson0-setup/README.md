@@ -2,6 +2,15 @@
 
 https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
+## AWS Config Rule
+
+```
+arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
+
+arn:aws:sns:us-east-1:123456789012:SNSTopicName
+```
+
+
 
 ## S3 Bucket Policy
 
