@@ -58,7 +58,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 ## Lambda Remediation Function
 
 ```
-const aws = require('aws-sdk');
+var AWS = require('aws-sdk');
 
 exports.handler = function(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
