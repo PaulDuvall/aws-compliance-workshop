@@ -56,11 +56,11 @@ aws configservice delete-configuration-recorder --configuration-recorder-name CO
 aws configservice describe-delivery-channels
 ```
 
-5. Run the command below replacing `DELIVERY-CHANNEL-NAME` with the output from the above command (the name is probably `default`):
+5. Run the command below replacing `DELIVERYCHANNELNAME` with the output from the above command (the name is probably `default`):
 
 
 ```
-aws configservice delete-delivery-channel --delivery-channel-name DELIVERY-CHANNEL-NAME
+aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME
 ```
 
 
