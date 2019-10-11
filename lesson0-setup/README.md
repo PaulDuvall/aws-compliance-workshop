@@ -195,7 +195,7 @@ aws s3 mb s3://s3-bucket-public-write-prohibited-$(aws sts get-caller-identity -
 1. Create a new file called `policy.json`.
 
 ```
-cd ~/environment
+cd ~/environment/lesson0
 touch policy.json
 ```
 
@@ -228,7 +228,7 @@ touch policy.json
 3. Apply the S3 Bucket Policy to the Bucket by running the command below:
 
 ```
-aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --policy file://policy.json
+aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --policy file:///home/ec2-user/environment/lesson0/policy.json
 ```
 
 ## Create an AWS Config Rule
