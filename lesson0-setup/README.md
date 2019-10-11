@@ -6,11 +6,12 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 
 ```
-aws lambda delete-function --function-name "pmd-s3-bucket-public-write-prohibited-remediation"
-aws events list-targets-by-rule --rule "pmd-s3-bucket-public-write-prohibited-cwe"
-aws events remove-targets --rule "pmd-s3-bucket-public-write-prohibited-cwe" --ids "TARGETIDSFROMABOVE"
-aws events delete-rule --name "pmd-s3-bucket-public-write-prohibited-cwe"
+aws lambda delete-function --function-name "ccoa-s3-bucket-public-write-prohibited-remediation"
+aws events list-targets-by-rule --rule "ccoa-s3-bucket-public-write-prohibited-cwe"
+aws events remove-targets --rule "ccoa-s3-bucket-public-write-prohibited-cwe" --ids "TARGETIDSFROMABOVE"
+aws events delete-rule --name "ccoa-s3-bucket-public-write-prohibited-cwe"
 aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
+aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
 aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic"
 
@@ -335,22 +336,22 @@ touch lambda-s3-remediation-policy.json
 3. Create the IAM Policy
 
 ```
-aws iam create-policy --policy-name pmd-lambda-s3-remediation-policy --policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json
+aws iam create-policy --policy-name ccoa-lambda-s3-remediation-policy --policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json
 ```
 
 4. Create the IAM Role
 
-Create a new [IAM Role](https://console.aws.amazon.com/iam/home?region=us-east-1#/roles). Give it the name: `pmd-lambda-s3-remediation-role` and apply the `pmd-lambda-s3-remediation-policy` to the new IAM role. 
+Create a new [IAM Role](https://console.aws.amazon.com/iam/home?region=us-east-1#/roles). Give it the name: `ccoa-lambda-s3-remediation-role` and apply the `ccoa-lambda-s3-remediation-policy` to the new IAM role. 
 
 ```
-aws iam create-role --role-name pmd-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json 
+aws iam create-role --role-name ccoa-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json 
 ```
 
 
 
 ## Create a Lambda Function
 
-Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `pmd-s3-bucket-public-write-prohibited-remediation`
+Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `ccoa-s3-bucket-public-write-prohibited-remediation`
 
 ```
 var AWS = require('aws-sdk');
@@ -384,7 +385,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 ## CloudWatch Events Rule Event Pattern
 
-[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `pmd-s3-bucket-public-write-prohibited-cwe`.
+[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `ccoa-s3-bucket-public-write-prohibited-cwe`.
 
 ```
 {
