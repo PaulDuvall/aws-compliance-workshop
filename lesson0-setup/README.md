@@ -233,6 +233,43 @@ aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts
 
 ## Create an AWS Config Rule
 
+
+
+1. Create a new file called `s3-bucket-public-write-prohibited.json`.
+
+```
+cd ~/environment/lesson0
+touch s3-bucket-public-write-prohibited.json
+```
+
+2. Open the `s3-bucket-public-write-prohibited.json` file and paste the contents below and save the file.
+
+
+```
+{
+  "ConfigRuleName":"S3BucketPublicWriteProhibited",
+  "Description":"Checks that your Amazon S3 buckets do not allow public write access. The rule checks the Block Public Access settings, the bucket policy, and the bucket access control list (ACL).",
+  "InputParameters":{
+
+  },
+  "Scope":{
+    "ComplianceResourceTypes":[
+      "AWS::S3::Bucket"
+    ]
+  },
+  "Source":{
+    "Owner":"AWS",
+    "SourceIdentifier":"S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+  }
+}
+```
+
+3. Run the command to apply the Config Rule
+
+```
+aws configservice put-config-rule --config-rule file:///home/ec2-user/environment/lesson0/s3-bucket-public-write-prohibited.json
+```
+
 ```
 
 s3-bucket-public-write-prohibited
