@@ -215,7 +215,7 @@ cd ~/environment/lesson0
 touch policy.json
 ```
 
-2. Open the `policy.json` file and paste the contents below and save the file.
+2. Open the `policy.json` file and paste the contents below (replacing `mybucketname` with the name of the bucket you created above. Save the file.
 
 ```
 {
