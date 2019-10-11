@@ -185,12 +185,12 @@ aws cloudformation create-stack --stack-name config-recorder-stack --template-bo
 ## Create an S3 Bucket
 
 ```
-aws s3 mb s3://mybucket --region us-east-1
+aws s3 mb s3://s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --region us-east-1
 ```
 
 ### Create an S3 Bucket Policy and assign to Bucket
 
-**CAREFUL: This gives public write access to `mybucketname`. This is for demonstration purposes and AWS highly recommends that you never grant any kind of public access to your S3 bucket.**
+**CAREFUL: This gives public write access to `mybucketname` (replace with the name of the bucket you just created). This is for demonstration purposes and AWS highly recommends that you never grant any kind of public access to your S3 bucket.**
 
 1. Create a new file called `policy.json`.
 
@@ -225,10 +225,10 @@ touch policy.json
 }
 ```
 
-3. Apply the S3 Bucket Policy to the Bucket by running the command below (changing `MyBucket` to the bucket you created in an earlier step).
+3. Apply the S3 Bucket Policy to the Bucket by running the command below:
 
 ```
-aws s3api put-bucket-policy --bucket MyBucket --policy file://policy.json
+aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --policy file://policy.json
 ```
 
 ## Create an AWS Config Rule
