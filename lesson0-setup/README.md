@@ -131,8 +131,8 @@ Resources:
   ConfigTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: config-sns-topic
-      TopicName: config-sns-topic
+      DisplayName: !Sub '${AWS::StackName}'-sns-topic
+      TopicName: !Sub '${AWS::StackName}'-sns-topic
   ConfigRole:
     Type: AWS::IAM::Role
     Properties:
