@@ -321,6 +321,8 @@ touch lambda-s3-remediation-policy.json
 
 3. Create the IAM Role
 
+Create a new [IAM Role](https://console.aws.amazon.com/iam/home?region=us-east-1#/roles). Give it the name: `pmd-lambda-s3-remediation-role`.
+
 ```
 aws iam create-role --role-name pmd-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json 
 ```
