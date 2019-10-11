@@ -44,10 +44,10 @@ aws s3 rb s3://config-bucket-$(aws sts get-caller-identity --output text --query
 aws configservice describe-configuration-recorders
 ```
 
-3. Run the command below replacing `CONFIG-RECORDER-NAME` with the output from the above command
+3. Run the command below replacing `CONFIGRECORDERNAME` with the output from the above command
 
 ```
-aws configservice delete-configuration-recorder --configuration-recorder-name CONFIG-RECORDER-NAME 
+aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME 
 ```
 
 4. List any AWS Config Delivery Channels
