@@ -7,9 +7,9 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 ```
 aws lambda delete-function --function-name "ccoa-s3-bucket-public-write-prohibited-remediation"
-aws events list-targets-by-rule --rule "ccoa-s3-bucket-public-write-prohibited-cwe"
-aws events remove-targets --rule "ccoa-s3-bucket-public-write-prohibited-cwe" --ids "TARGETIDSFROMABOVE"
-aws events delete-rule --name "ccoa-s3-bucket-public-write-prohibited-cwe"
+aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
+aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
+aws events delete-rule --name "ccoa-s3-write-cwe"
 aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
 aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
@@ -385,7 +385,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 ## CloudWatch Events Rule Event Pattern
 
-[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `ccoa-s3-bucket-public-write-prohibited-cwe`.
+[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `ccoa-s3-write-cwe`.
 
 ```
 {
