@@ -4,7 +4,10 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 ## Cleanup
 
+
 ```
+aws events list-targets-by-rule --rule "S3ComplianceRule" --output text --query 'Id'
+aws events remove-targets --rule "S3ComplianceRule" --ids "Id4142119285241"
 aws events delete-rule --name "S3ComplianceRule"
 ```
 
