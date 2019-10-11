@@ -276,6 +276,8 @@ s3-bucket-public-write-prohibited
 S3_BUCKET_PUBLIC_WRITE_PROHIBITED
 
 AutomationAssumeRole
+Message
+TopicArn
 
 arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
 
