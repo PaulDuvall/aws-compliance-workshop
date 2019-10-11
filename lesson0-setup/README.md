@@ -351,7 +351,7 @@ aws iam create-role --role-name ccoa-lambda-s3-remediation-role --assume-role-po
 
 ## Create a Lambda Function
 
-Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `ccoa-s3-bucket-public-write-prohibited-remediation`
+Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `ccoa-s3-write-remediation`
 
 ```
 var AWS = require('aws-sdk');
