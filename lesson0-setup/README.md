@@ -2,6 +2,12 @@
 
 https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
+## Cleanup
+
+```
+aws events delete-rule --name "S3ComplianceRule"
+```
+
 ## Create an SNS Topic and Subscription
 
 Replace `my-email@example.com` with your email address.
