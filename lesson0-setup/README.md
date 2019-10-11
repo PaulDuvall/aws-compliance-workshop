@@ -2,6 +2,12 @@
 
 https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
+## Create an SNS Topic and Subscription
+
+```
+TBD
+```
+
 ## Configure AWS Config Settings (OPTIONAL)
 
 ```
@@ -43,17 +49,15 @@ TBD
 }
 ```
 
-
-
-## Create an SNS Topic and Subscription
-
-```
-TBD
-```
-
 ## Create an AWS Config Rule
 
 ```
+
+s3-bucket-public-write-prohibited
+S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+
+AutomationAssumeRole
+
 arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
 
 arn:aws:sns:us-east-1:123456789012:SNSTopicName
