@@ -8,7 +8,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 ```
 aws lambda delete-function --function-name "pmd-s3-bucket-public-write-prohibited-remediation"
 aws events list-targets-by-rule --rule "pmd-s3-bucket-public-write-prohibited-cwe"
-aws events remove-targets --rule "pmd-s3-bucket-public-write-prohibited-cwe" --ids "TARGET-IDS-FROM-ABOVE"
+aws events remove-targets --rule "pmd-s3-bucket-public-write-prohibited-cwe" --ids "TARGETIDSFROMABOVE"
 aws events delete-rule --name "pmd-s3-bucket-public-write-prohibited-cwe"
 aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
