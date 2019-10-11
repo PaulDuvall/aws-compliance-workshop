@@ -6,9 +6,12 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 
 ```
-aws events list-targets-by-rule --rule "S3ComplianceRule"
-aws events remove-targets --rule "S3ComplianceRule" --ids "Id4142119285241"
-aws events delete-rule --name "S3ComplianceRule"
+aws lambda delete-function --function-name "pmd-s3-bucket-public-write-prohibited-remediation"
+aws events list-targets-by-rule --rule "pmd-s3-bucket-public-write-prohibited-cwe"
+aws events remove-targets --rule "pmd-s3-bucket-public-write-prohibited-cwe" --ids "Id4142119285241"
+aws events delete-rule --name "pmd-s3-bucket-public-write-prohibited-cwe"
+aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic"
+
 ```
 
 ## Create an SNS Topic and Subscription
