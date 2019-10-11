@@ -13,7 +13,7 @@ aws events delete-rule --name "ccoa-s3-bucket-public-write-prohibited-cwe"
 aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
 aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
-aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic"
+aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):ccoa-config-topic"
 
 
 ```
@@ -23,9 +23,9 @@ aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --outpu
 Replace `my-email@example.com` with your email address.
 
 ```
-aws sns create-topic --name aws-config-topic
+aws sns create-topic --name ccoa-config-topic
 
-aws sns subscribe --topic-arn arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic --protocol email --notification-endpoint my-email@example.com
+aws sns subscribe --topic-arn arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):ccoa-config-topic --protocol email --notification-endpoint my-email@example.com
 
 ```
 
@@ -296,7 +296,7 @@ Remediation Action: AWS-PublishSNSNotification
 
 AutomationAssumeRole: arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
 Message: s3-bucket-public-write-prohibited violated
-TopicArn: arn:aws:sns:us-east-1:123456789012:aws-config-topic
+TopicArn: arn:aws:sns:us-east-1:123456789012:ccoa-config-topic
 
 
 ```
