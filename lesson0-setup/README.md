@@ -17,6 +17,8 @@ aws sns subscribe --topic-arn arn:aws:sns:$(aws configure get region --output te
 
 ```
 aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-config-recorder-stack-awsconfig --force
+
+aws s3 rb s3://config-bucket-$(aws sts get-caller-identity --output text --query 'Account') --force
 ```
 
 2. List any AWS Config Recorders
