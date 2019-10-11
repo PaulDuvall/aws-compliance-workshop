@@ -276,15 +276,13 @@ aws configservice put-config-rule --config-rule file:///home/ec2-user/environmen
 s3-bucket-public-write-prohibited
 S3_BUCKET_PUBLIC_WRITE_PROHIBITED
 
-AutomationAssumeRole
-Message
-TopicArn
+Remediation Action: AWS-PublishSNSNotification
 
-arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
+AutomationAssumeRole: arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
+Message: s3-bucket-public-write-prohibited violated
+TopicArn: arn:aws:sns:us-east-1:123456789012:aws-config-topic
 
-arn:aws:sns:us-east-1:123456789012:SNSTopicName
 
-AWS-PublishSNSNotification
 ```
 
 ## Create a IAM Role for Lambda function
