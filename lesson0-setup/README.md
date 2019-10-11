@@ -10,9 +10,13 @@ arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRole
 arn:aws:sns:us-east-1:123456789012:SNSTopicName
 ```
 
+## Create an S3 Bucket
 
+```
+TBD
+```
 
-## S3 Bucket Policy
+### Create an S3 Bucket Policy and assign to Bucket
 
 **CAREFUL: This gives public write access to `mybucketname`. This is for demonstration purposes and AWS highly recommends that you never grant any kind of public access to your S3 bucket.**
 
@@ -40,31 +44,27 @@ arn:aws:sns:us-east-1:123456789012:SNSTopicName
 }
 ```
 
-## CloudWatch Events Rule Event Pattern
+## Configure AWS Config Settings (OPTIONAL)
 
 ```
-{
-  "source":[
-    "aws.config"
-  ],
-  "detail":{
-    "requestParameters":{
-      "evaluations":{
-        "complianceType":[
-          "NON_COMPLIANT"
-        ]
-      }
-    },
-    "additionalEventData":{
-      "managedRuleIdentifier":[
-        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
-      ]
-    }
-  }
-}
+TBD
 ```
 
-## Lambda Remediation Function
+
+
+## Create an SNS Topic and Subscription
+
+```
+TBD
+```
+
+## Create a Lambda Role
+
+```
+TBD
+```
+
+## Create a Lambda Function
 
 ```
 var AWS = require('aws-sdk');
@@ -95,3 +95,28 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 };
 ```
+
+## CloudWatch Events Rule Event Pattern
+
+```
+{
+  "source":[
+    "aws.config"
+  ],
+  "detail":{
+    "requestParameters":{
+      "evaluations":{
+        "complianceType":[
+          "NON_COMPLIANT"
+        ]
+      }
+    },
+    "additionalEventData":{
+      "managedRuleIdentifier":[
+        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+      ]
+    }
+  }
+}
+```
+
