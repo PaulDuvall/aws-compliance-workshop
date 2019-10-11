@@ -32,7 +32,7 @@ aws sns subscribe --topic-arn arn:aws:sns:$(aws configure get region --output te
 1. Delete the S3 bucket used by AWS Config
 
 ```
-aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-config-recorder-stack-awsconfig --force
+aws s3 rb s3://ccoa-awsconfig-$(aws sts get-caller-identity --output text --query 'Account') --force
 
 aws s3 rb s3://config-bucket-$(aws sts get-caller-identity --output text --query 'Account') --force
 ```
@@ -96,7 +96,7 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub '${AWS::AccountId}-${AWS::StackName}-awsconfig'
+      BucketName: !Sub '${AWS::StackName}-${AWS::AccountId}'
   ConfigTopic:
     Type: AWS::SNS::Topic
   DeliveryChannel: 
@@ -195,7 +195,7 @@ Outputs:
 From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name config-recorder-stack --template-body file:///home/ec2-user/environment/lesson0/config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback
+aws cloudformation create-stack --stack-name ccoa-awsconfig --template-body file:///home/ec2-user/environment/lesson0/config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback
 ```
 
 ## Create an S3 Bucket
