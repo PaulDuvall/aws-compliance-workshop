@@ -2,13 +2,12 @@
 
 https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
-## AWS Config Rule
+## Configure AWS Config Settings (OPTIONAL)
 
 ```
-arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
-
-arn:aws:sns:us-east-1:123456789012:SNSTopicName
+TBD
 ```
+
 
 ## Create an S3 Bucket
 
@@ -44,18 +43,22 @@ TBD
 }
 ```
 
-## Configure AWS Config Settings (OPTIONAL)
-
-```
-TBD
-```
-
 
 
 ## Create an SNS Topic and Subscription
 
 ```
 TBD
+```
+
+## Create an AWS Config Rule
+
+```
+arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM
+
+arn:aws:sns:us-east-1:123456789012:SNSTopicName
+
+AWS-PublishSNSNotification
 ```
 
 ## Create a Lambda Role
