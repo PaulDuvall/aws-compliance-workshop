@@ -11,7 +11,7 @@ aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
 aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
 aws events delete-rule --name "ccoa-s3-write-cwe"
 aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
-aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited
+aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited-rule
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
 aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):ccoa-config-topic"
 
@@ -250,7 +250,7 @@ aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts
 ## Create an AWS Config Rule
 
 
-Alternatively, you can use the  [AWS Config Console](https://console.aws.amazon.com/config/home?region=us-east-1#/rules/view) to add a rule
+Alternatively, you can use the  [AWS Config Console](https://console.aws.amazon.com/config/home?region=us-east-1#/rules/view) to add a rule. Name the rule `s3-bucket-public-write-prohibited-rule`.
 
 1. Create a new file called `s3-bucket-public-write-prohibited.json`.
 
@@ -264,7 +264,7 @@ touch s3-bucket-public-write-prohibited.json
 
 ```
 {
-  "ConfigRuleName":"S3BucketPublicWriteProhibited",
+  "ConfigRuleName":"s3-bucket-public-write-prohibited-rule",
   "Description":"Checks that your Amazon S3 buckets do not allow public write access. The rule checks the Block Public Access settings, the bucket policy, and the bucket access control list (ACL).",
   "InputParameters":{
 
