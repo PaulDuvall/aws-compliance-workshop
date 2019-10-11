@@ -9,7 +9,7 @@ Replace `my-email@example.com` with your email address.
 ```
 aws sns create-topic --name aws-config-topic
 
-aws sns subscribe --topic-arn arn:aws:sns:us-east-2:$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic --protocol email --notification-endpoint my-email@example.com
+aws sns subscribe --topic-arn arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):aws-config-topic --protocol email --notification-endpoint my-email@example.com
 
 ```
 
