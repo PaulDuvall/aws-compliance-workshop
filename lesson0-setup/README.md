@@ -6,7 +6,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 
 ```
-aws events list-targets-by-rule --rule "S3ComplianceRule" --output text --query 'Id'
+aws events list-targets-by-rule --rule "S3ComplianceRule"
 aws events remove-targets --rule "S3ComplianceRule" --ids "Id4142119285241"
 aws events delete-rule --name "S3ComplianceRule"
 ```
@@ -344,7 +344,7 @@ aws iam create-role --role-name pmd-lambda-s3-remediation-role --assume-role-pol
 
 ## Create a Lambda Function
 
-Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function.
+Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `pmd-s3-bucket-public-write-prohibited-remediation`
 
 ```
 var AWS = require('aws-sdk');
@@ -377,6 +377,8 @@ for (var i = 0, len = resource.length; i < len; i++) {
 ```
 
 ## CloudWatch Events Rule Event Pattern
+
+[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:)
 
 ```
 {
