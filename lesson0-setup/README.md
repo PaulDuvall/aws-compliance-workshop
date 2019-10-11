@@ -378,7 +378,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 ## CloudWatch Events Rule Event Pattern
 
-[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:)
+[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `pmd-s3-bucket-public-write-prohibited-cwe`.
 
 ```
 {
