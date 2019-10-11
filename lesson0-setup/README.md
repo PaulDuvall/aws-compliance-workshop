@@ -18,12 +18,21 @@ TBD
 ## Create an S3 Bucket
 
 ```
-TBD
+aws s3 mb s3://mybucket --region us-east-1
 ```
 
 ### Create an S3 Bucket Policy and assign to Bucket
 
 **CAREFUL: This gives public write access to `mybucketname`. This is for demonstration purposes and AWS highly recommends that you never grant any kind of public access to your S3 bucket.**
+
+1. Create a new file called `policy.json`.
+
+```
+cd ~/environment
+touch policy.json
+```
+
+2. Open the `policy.json` file and paste the contents below and save the file.
 
 ```
 {
@@ -47,6 +56,12 @@ TBD
     }
   ]
 }
+```
+
+3. Apply the S3 Bucket Policy to the Bucket by running the command below (changing `MyBucket` to the bucket you created in an earlier step).
+
+```
+aws s3api put-bucket-policy --bucket MyBucket --policy file://policy.json
 ```
 
 ## Create an AWS Config Rule
