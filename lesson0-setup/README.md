@@ -10,7 +10,7 @@ aws lambda delete-function --function-name "ccoa-s3-write-remediation"
 aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
 aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
 aws events delete-rule --name "ccoa-s3-write-cwe"
-aws s3 rb s3://arn:aws:s3:::s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
+aws s3 rb s3://arn:aws:s3:::ccoa-s3-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
 aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited-rule
 aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
 aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):ccoa-config-topic"
@@ -201,7 +201,7 @@ aws cloudformation create-stack --stack-name ccoa-awsconfig --template-body file
 ## Create an S3 Bucket
 
 ```
-aws s3 mb s3://s3-bucket-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --region us-east-1
+aws s3 mb s3://ccoa-s3-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --region us-east-1
 ```
 
 ### Create an S3 Bucket Policy and assign to Bucket
