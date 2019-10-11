@@ -333,6 +333,8 @@ aws iam create-policy --policy-name pmd-lambda-s3-remediation-policy --policy-do
 
 ## Create a Lambda Function
 
+Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function.
+
 ```
 var AWS = require('aws-sdk');
 
