@@ -234,6 +234,7 @@ aws s3api put-bucket-policy --bucket s3-bucket-public-write-prohibited-$(aws sts
 ## Create an AWS Config Rule
 
 
+Alternatively, you can use the  [AWS Config Console](https://console.aws.amazon.com/config/home?region=us-east-1#/rules/view) to add a rule
 
 1. Create a new file called `s3-bucket-public-write-prohibited.json`.
 
