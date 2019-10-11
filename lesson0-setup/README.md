@@ -6,7 +6,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
 
 
 ```
-aws lambda delete-function --function-name "ccoa-s3-bucket-public-write-prohibited-remediation"
+aws lambda delete-function --function-name "ccoa-s3-write-remediation"
 aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
 aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
 aws events delete-rule --name "ccoa-s3-write-cwe"
@@ -303,14 +303,14 @@ TopicArn: arn:aws:sns:us-east-1:123456789012:ccoa-config-topic
 
 ## Create a IAM Role for Lambda function
 
-1. Create a new file called `lambda-s3-remediation-policy.json`:
+1. Create a new file called `ccoa-lambda-s3-remediation-policy.json`:
 
 ```
 cd ~/environment/lesson0
-touch lambda-s3-remediation-policy.json
+touch ccoa-lambda-s3-remediation-policy.json
 ```
 
-2. Open the `lambda-s3-remediation-policy.json` file and paste the contents below and save the file:
+2. Open the `ccoa-lambda-s3-remediation-policy.json` file and paste the contents below and save the file:
 
 ```
 {
@@ -336,7 +336,7 @@ touch lambda-s3-remediation-policy.json
 3. Create the IAM Policy
 
 ```
-aws iam create-policy --policy-name ccoa-lambda-s3-remediation-policy --policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json
+aws iam create-policy --policy-name ccoa-lambda-s3-remediation-policy --policy-document file:///home/ec2-user/environment/lesson0/ccoa-lambda-s3-remediation-policy.json
 ```
 
 4. Create the IAM Role
@@ -344,7 +344,7 @@ aws iam create-policy --policy-name ccoa-lambda-s3-remediation-policy --policy-d
 Create a new [IAM Role](https://console.aws.amazon.com/iam/home?region=us-east-1#/roles). Give it the name: `ccoa-lambda-s3-remediation-role` and apply the `ccoa-lambda-s3-remediation-policy` to the new IAM role. 
 
 ```
-aws iam create-role --role-name ccoa-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/lambda-s3-remediation-policy.json 
+aws iam create-role --role-name ccoa-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/ccoa-lambda-s3-remediation-policy.json 
 ```
 
 
