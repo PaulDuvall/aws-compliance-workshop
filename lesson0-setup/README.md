@@ -1,6 +1,10 @@
 # Automatically Remediate Non-Compliant AWS Resources
 **Using AWS Config Rules, CloudWatch Events Rules, and Lambda**
 
+```
+aws sts get-caller-identity --output text --query 'Account'
+```
+
 ## Create an S3 Bucket for CloudTrail Trail
 `ccoa-cloudtrail-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
