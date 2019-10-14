@@ -1,6 +1,44 @@
-# Setup
+# Remediate Non-Compliance Using AWS Config Rules, AWS CloudWatch Events, & AWS Lambda Functions from the Console
 
-https://docs.aws.amazon.com/AmazonS3/latest/user-guide/add-bucket-policy.html
+## Create an S3 Bucket for Cloudtrail Trail
+
+## Create a Cloudtrail Trail
+
+## Cloudwatch Logs
+
+## SNS Topic for Config
+
+## SNS Subscription for Config
+
+## Create an S3 Bucket for Config
+
+## Create an AWS Config Recorder
+
+NOTE: This creates a Config Delivery Channel
+
+## Create an S3 Bucket in violation
+
+## Create a S3 Bucket Policy
+
+## Create an IAM Policy for Lambda
+
+## Create an IAM Role for Lambda
+
+## Create a Lambda function AWS::Lambda::Function
+
+## Create a Config Rule (Managed Rule which runs Lambda function) 
+
+1. Publish SNS Topic remediation
+
+## Cloudwatch Event Rule AWS::Events::Rule
+
+1. Cloudwatch Event Pattern
+2. Cloudwatch Event Target
+
+
+==================================================
+
+# Setup CLI
 
 ## CloudFormation Resources
 * [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)
