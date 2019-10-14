@@ -2,38 +2,55 @@
 **Using AWS Config Rules, CloudWatch Events Rules, and Lambda**
 
 ## Create an S3 Bucket for CloudTrail Trail
-1. Go to the [CloudTrail](https://console.aws.amazon.com/cloudtrail/) console
+1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
 
 ## Create a Cloudtrail Trail
+1. Go to the [CloudTrail](https://console.aws.amazon.com/cloudtrail/) console
+
 
 ## Cloudwatch Logs
+1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
 
-## SNS Topic for Config
 
-## SNS Subscription for Config
+## SNS Topic and Subscription for Config
+1. Go to the [Simple Notification Service](https://console.aws.amazon.com/sns/) console.
+
 
 ## Create an S3 Bucket for Config
+1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
 ## Create an AWS Config Recorder
+1. Go to the [Config](https://console.aws.amazon.com/config/) console
 
 NOTE: This creates a Config Delivery Channel
 
 ## Create an S3 Bucket in violation
+1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
-## Create a S3 Bucket Policy
+**Create a S3 Bucket Policy**
 
 ## Create an IAM Policy for Lambda
+1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
+
 
 ## Create an IAM Role for Lambda
+1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
 
-## Create a Lambda function AWS::Lambda::Function
+
+## Create a Lambda function
+1. Go to the [Lambda](https://console.aws.amazon.com/lambda/) console
+
 
 ## Create a Config Rule (Managed Rule which runs Lambda function) 
+1. Go to the [Config](https://console.aws.amazon.com/config/) console
+
 
 1. Publish SNS Topic remediation
 
-## Cloudwatch Event Rule AWS::Events::Rule
+## Cloudwatch Event Rule
+1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
+
 
 1. Cloudwatch Event Pattern
 2. Cloudwatch Event Target
