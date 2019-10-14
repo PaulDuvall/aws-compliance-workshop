@@ -248,10 +248,40 @@ for (var i = 0, len = resource.length; i < len; i++) {
 6. Go to the [S3](https://console.aws.amazon.com/s3/) console and choose the `ccoa-s3-write-violation-ACCOUNTID` bucket that the bucket policy has been removed. 
 7. Go back **Rules** in the [Config](https://console.aws.amazon.com/config/) console and confirm that the **s3-bucket-public-write-prohibited** rule is **Compliant** 
 
-
-
-
 ==================================================
+
+# AWS Chatbot
+
+*Objective: Learn how to create an AWS Chatbot for recommendations*
+
+![AWS Chatbot](https://github.com/PaulDuvall/aws-compliance-workshop/wiki/img/remediation/remediation-aws-chatbot.png
+)
+
+Create an Amazon Lambda function (Python Hello World)
+Create an Amazon SNS Topic
+Create an IAM Role
+
+The identity provider(s) cloudwatch.amazonaws.com  
+CloudWatchFullAccess
+CloudWatchEventsFullAccess 
+
+Create an Amazon CloudWatch Alarm 
+AWS Chatbot - Configre client (select Slack) - using SNS Topic and IAM Role
+
+https://us-east-2.console.aws.amazon.com/chatbot/
+https://console.aws.amazon.com/sns/
+https://console.aws.amazon.com/lambda/
+https://console.aws.amazon.com/cloudwatch/
+https://console.aws.amazon.com/iam/
+https://docs.aws.amazon.com/config/latest/developerguide/monitor-config-with-cloudwatchevents.html
+
+## Notes
+
+* https://aws.amazon.com/chatbot/
+* https://aws.amazon.com/blogs/devops/introducing-aws-chatbot-chatops-for-aws/
+
+
+=============================================================
 
 # Setup CLI
 
