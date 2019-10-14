@@ -41,11 +41,14 @@ aws sts get-caller-identity --output text --query 'Account'
 9. Click the **Create subscription** button
 10. Confirm the subscription once you receive the email from AWS
 
-
-
 ## Create an S3 Bucket for Config
 `ccoa-config-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
+2. Click the **Create bucket** button
+3. Enter `ccoa-config-ACCOUNTID` in the **Bucket name** field (replacing `ACCOUNTID` with your account id)
+4. Click **Next** on the *Configure Options* screen
+5. Click **Next** on the *Set Permissions* screen
+6. Click **Create bucket** on the *Review* screen
 
 ## Create an AWS Config Recorder
 1. Go to the [Config](https://console.aws.amazon.com/config/) console
