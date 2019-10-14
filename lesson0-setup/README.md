@@ -267,17 +267,19 @@ for (var i = 0, len = resource.length; i < len; i++) {
 9. Click the **Create subscription** button
 10. Confirm the subscription once you receive the email from AWS
 
-## Create an Amazon CloudWatch Event Rule for Chatbot
-
-Follow these [instructions](#cloudwatch-event-rule). Be sure to the name the rule `ccoa-chatbot-cwe`
-
 ## Create an IAM Policy and Role for Chatbot
 
 Create an [IAM policy and rule](#create-an-iam-policy-and-role-for-lambda). Be sure to the name the policy `ccoa-chatbot-policy` and the role `ccoa-chatbot-role`
 
+
 ## Create a Lambda function
 
 Follow these [instructions](#create-a-lambda-function). Be sure to the name the rule `ccoa-chatbot-function`
+
+
+## Create an Amazon CloudWatch Event Rule for Chatbot
+
+Follow these [instructions](#cloudwatch-event-rule). Be sure to the name the rule `ccoa-chatbot-cwe`
 
 ## AWS Chatbot - Configure client (select Slack) - using SNS Topic and IAM Role
 
