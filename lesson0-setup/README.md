@@ -5,6 +5,24 @@
 aws sts get-caller-identity --output text --query 'Account'
 ```
 
+## Cleanup
+
+```
+aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force
+ccoa-cloudtrail
+aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account')
+ccoa-s3-write-policy
+
+aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy
+
+aws lambda delete-function --function-name "ccoa-s3-write-remediation"
+
+
+aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule
+aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
+aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
+```
+
 ## Create an S3 Bucket for CloudTrail Trail
 `ccoa-cloudtrail-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
