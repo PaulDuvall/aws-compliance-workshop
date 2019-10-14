@@ -74,7 +74,7 @@ NOTE: This creates a Config Delivery Channel
 5. Click **Next** on the *Set Permissions* screen
 6. Click **Create bucket** on the *Review* screen
 7. Select the `ccoa-s3-write-violation-ACCOUNTID` bucket and choose the **Permissions** tab
-8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area.
+8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area (replace both `mybucketname` values with the `ccoa-s3-write-violation-ACCOUNTID` bucket you just created)
 9. Click the **Save** button
 
 ```
@@ -100,6 +100,8 @@ NOTE: This creates a Config Delivery Channel
   ]
 }
 ```
+
+You'll receive this message: *You have provided public access to this bucket. We highly recommend that you never grant any kind of public access to your S3 bucket.*
 
 ## Create an IAM Policy for Lambda
 `ccoa-s3-write-policy`
