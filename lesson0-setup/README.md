@@ -51,7 +51,17 @@ aws sts get-caller-identity --output text --query 'Account'
 6. Click **Create bucket** on the *Review* screen
 
 ## Create an AWS Config Recorder
+NOTE: If you've already enabled Config on your AWS account, you do not need to go through these instructions
 1. Go to the [Config](https://console.aws.amazon.com/config/) console
+2. If it's your first time using Config, click the **Get Started** button
+3. Select the **Include global resources (e.g., AWS IAM resources)** checkbox
+4. In the *Amazon SNS topic* section, select the **Stream configuration changes and notifications to an Amazon SNS topic.** checkbox
+5. Choose the **Create a topic** radio button in the *Amazon SNS topic* section
+6. In the *Amazon S3 bucket* section, select the **Create a bucket** radio button
+8. In the *AWS Config role* section, select the **Use an existing AWS Config service-linked role** radio button
+9. Click the **Next** button
+10. Click the **Skip** button on the *AWS Config rules* page
+11. Click the **Confirm** button on the *Review* page
 
 NOTE: This creates a Config Delivery Channel
 
