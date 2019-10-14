@@ -303,7 +303,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 10. Click the **Create role** button
 11. Click **Lambda** from the *Choose the service that will use this role* section
 12. Click the **Next: Permissions** button
-13. Click **ccoa-s3-write-policy** in the *Filter policies* search field
+13. Click **ccoa-chatbot-policy** in the *Filter policies* search field
 14. Select the checkbox next to **ccoa-chatbot-policy** and click on the **Next: Tags** button
 15. Click the **Next: Review** button
 16. Enter `ccoa-chatbot-role` in the **Role name** field
