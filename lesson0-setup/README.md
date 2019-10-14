@@ -252,21 +252,42 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 # AWS Chatbot
 
-*Objective: Learn how to create an AWS Chatbot for recommendations*
-
 ![AWS Chatbot](https://github.com/PaulDuvall/aws-compliance-workshop/wiki/img/remediation/remediation-aws-chatbot.png
 )
 
-Create an Amazon Lambda function (Python Hello World)
-Create an Amazon SNS Topic
-Create an IAM Role
+## Create an Amazon SNS Topic
+1. Go to the [Simple Notification Service](https://console.aws.amazon.com/sns/) console.
+2. Select **Topics**
+3. Click **Create topic**
+4. Enter `ccoa-chatbot-topic` in the **Name** and **Display name** fields
+5. Click the **Create topic** button
+6. Click the **Create subscription** button
+7. Choose **email** from the **Protocol** dropdown
+8. Enter your **email address** in the **Endpoint** field
+9. Click the **Create subscription** button
+10. Confirm the subscription once you receive the email from AWS
 
-The identity provider(s) cloudwatch.amazonaws.com  
-CloudWatchFullAccess
-CloudWatchEventsFullAccess 
+## Create an Amazon CloudWatch Event Rule for Chatbot
 
-Create an Amazon CloudWatch Alarm 
-AWS Chatbot - Configre client (select Slack) - using SNS Topic and IAM Role
+Follow these [instructions](#cloudwatch-event-rule). Be sure to the name the rule `ccoa-chatbot-cwe`
+
+## Create an IAM Policy and Rule for Chatbot
+
+Follow these [instructions](#create-an-iam-policy-and-role-for-lambda). Be sure to the name the rule `ccoa-chatbot-policy`
+
+## Create an IAM Policy and Rule for Chatbot
+
+Follow these [instructions](#create-a-lambda-function). Be sure to the name the rule `ccoa-chatbot-function`
+
+## AWS Chatbot - Configure client (select Slack) - using SNS Topic and IAM Role
+
+1. Go to the [Chatbot](https://console.aws.amazon.com/chatbot/) console
+2. Select **Slack** as the *Chatbot client*
+3. Click the **Configure client** button
+4. Choose the name of your **Slack workspace** and login to Slack
+5. Click the **Allow** button on the *On <<Slack workspace>>, AWS Chatbot (Beta) would like to* page
+6. Choose the IAM Role you previously created
+7. Choose the SNS Topic you previously created
 
 https://us-east-2.console.aws.amazon.com/chatbot/
 https://console.aws.amazon.com/sns/
@@ -275,10 +296,30 @@ https://console.aws.amazon.com/cloudwatch/
 https://console.aws.amazon.com/iam/
 https://docs.aws.amazon.com/config/latest/developerguide/monitor-config-with-cloudwatchevents.html
 
-## Notes
+### Notes
 
 * https://aws.amazon.com/chatbot/
 * https://aws.amazon.com/blogs/devops/introducing-aws-chatbot-chatops-for-aws/
+
+The identity provider(s) cloudwatch.amazonaws.com  
+CloudWatchFullAccess
+CloudWatchEventsFullAccess 
+
+#### Create an IAM Role
+
+1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
+2. Click on **Roles**
+3. Click the **Create role** button
+4. Click **CloudWatch** from the *Choose the service that will use this role* section
+5. Click the **Next: Permissions** button
+6. Click **CloudWatchFullAccess** in the *Filter policies* search field
+7. Select the checkbox next to **CloudWatchFullAccess**
+8. Click **CloudWatchEventsFullAccess** in the *Filter policies* search field
+9. Select the checkbox next to **CloudWatchFullAccess**
+10. Click on the **Next: Tags** button
+15. Click the **Next: Review** button
+16. Enter `ccoa-chatbot-role` in the **Role name** field
+17. Click the **Create role** button
 
 
 =============================================================
