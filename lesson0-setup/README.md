@@ -2,10 +2,12 @@
 **Using AWS Config Rules, CloudWatch Events Rules, and Lambda**
 
 ## Create an S3 Bucket for CloudTrail Trail
+`ccoa-cloudtrail-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
 
-## Create a Cloudtrail Trail
+## Create a CloudTrail Trail
+`ccoa-cloudtrail`
 1. Go to the [CloudTrail](https://console.aws.amazon.com/cloudtrail/) console
 
 
@@ -14,10 +16,12 @@
 
 
 ## SNS Topic and Subscription for Config
+`ccoa-config-topic`
 1. Go to the [Simple Notification Service](https://console.aws.amazon.com/sns/) console.
 
 
 ## Create an S3 Bucket for Config
+`ccoa-config-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
 ## Create an AWS Config Recorder
@@ -26,33 +30,136 @@
 NOTE: This creates a Config Delivery Channel
 
 ## Create an S3 Bucket in violation
+`ccoa-s3-write-violation-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
 
 **Create a S3 Bucket Policy**
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject",
+        "s3:GetBucket*",
+        "s3:GetObject",
+        "s3:List*",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::mybucketname",
+        "arn:aws:s3:::mybucketname/*"
+      ]
+    }
+  ]
+}
+```
 
 ## Create an IAM Policy for Lambda
+`ccoa-s3-write-policy`
 1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:*",
+                "config:*",
+                "iam:*",
+                "lambda:*",
+                "logs:*",
+                "s3:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+```
 
 
 ## Create an IAM Role for Lambda
+`ccoa-s3-write-role`
 1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
 
 
 ## Create a Lambda function
+`ccoa-s3-write-remediation`
 1. Go to the [Lambda](https://console.aws.amazon.com/lambda/) console
 
 
-## Create a Config Rule (Managed Rule which runs Lambda function) 
+```
+var AWS = require('aws-sdk');
+
+exports.handler = function(event) {
+  console.log("request:", JSON.stringify(event, undefined, 2));
+
+    var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    var resource = event['detail']['requestParameters']['evaluations'];
+    console.log("evaluations:", JSON.stringify(resource, null, 2));
+    
+  
+for (var i = 0, len = resource.length; i < len; i++) {
+  if (resource[i]["complianceType"] == "NON_COMPLIANT")
+  {
+      console.log(resource[i]["complianceResourceId"]);
+      var params = {
+        Bucket: resource[i]["complianceResourceId"]
+      };
+
+      s3.deleteBucketPolicy(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+      });
+  }
+}
+
+
+};
+```
+
+
+## Create a Config Rule (Managed Rule which runs Lambda function)
+`ccoa-s3-write-rule`
 1. Go to the [Config](https://console.aws.amazon.com/config/) console
 
 
 1. Publish SNS Topic remediation
 
 ## Cloudwatch Event Rule
+`ccoa-s3-write-cwe`
 1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
 
 
 1. Cloudwatch Event Pattern
+```
+{
+  "source":[
+    "aws.config"
+  ],
+  "detail":{
+    "requestParameters":{
+      "evaluations":{
+        "complianceType":[
+          "NON_COMPLIANT"
+        ]
+      }
+    },
+    "additionalEventData":{
+      "managedRuleIdentifier":[
+        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+      ]
+    }
+  }
+}
+```
+
 2. Cloudwatch Event Target
 
 
