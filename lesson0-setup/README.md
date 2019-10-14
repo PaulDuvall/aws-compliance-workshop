@@ -243,7 +243,16 @@ for (var i = 0, len = resource.length; i < len; i++) {
 }
 ```
 
-2. Cloudwatch Event Target
+## View Config Rules
+1. Go to the [Config](https://console.aws.amazon.com/config/) console
+2. Click on **Rules**
+3. Select the **s3-bucket-public-write-prohibited** rule
+4. Click the **Re-evaluate** button
+5. Go back **Rules** in the [Config](https://console.aws.amazon.com/config/) console
+6. Go to the [S3](https://console.aws.amazon.com/s3/) console and choose the `ccoa-s3-write-violation-ACCOUNTID` bucket that the bucket policy has been removed. 
+7. Go back **Rules** in the [Config](https://console.aws.amazon.com/config/) console and confirm that the **s3-bucket-public-write-prohibited** rule is **Compliant** 
+
+
 
 
 ==================================================
