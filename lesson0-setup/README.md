@@ -271,11 +271,11 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 Follow these [instructions](#cloudwatch-event-rule). Be sure to the name the rule `ccoa-chatbot-cwe`
 
-## Create an IAM Policy and Rule for Chatbot
+## Create an IAM Policy and Role for Chatbot
 
-Follow these [instructions](#create-an-iam-policy-and-role-for-lambda). Be sure to the name the rule `ccoa-chatbot-policy`
+Create an [IAM policy and rule](#create-an-iam-policy-and-role-for-lambda). Be sure to the name the policy `ccoa-chatbot-policy` and the role `ccoa-chatbot-role`
 
-## Create an IAM Policy and Rule for Chatbot
+## Create a Lambda function
 
 Follow these [instructions](#create-a-lambda-function). Be sure to the name the rule `ccoa-chatbot-function`
 
