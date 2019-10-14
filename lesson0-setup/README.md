@@ -1,4 +1,4 @@
-# Remediate Non-Compliance Using AWS Config Rules, AWS CloudWatch Events, & AWS Lambda Functions from the Console
+# Automatically Remediate Non-Compliant AWS Resources
 
 ## Create an S3 Bucket for Cloudtrail Trail
 
