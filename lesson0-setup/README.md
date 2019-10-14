@@ -269,17 +269,137 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 ## Create an IAM Policy and Role for Chatbot
 
-Create an [IAM policy and rule](#create-an-iam-policy-and-role-for-lambda). Be sure to the name the policy `ccoa-chatbot-policy` and the role `ccoa-chatbot-role`
+1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
+2. Click on **Policies**
+3. Click **Create policy**
+4. Click the **JSON** tab
+5. Copy and **replace** the contents below into the **JSON** text area
+6. Click the **Review policy** button
+7. Enter **ccoa-chatbot-policy** in the **Name* field
+8. Click the **Create policy** button
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:*",
+                "config:*",
+                "iam:*",
+                "lambda:*",
+                "logs:*",
+                "s3:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+```
+
+9. Click on **Roles**
+10. Click the **Create role** button
+11. Click **Lambda** from the *Choose the service that will use this role* section
+12. Click the **Next: Permissions** button
+13. Click **ccoa-s3-write-policy** in the *Filter policies* search field
+14. Select the checkbox next to **ccoa-chatbot-policy** and click on the **Next: Tags** button
+15. Click the **Next: Review** button
+16. Enter `ccoa-chatbot-role` in the **Role name** field
+17. Click the **Create role** button
 
 
-## Create a Lambda function
+## Create a Lambda function for Chatbot
 
-Follow these [instructions](#create-a-lambda-function). Be sure to the name the rule `ccoa-chatbot-function`
+1. Go to the [Lambda](https://console.aws.amazon.com/lambda/) console
+2. Click the **Create function** button
+3. Keep the *Author from scratch* radio button selected and enter `ccoa-chatbot-remediation` in the *Function name* field
+4. Choose `Node.js 10.x` for the **Runtime**
+5. Under *Permissions* choose the **Choose or create an execution role**
+6. Under **Execution role**, choose **Use an existing role**
+7. In the **Existing role** dropdown, choose `ccoa-chatbot-role`
+8. Click the **Create function** button
+9. Scroll to the *Function code* section and within the `index.js` pane, copy and **replace** the code from below
 
 
-## Create an Amazon CloudWatch Event Rule for Chatbot
+```
+var AWS = require('aws-sdk');
 
-Follow these [instructions](#cloudwatch-event-rule). Be sure to the name the rule `ccoa-chatbot-cwe`
+exports.handler = function(event) {
+  console.log("request:", JSON.stringify(event, undefined, 2));
+
+    var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    var resource = event['detail']['requestParameters']['evaluations'];
+    console.log("evaluations:", JSON.stringify(resource, null, 2));
+    
+  
+for (var i = 0, len = resource.length; i < len; i++) {
+  if (resource[i]["complianceType"] == "NON_COMPLIANT")
+  {
+      console.log(resource[i]["complianceResourceId"]);
+      var params = {
+        Bucket: resource[i]["complianceResourceId"]
+      };
+
+      s3.deleteBucketPolicy(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+      });
+  }
+}
+
+
+};
+```
+
+## CloudWatch Events Rule Event Pattern for Chatbot
+
+1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
+2. Click on **Rules**
+3. Click the **Create rule** button
+4. Choose **Event pattern** in the *Event Source* section
+4. In the *Event Pattern Preview* section, click **Edit**
+5. Copy the contents from below and **replace** in the *Event pattern* text area
+6. Click the **Save** button
+7. Click the **Add target** button
+8. Choose **Lambda function**
+9. Select the `ccoa-chatbot-remediation` function you'd previously created.
+10. Click the **Configure details** button
+11. Enter `ccoa-chatbot-cwe` in the **Name** field
+12. Click the **Create rule** button
+
+
+```
+{
+  "source":[
+    "aws.config"
+  ],
+  "detail":{
+    "requestParameters":{
+      "evaluations":{
+        "complianceType":[
+          "NON_COMPLIANT"
+        ]
+      }
+    },
+    "additionalEventData":{
+      "managedRuleIdentifier":[
+        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+      ]
+    }
+  }
+}
+```
+
+## View Config Rules
+1. Go to the [Config](https://console.aws.amazon.com/config/) console
+2. Click on **Rules**
+3. Select the **s3-bucket-public-write-prohibited** rule
+4. Click the **Re-evaluate** button
+5. Go back **Rules** in the [Config](https://console.aws.amazon.com/config/) console
+6. Go to the [S3](https://console.aws.amazon.com/s3/) console and choose the `ccoa-chatbot-ACCOUNTID` bucket that the bucket policy has been removed. 
+7. Go back **Rules** in the [Config](https://console.aws.amazon.com/config/) console and confirm that the **s3-bucket-public-write-prohibited** rule is **Compliant** 
 
 ## AWS Chatbot - Configure client (select Slack) - using SNS Topic and IAM Role
 
@@ -688,11 +808,9 @@ Create a new [IAM Role](https://console.aws.amazon.com/iam/home?region=us-east-1
 aws iam create-role --role-name ccoa-lambda-s3-remediation-role --assume-role-policy-document file:///home/ec2-user/environment/lesson0/ccoa-lambda-s3-remediation-policy.json 
 ```
 
-
-
 ## Create a Lambda Function
 
-Create a new [Lambda Function](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions) and paste the following Node.js code below and save the function. Name the function `ccoa-s3-write-remediation`
+Create a new [Lambda Function](https://console.aws.amazon.com/lambda/) and paste the following Node.js code below and save the function. Name the function `ccoa-s3-write-remediation`
 
 ```
 var AWS = require('aws-sdk');
@@ -726,7 +844,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 ## CloudWatch Events Rule Event Pattern
 
-[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:). Name it `ccoa-s3-write-cwe`.
+[CloudWatch Events Rule](https://console.aws.amazon.com/cloudwatch/). Name it `ccoa-s3-write-cwe`.
 
 ```
 {
