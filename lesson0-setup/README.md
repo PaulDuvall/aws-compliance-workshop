@@ -68,8 +68,15 @@ NOTE: This creates a Config Delivery Channel
 ## Create an S3 Bucket in violation
 `ccoa-s3-write-violation-ACCOUNTID`
 1. Go to the [S3](https://console.aws.amazon.com/s3/) console
+2. Click the **Create bucket** button
+3. Enter `ccoa-s3-write-violation-ACCOUNTID` in the **Bucket name** field (replacing `ACCOUNTID` with your account id)
+4. Click **Next** on the *Configure Options* screen
+5. Click **Next** on the *Set Permissions* screen
+6. Click **Create bucket** on the *Review* screen
+7. Select the `ccoa-s3-write-violation-ACCOUNTID` bucket and choose the **Permissions** tab
+8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area.
+9. Click the **Save** button
 
-**Create a S3 Bucket Policy**
 ```
 {
   "Version": "2012-10-17",
