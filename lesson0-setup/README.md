@@ -106,6 +106,13 @@ You'll receive this message: *You have provided public access to this bucket. We
 ## Create an IAM Policy for Lambda
 `ccoa-s3-write-policy`
 1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
+2. Click on **Policies**
+3. Click **Create policy**
+4. Click the **JSON** tab
+5. Copy and replace the contents below into the **JSON** text area
+6. Click the **Review policy** button
+7. Enter **ccoa-s3-write-policy** in the **Name* field
+8. Click the **Create policy** button
 
 ```
 {
@@ -127,6 +134,10 @@ You'll receive this message: *You have provided public access to this bucket. We
 }
 
 ```
+9. Click on **Roles**
+10. Click the **Create role** button
+11. Click **Lambda** from the *Choose the service that will use this role* section
+12. Click the **Next: Permissions** button
 
 
 ## Create an IAM Role for Lambda
