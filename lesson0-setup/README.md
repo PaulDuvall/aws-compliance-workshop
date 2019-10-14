@@ -204,14 +204,23 @@ for (var i = 0, len = resource.length; i < len; i++) {
 11. In the **Parameters** field, enter `arn:aws:sns:us-east-1:123456789012:ccoa-awsconfig-123456789012` in the **TopicArn** field (replacing `123456789012` with your AWS account id)
 12. Click the **Save** button
 
-1. Publish SNS Topic remediation
-
 ## Cloudwatch Event Rule
 `ccoa-s3-write-cwe`
 1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
+2. Click on **Rules**
+3. Click the **Create rule** button
+4. Choose **Event pattern** in the *Event Source* section
+4. In the *Event Pattern Preview* section, click **Edit**
+5. Copy the contents from below and **replace** in the *Event pattern* text area
+6. Click the **Save** button
+7. Click the **Add target** button
+8. Choose **Lambda function**
+9. Select the `ccoa-s3-write-remediation` function you'd previously created.
+10. Click the **Configure details** button
+11. Enter `ccoa-s3-write-cwe` in the **Name** field
+12. Click the **Create rule** button
 
 
-1. Cloudwatch Event Pattern
 ```
 {
   "source":[
