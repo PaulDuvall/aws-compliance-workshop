@@ -109,7 +109,7 @@ You'll receive this message: *You have provided public access to this bucket. We
 2. Click on **Policies**
 3. Click **Create policy**
 4. Click the **JSON** tab
-5. Copy and replace the contents below into the **JSON** text area
+5. Copy and **replace** the contents below into the **JSON** text area
 6. Click the **Review policy** button
 7. Enter **ccoa-s3-write-policy** in the **Name* field
 8. Click the **Create policy** button
@@ -147,6 +147,14 @@ You'll receive this message: *You have provided public access to this bucket. We
 ## Create a Lambda function
 `ccoa-s3-write-remediation`
 1. Go to the [Lambda](https://console.aws.amazon.com/lambda/) console
+2. Click the **Create function** button
+3. Keep the *Author from scratch* radio button selected and enter `ccoa-s3-write-remediation` in the *Function name* field
+4. Choose `Node.js 10.x` for the **Runtime**
+5. Under *Permissions* choose the **Choose or create an execution role**
+6. Under **Execution role**, choose **Use an existing role**
+7. In the **Existing role** dropdown, choose `ccoa-s3-write-role`
+8. Click the **Create function** button
+9. Scroll to the *Function code* section and within the `index.js` pane, copy and **replace** the code from below
 
 
 ```
@@ -178,12 +186,23 @@ for (var i = 0, len = resource.length; i < len; i++) {
 
 };
 ```
+10. Click the **Save** button
 
 
 ## Create a Config Rule (Managed Rule which runs Lambda function)
 `ccoa-s3-write-rule`
 1. Go to the [Config](https://console.aws.amazon.com/config/) console
-
+2. Click **Rules**
+3. Click the **Add rule** button
+4. In the *filter* box, type `s3-bucket-public-write-prohibited`
+5. Choose the **s3-bucket-public-write-prohibited** rule
+6. Click on the **Remediation action** dropdown within the *Choose remediation action* section
+7. Choose the **AWS-PublishSNSNotification** remediation in the dropdown
+8. Click **Yes** in the *Auto remediation* field
+9. In the **Parameters** field, enter `arn:aws:iam::123456789012:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM` in the **AutomationAssumeRole** field (replacing `123456789012` with your AWS account id)
+10. In the **Parameters** field, enter `s3-bucket-public-write-prohibited violated` in the **Message** field
+11. In the **Parameters** field, enter `arn:aws:sns:us-east-1:123456789012:ccoa-awsconfig-123456789012` in the **TopicArn** field (replacing `123456789012` with your AWS account id)
+12. Click the **Save** button
 
 1. Publish SNS Topic remediation
 
