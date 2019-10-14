@@ -419,12 +419,12 @@ for (var i = 0, len = resource.length; i < len; i++) {
 ## AWS Chatbot - Configure client (select Slack) - using SNS Topic and IAM Role
 
 1. Go to the [Chatbot](https://console.aws.amazon.com/chatbot/) console
-2. Select **Slack** as the *Chatbot client*
-3. Click the **Configure client** button
-4. Choose the name of your **Slack workspace** and login to Slack
-5. Click the **Allow** button on the *On <<Slack workspace>>, AWS Chatbot (Beta) would like to* page
-6. Choose the IAM Role you previously created
-7. Choose the SNS Topic you previously created
+2. From the *Configure new client* page, click on **Slack** and click the **Configure** button
+3. Click the **Allow** button on the *On <<Slack workspace>>, AWS Chatbot (Beta) would like to* page
+4. Select the **Channel type** and name
+5. In the **IAM permissions** section, choose the IAM role you previously created.
+6. Choose **SNS Region** and the **SNS topics** (choosing the region and topic you previously created) in the *SNS topics* section
+7. Click the **Configure** button
 
 https://us-east-2.console.aws.amazon.com/chatbot/
 https://console.aws.amazon.com/sns/
