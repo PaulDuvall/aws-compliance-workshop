@@ -18,6 +18,11 @@ aws sts get-caller-identity --output text --query 'Account'
 `ccoa-cloudtrail`
 1. Go to the [CloudTrail](https://console.aws.amazon.com/cloudtrail/) console
 2. Click the **Create trail** button
+3. Enter **ccoa-cloudtrail** in the *Trail name* field
+4. Choose the checkbox next to **Select all S3 buckets in your account** in the *Data events* section
+4. Choose the **No** radio button for the *Create a new S3 bucket* field in the *Storage location* section.
+5. Choose the S3 bucket you just created from the *S3 bucket* dropdown.
+6. Click the **Create** button
 
 ## Cloudwatch Logs
 1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
