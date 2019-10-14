@@ -353,6 +353,21 @@ for (var i = 0, len = resource.length; i < len; i++) {
 };
 ```
 
+## Create a Config Rule for Chatbot
+1. Go to the [Config](https://console.aws.amazon.com/config/) console
+2. Click **Rules**
+3. Click the **Add rule** button
+4. In the *filter* box, type `s3-bucket-public-write-prohibited`
+5. Choose the **s3-bucket-public-write-prohibited** rule
+6. Click on the **Remediation action** dropdown within the *Choose remediation action* section
+7. Choose the **AWS-PublishSNSNotification** remediation in the dropdown
+8. Click **Yes** in the *Auto remediation* field
+9. In the **Parameters** field, enter `arn:aws:iam::ACCOUNTID:role/aws-service-role/ssm.amazonaws.com/AWSServiceRoleForAmazonSSM` in the **AutomationAssumeRole** field (replacing `ACCOUNTID` with your AWS account id)
+10. In the **Parameters** field, enter `s3-bucket-public-write-prohibited violated` in the **Message** field
+11. In the **Parameters** field, enter `arn:aws:sns:us-east-1:ACCOUNTID:ccoa-awsconfig-ACCOUNTID` in the **TopicArn** field (replacing `ACCOUNTID` with your AWS account id)
+12. Click the **Save** button
+
+
 ## CloudWatch Events Rule Event Pattern for Chatbot
 
 1. Go to the [CloudWatch](https://console.aws.amazon.com/cloudwatch/) console
