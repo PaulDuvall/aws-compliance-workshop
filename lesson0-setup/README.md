@@ -29,8 +29,17 @@ aws sts get-caller-identity --output text --query 'Account'
 
 
 ## SNS Topic and Subscription for Config
-`ccoa-config-topic`
 1. Go to the [Simple Notification Service](https://console.aws.amazon.com/sns/) console.
+2. Select **Topics**
+3. Click **Create topic**
+4. Enter `ccoa-config-topic` in the **Name** and **Display name** fields
+5. Click the **Create topic** button
+6. Click the **Create subscription** button
+7. Choose **email** from the **Protocol** dropdown
+8. Enter your **email address** in the **Endpoint** field
+9. Click the **Create subscription** button
+10. Confirm the subscription once you receive the email from AWS
+
 
 
 ## Create an S3 Bucket for Config
