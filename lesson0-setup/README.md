@@ -103,7 +103,7 @@ NOTE: This creates a Config Delivery Channel
 
 You'll receive this message: *You have provided public access to this bucket. We highly recommend that you never grant any kind of public access to your S3 bucket.*
 
-## Create an IAM Policy for Lambda
+## Create an IAM Policy and Role for Lambda
 `ccoa-s3-write-policy`
 1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
 2. Click on **Policies**
@@ -138,12 +138,11 @@ You'll receive this message: *You have provided public access to this bucket. We
 10. Click the **Create role** button
 11. Click **Lambda** from the *Choose the service that will use this role* section
 12. Click the **Next: Permissions** button
-
-
-## Create an IAM Role for Lambda
-`ccoa-s3-write-role`
-1. Go to the [IAM](https://console.aws.amazon.com/iam/) console
-
+13. Click **ccoa-s3-write-policy** in the *Filter policies* search field
+14. Select the checkbox next to **ccoa-s3-write-policy** and click on the **Next: Tags** button
+15. Click the **Next: Review** button
+16. Enter `ccoa-s3-write-role` in the **Role name** field
+17. Click the **Create role** button
 
 ## Create a Lambda function
 `ccoa-s3-write-remediation`
