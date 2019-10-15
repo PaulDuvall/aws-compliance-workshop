@@ -8,19 +8,28 @@ aws sts get-caller-identity --output text --query 'Account'
 ## Cleanup
 
 ```
-aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force
+aws configservice describe-configuration-recorders --region REGION
+
+
+aws configservice describe-delivery-channels --region REGION
+
+
+aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGION
+
+
+aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGION
+
+aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGION
 ccoa-cloudtrail
-aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account')
-ccoa-s3-write-policy
+aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGION
 
 aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy
 
-aws lambda delete-function --function-name "ccoa-s3-write-remediation"
+aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGION
 
-
-aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule
-aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
-aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
+aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule --region REGION
+aws events list-targets-by-rule --rule "ccoa-s3-write-cwe" --region REGION
+aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"  --region REGION
 ```
 
 ## Create an S3 Bucket for CloudTrail Trail
