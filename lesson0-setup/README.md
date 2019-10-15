@@ -67,7 +67,7 @@ NOTE: This creates a Config Delivery Channel
 2. Click the **Create bucket** button
 3. Enter `ccoa-s3-write-violation-ACCOUNTID` in the **Bucket name** field (replacing `ACCOUNTID` with your account id)
 4. Click **Next** on the *Configure Options* screen
-5. Click **Next** on the *Set Permissions* screen
+5. Unselect the **Block all public access** checkbox and click **Next** on the *Set Permissions* screen
 6. Click **Create bucket** on the *Review* screen
 7. Select the `ccoa-s3-write-violation-ACCOUNTID` bucket and choose the **Permissions** tab
 8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area (replace both `mybucketname` values with the `ccoa-s3-write-violation-ACCOUNTID` bucket you just created)
@@ -356,7 +356,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
 2. Click the **Create bucket** button
 3. Enter `ccoa-s3-violation-chatbot-ACCOUNTID` in the **Bucket name** field (replacing `ACCOUNTID` with your account id)
 4. Click **Next** on the *Configure Options* screen
-5. Click **Next** on the *Set Permissions* screen
+5. Unselect the **Block all public access** checkbox and click **Next** on the *Set Permissions* screen
 6. Click **Create bucket** on the *Review* screen
 7. Select the `ccoa-s3-violation-chatbot-ACCOUNTID` bucket and choose the **Permissions** tab
 8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area (replace both `mybucketname` values with the `ccoa-s3-write-violation-ACCOUNTID` bucket you just created)
