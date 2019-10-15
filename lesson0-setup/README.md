@@ -287,7 +287,7 @@ for (var i = 0, len = resource.length; i < len; i++) {
                 "lambda:*",
                 "logs:*",
                 "s3:*",
-                "sns:*",
+                "sns:*"
             ],
             "Resource": "*"
         }
