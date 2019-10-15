@@ -350,6 +350,42 @@ for (var i = 0, len = resource.length; i < len; i++) {
 };
 ```
 
+## Create an S3 Bucket in violation for Chatbot
+
+1. Go to the [S3](https://console.aws.amazon.com/s3/) console
+2. Click the **Create bucket** button
+3. Enter `ccoa-s3-violation-chatbot-ACCOUNTID` in the **Bucket name** field (replacing `ACCOUNTID` with your account id)
+4. Click **Next** on the *Configure Options* screen
+5. Click **Next** on the *Set Permissions* screen
+6. Click **Create bucket** on the *Review* screen
+7. Select the `ccoa-s3-violation-chatbot-ACCOUNTID` bucket and choose the **Permissions** tab
+8. Click on **Bucket Policy** and paste the contents from below into the *Bucket policy editor* text area (replace both `mybucketname` values with the `ccoa-s3-write-violation-ACCOUNTID` bucket you just created)
+9. Click the **Save** button
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject",
+        "s3:GetBucket*",
+        "s3:GetObject",
+        "s3:List*",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::mybucketname",
+        "arn:aws:s3:::mybucketname/*"
+      ]
+    }
+  ]
+}
+```
+
 ## Create a Config Rule for Chatbot
 1. Go to the [Config](https://console.aws.amazon.com/config/) console
 2. Click **Rules**
