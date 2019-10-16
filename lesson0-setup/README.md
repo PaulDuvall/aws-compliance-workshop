@@ -44,12 +44,13 @@ aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE" 
 
 The following CloudFormation Resources are created in this section:
 
-* AWS::S3::Bucket (for Config Snapshots)
-* AWS::Config::DeliveryChannel
-* AWS::S3::BucketPolicy
-* AWS::SNS::Topic (for Config)
-* AWS::IAM::Role
-* AWS::Config::ConfigurationRecorder
+* [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) (for Config Snapshots and CloudTrail logs)
+* [AWS::CloudTrail::Trail](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html)
+* [AWS::SNS::Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html) (for Config)
+* [AWS::Config::ConfigurationRecorder](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configurationrecorder.html)
+* [AWS::Config::DeliveryChannel](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-deliverychannel.html)
+* [AWS::S3::BucketPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html)
+* [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
 
 
 1. Create `lesson0` directory from your AWS Cloud9 environment: 
