@@ -162,7 +162,7 @@ Resources:
 From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name ccoa-cloudtrail --template-body file:///home/ec2-user/environment/lesson0/ccoa-cloudtrail.yml --parameters ParameterKey=OperatorEmail,ParameterValue=youremailaddress@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+aws cloudformation create-stack --stack-name ccoa-cloudtrail --template-body file:///home/ec2-user/environment/lesson0/ccoa-cloudtrail.yml --parameters ParameterKey=OperatorEmail,ParameterValue=YOUREMAILADDRESS@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
 
 3. Create a new file 
