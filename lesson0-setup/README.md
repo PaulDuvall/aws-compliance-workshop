@@ -308,54 +308,7 @@ touch ccoa-configrule.yml
 
 
 ```
----
-Resources:
-  AWSConfigRule:
-    Type: AWS::Config::ConfigRule
-    Properties:
-      ConfigRuleName:
-        Ref: ConfigRuleName
-      Description: Checks that your Amazon S3 buckets do not allow public write access.
-        The rule checks the Block Public Access settings, the bucket policy, and the
-        bucket access control list (ACL).
-      InputParameters: {}
-      Scope:
-        ComplianceResourceTypes:
-        - AWS::S3::Bucket
-      Source:
-        Owner: AWS
-        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
-      MaximumExecutionFrequency:
-        Ref: MaximumExecutionFrequency
-Parameters:
-  ConfigRuleName:
-    Type: String
-    Default: s3-bucket-public-write-prohibited
-    Description: The name that you assign to the AWS Config rule.
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-  MaximumExecutionFrequency:
-    Type: String
-    Default: TwentyFour_Hours
-    Description: The frequency that you want AWS Config to run evaluations for the
-      rule.
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-    AllowedValues:
-    - One_Hour
-    - Three_Hours
-    - Six_Hours
-    - Twelve_Hours
-    - TwentyFour_Hours
-Metadata:
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-    - Label:
-        default: Required
-      Parameters: []
-    - Label:
-        default: Optional
-      Parameters: []
+
 
 ```
 
