@@ -14,8 +14,8 @@ aws configservice delete-configuration-recorder --configuration-recorder-name CO
 aws configservice describe-delivery-channels --region REGIONCODE
 aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGIONCODE
 aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
-aws s3 rb s3://ccoa-awsconfig-ccoa-config-recorder-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
-aws cloudformation delete-stack --stack-name ccoa-config-recorder --region us-east-2 --region REGIONCODE
+aws s3 rb s3://ccoa-awsconfig-ccoa-config-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
+aws cloudformation delete-stack --stack-name ccoa-config-cloudtrail --region us-east-2 --region REGIONCODE
 aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGIONCODE
 aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy --region REGIONCODE
 aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGIONCODE
@@ -255,7 +255,7 @@ Outputs:
 From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name ccoa-config-recorder --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-recorder.yml --parameters ParameterKey=OperatorEmail,ParameterValue=youremailaddress@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+aws cloudformation create-stack --stack-name ccoa-config-cloudtrail --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-recorder.yml --parameters ParameterKey=OperatorEmail,ParameterValue=youremailaddress@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
 
 ### Check CloudFormation stack status
