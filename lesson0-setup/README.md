@@ -67,6 +67,104 @@ mkdir ~/environment/lesson0
 cd ~/environment/lesson0
 ```
 
+3. Create a new file
+
+```
+touch ccoa-cloudtrail.yml
+```
+
+4. Paste contents
+
+
+```
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  OperatorEmail:
+    Description: Email address to notify when new logs are published.
+    Type: String
+Resources:
+  S3Bucket:
+    DeletionPolicy: Retain
+    Type: AWS::S3::Bucket
+    Properties: {}
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: S3Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: AWSCloudTrailAclCheck
+          Effect: Allow
+          Principal:
+            Service: cloudtrail.amazonaws.com
+          Action: s3:GetBucketAcl
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: S3Bucket
+        - Sid: AWSCloudTrailWrite
+          Effect: Allow
+          Principal:
+            Service: cloudtrail.amazonaws.com
+          Action: s3:PutObject
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: S3Bucket
+              - "/AWSLogs/"
+              - Ref: AWS::AccountId
+              - "/*"
+          Condition:
+            StringEquals:
+              s3:x-amz-acl: bucket-owner-full-control
+  Topic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+      - Endpoint:
+          Ref: OperatorEmail
+        Protocol: email
+  TopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics:
+      - Ref: Topic
+      PolicyDocument:
+        Version: '2008-10-17'
+        Statement:
+        - Sid: AWSCloudTrailSNSPolicy
+          Effect: Allow
+          Principal:
+            Service: cloudtrail.amazonaws.com
+          Resource: "*"
+          Action: SNS:Publish
+  myTrail:
+    DependsOn:
+    - BucketPolicy
+    - TopicPolicy
+    Type: AWS::CloudTrail::Trail
+    Properties:
+      S3BucketName:
+        Ref: S3Bucket
+      SnsTopicName:
+        Fn::GetAtt:
+        - Topic
+        - TopicName
+      IsLogging: true
+      IsMultiRegionTrail: true
+```
+
+From your AWS Cloud9 environment, run the following command:
+
+```
+aws cloudformation create-stack --stack-name ccoa-cloudtrail --template-body file:///home/ec2-user/environment/lesson0/ccoa-cloudtrail.yml --parameters ParameterKey=OperatorEmail,ParameterValue=youremailaddress@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+```
+
 3. Create a new file 
 
 ```
@@ -76,83 +174,8 @@ touch ccoa-config-recorder.yml
 4. Paste the contents of the CloudFormation template into `ccoa-config-recorder.yml` and save the file 
 
 ```
-AWSTemplateFormatVersion: '2010-09-09'
-Description: Setup AWS Config Service and CloudTrail logs
-  Parameters: 
-    OperatorEmail: 
-      Description: "Email address to notify when new logs are published."
-      Type: String
-  Resources: 
-    S3Bucket: 
-      DeletionPolicy: Retain
-      Type: AWS::S3::Bucket
-      Properties: {}
-    BucketPolicy: 
-      Type: AWS::S3::BucketPolicy
-      Properties: 
-        Bucket: 
-          Ref: S3Bucket
-        PolicyDocument: 
-          Version: "2012-10-17"
-          Statement: 
-            - 
-              Sid: "AWSCloudTrailAclCheck"
-              Effect: "Allow"
-              Principal: 
-                Service: "cloudtrail.amazonaws.com"
-              Action: "s3:GetBucketAcl"
-              Resource: 
-                !Sub |-
-                  arn:aws:s3:::${S3Bucket}
-            - 
-              Sid: "AWSCloudTrailWrite"
-              Effect: "Allow"
-              Principal: 
-                Service: "cloudtrail.amazonaws.com"
-              Action: "s3:PutObject"
-              Resource:
-                !Sub |-
-                  arn:aws:s3:::${S3Bucket}/AWSLogs/${AWS::AccountId}/*
-              Condition: 
-                StringEquals:
-                  s3:x-amz-acl: "bucket-owner-full-control"
-    Topic: 
-      Type: AWS::SNS::Topic
-      Properties: 
-        Subscription: 
-          - 
-            Endpoint: 
-              Ref: OperatorEmail
-            Protocol: email
-    TopicPolicy: 
-      Type: AWS::SNS::TopicPolicy
-      Properties: 
-        Topics: 
-          - Ref: "Topic"
-        PolicyDocument: 
-          Version: "2008-10-17"
-          Statement: 
-            - 
-              Sid: "AWSCloudTrailSNSPolicy"
-              Effect: "Allow"
-              Principal: 
-                Service: "cloudtrail.amazonaws.com"
-              Resource: "*"
-              Action: "SNS:Publish"
-    myTrail: 
-      DependsOn: 
-        - BucketPolicy
-        - TopicPolicy
-      Type: AWS::CloudTrail::Trail
-      Properties: 
-        S3BucketName: 
-          Ref: S3Bucket
-        SnsTopicName: 
-          Fn::GetAtt: 
-            - Topic
-            - TopicName
-        IsLogging: true
-        IsMultiRegionTrail: true
+Description: Setup AWS Config Service
+Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
