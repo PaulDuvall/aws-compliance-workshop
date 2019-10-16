@@ -156,7 +156,7 @@ Resources:
         - Topic
         - TopicName
       IsLogging: true
-      IsMultiRegionTrail: true
+      IsMultiRegionTrail: false
 ```
 
 From your AWS Cloud9 environment, run the following command:
