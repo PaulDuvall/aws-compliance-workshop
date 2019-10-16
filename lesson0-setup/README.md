@@ -315,7 +315,7 @@ touch ccoa-configrule.yml
 4. From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name ccoa-configrule --template-body file:///home/ec2-user/environment/lesson0/ccoa-configrule.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+aws cloudformation create-stack --stack-name ccoa-config-rule --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-rule.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
 
 ## Create a CloudWatch Events Rule
