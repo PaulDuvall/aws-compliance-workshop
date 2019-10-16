@@ -292,26 +292,128 @@ or, go to [CloudFormation console](https://console.aws.amazon.com/cloudformation
 
 ## Create a Config Rule
 
-2. Change directory: 
+1. Change directory: 
 
 ```
 cd ~/environment/lesson0
 ```
 
-3. Create a new file
+2. Create a new file
 
 ```
 touch ccoa-configrule.yml
 ```
 
-4. Paste contents
+3. Paste contents
 
 
 ```
 ---
+Resources:
+  AWSConfigRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName:
+        Ref: ConfigRuleName
+      Description: Checks that your Amazon S3 buckets do not allow public write access.
+        The rule checks the Block Public Access settings, the bucket policy, and the
+        bucket access control list (ACL).
+      InputParameters: {}
+      Scope:
+        ComplianceResourceTypes:
+        - AWS::S3::Bucket
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      MaximumExecutionFrequency:
+        Ref: MaximumExecutionFrequency
+Parameters:
+  ConfigRuleName:
+    Type: String
+    Default: s3-bucket-public-write-prohibited
+    Description: The name that you assign to the AWS Config rule.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+  MaximumExecutionFrequency:
+    Type: String
+    Default: TwentyFour_Hours
+    Description: The frequency that you want AWS Config to run evaluations for the
+      rule.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+    AllowedValues:
+    - One_Hour
+    - Three_Hours
+    - Six_Hours
+    - Twelve_Hours
+    - TwentyFour_Hours
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Required
+      Parameters: []
+    - Label:
+        default: Optional
+      Parameters: []
+
+```
+
+## Create a CloudWatch Events Rule
+
+1. Change directory: 
+
+```
+cd ~/environment/lesson0
+```
+
+2. Create a new file
+
+```
+touch ccoa-cwe-rule.yml
+```
+
+3. Paste contents
 
 
 ```
+---
+Description: Configure CloudWatch Events Rule
+Resources:
+  EventRule: 
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: "EventRule"
+      EventPattern: 
+        source: 
+          - "aws.ec2"
+        detail-type: 
+          - "EC2 Instance State-change Notification"
+        detail: 
+          state: 
+            - "stopping"
+      State: "ENABLED"
+      Targets: 
+        - 
+          Arn: 
+            Fn::GetAtt: 
+              - "LambdaFunction"
+              - "Arn"
+          Id: "TargetFunctionV1"
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: 
+        Ref: "LambdaFunction"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: 
+        Fn::GetAtt: 
+          - "EventRule"
+          - "Arn"
+
+```
+
 
 
 # Autoremediate from the AWS Console
