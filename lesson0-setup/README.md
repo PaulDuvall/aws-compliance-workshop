@@ -9,18 +9,18 @@ aws sts get-caller-identity --output text --query 'Account'
 
 ```
 aws configure get region --output text
-aws configservice describe-configuration-recorders --region REGION
-aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGION
-aws configservice describe-delivery-channels --region REGION
-aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGION
-aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGION
+aws configservice describe-configuration-recorders --region REGIONCODE
+aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGIONCODE
+aws configservice describe-delivery-channels --region REGIONCODE
+aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGIONCODE
+aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
 ccoa-cloudtrail
-aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGION
-aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy
-aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGION
-aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule --region REGION
-aws events list-targets-by-rule --rule "ccoa-s3-write-cwe" --region REGION
-aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"  --region REGION
+aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGIONCODE
+aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy --region REGIONCODE
+aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGIONCODE
+aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule --region REGIONCODE
+aws events list-targets-by-rule --rule "ccoa-s3-write-cwe" --region REGIONCODE
+aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"  --region REGIONCODE
 ```
 
 # Automated Remediation CloudFormation and CodePipeline with Stack Updates 
