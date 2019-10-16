@@ -278,7 +278,7 @@ Outputs:
 From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name ccoa-config-cloudtrail --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-recorder.yml --parameters ParameterKey=OperatorEmail,ParameterValue=youremailaddress@example.com --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+aws cloudformation create-stack --stack-name ccoa-config-recorder --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
 
 ### Check CloudFormation stack status
