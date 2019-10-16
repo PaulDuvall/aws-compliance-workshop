@@ -308,14 +308,103 @@ touch ccoa-configrule.yml
 
 
 ```
-
+---
+Resources:
+  AWSConfigRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName:
+        Ref: ConfigRuleName
+      Description: Checks that your Amazon S3 buckets do not allow public write access.
+        The rule checks the Block Public Access settings, the bucket policy, and the
+        bucket access control list (ACL).
+      InputParameters: {}
+      Scope:
+        ComplianceResourceTypes:
+        - AWS::S3::Bucket
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      MaximumExecutionFrequency:
+        Ref: MaximumExecutionFrequency
+  AutoRemediationEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Name:
+        Ref: AWS::StackName
+      Description: 'auto remediation rule for config rule: s3-bucket-public-write-prohibited'
+      State: ENABLED
+      EventPattern:
+        source:
+          - aws.config
+        detail:
+          requestParameters:
+            evaluations:
+              complianceType:
+                - NON_COMPLIANT
+        additionalEventData:
+          managedRuleIdentifier:
+            - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      Targets:
+        - Arn: !Sub '${LambdaArn}
+          Id: !Sub '${LambdaId}
+  AutoRemediationIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: lambda-policy
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action: "*"
+            Resource: "*"
+          Version: '2012-10-17'
+Parameters:
+  ConfigRuleName:
+    Type: String
+    Default: s3-bucket-public-write-prohibited
+    Description: The name that you assign to the AWS Config rule.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+  LambdaArn:
+    Type: String
+    Description: The Arn for an existing Lambda function
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+  LambdaId:
+    Type: String
+    Description: The Id for an existing Lambda function
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+  MaximumExecutionFrequency:
+    Type: String
+    Default: TwentyFour_Hours
+    Description: The frequency that you want AWS Config to run evaluations for the
+      rule.
+    MinLength: '1'
+    ConstraintDescription: This parameter is required.
+    AllowedValues:
+    - One_Hour
+    - Three_Hours
+    - Six_Hours
+    - Twelve_Hours
+    - TwentyFour_Hours
 
 ```
 
 4. From your AWS Cloud9 environment, run the following command:
 
 ```
-aws cloudformation create-stack --stack-name ccoa-config-rule --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-rule.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+aws cloudformation create-stack --stack-name ccoa-config-rule --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-rule.yml --parameters ParameterKey=LambdaArn,ParameterValue=LAMBDAARN ParameterKey=LambdaId,ParameterValue=LAMBDAID --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
 
 ## Create a CloudWatch Events Rule
