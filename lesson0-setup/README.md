@@ -73,7 +73,8 @@ touch ccoa-config-recorder.yml
 
 4. Paste the contents of the CloudFormation template into `ccoa-config-recorder.yml` and save the file 
 
-```AWSTemplateFormatVersion: '2010-09-09'
+```
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Setup AWS Config Service
   Parameters: 
     OperatorEmail: 
