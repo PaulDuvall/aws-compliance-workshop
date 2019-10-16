@@ -290,6 +290,30 @@ aws cloudformation describe-stacks --stack-name ccoa-config-recorder
 or, go to [CloudFormation console](https://console.aws.amazon.com/cloudformation/)
 
 
+## Create a Config Rule
+
+2. Change directory: 
+
+```
+cd ~/environment/lesson0
+```
+
+3. Create a new file
+
+```
+touch ccoa-configrule.yml
+```
+
+4. Paste contents
+
+
+```
+---
+
+
+```
+
+
 # Autoremediate from the AWS Console
 
 ## Create an S3 Bucket for CloudTrail Trail
