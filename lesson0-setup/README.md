@@ -75,7 +75,7 @@ touch ccoa-config-recorder.yml
 
 ```
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Setup AWS Config Service
+Description: Setup AWS Config Service and CloudTrail logs
   Parameters: 
     OperatorEmail: 
       Description: "Email address to notify when new logs are published."
