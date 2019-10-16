@@ -5,32 +5,43 @@
 aws sts get-caller-identity --output text --query 'Account'
 ```
 
-## Cleanup
+# Cleanup
 
 ```
+aws configure get region --output text
 aws configservice describe-configuration-recorders --region REGION
-
-
-aws configservice describe-delivery-channels --region REGION
-
-
 aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGION
-
-
+aws configservice describe-delivery-channels --region REGION
 aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGION
-
 aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGION
 ccoa-cloudtrail
 aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGION
-
 aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy
-
 aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGION
-
 aws configservice delete-config-rule --config-rule-name ccoa-s3-write-rule --region REGION
 aws events list-targets-by-rule --rule "ccoa-s3-write-cwe" --region REGION
 aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"  --region REGION
 ```
+
+# Automated Remediation CloudFormation and CodePipeline with Stack Updates 
+
+## CloudFormation Resources
+* [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)
+* [AWS::CloudTrail::Trail](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html)
+* [AWS::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html)
+* [AWS::SNS::Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html)
+* [AWS::Config::ConfigurationRecorder](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configurationrecorder.html)
+* [AWS::Config::DeliveryChannel](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-deliverychannel.html)
+* [AWS::S3::BucketPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html)
+* [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+* [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+* [AWS::Lambda::Function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)
+* [AWS::Config::ConfigRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html)
+* [AWS::Config::RemediationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-remediationconfiguration.html)
+* [AWS::Events::Rule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-rule.html)
+
+
+# Autoremediate from the AWS Console
 
 ## Create an S3 Bucket for CloudTrail Trail
 `ccoa-cloudtrail-ACCOUNTID`
@@ -520,21 +531,6 @@ CloudWatchEventsFullAccess
 * [AWS::Config::RemediationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-remediationconfiguration.html)
 * [AWS::Events::Rule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-rule.html)
 
-## Cleanup
-
-
-```
-aws lambda delete-function --function-name "ccoa-s3-write-remediation"
-aws events list-targets-by-rule --rule "ccoa-s3-write-cwe"
-aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE"
-aws events delete-rule --name "ccoa-s3-write-cwe"
-aws s3 rb s3://arn:aws:s3:::ccoa-s3-public-write-prohibited-$(aws sts get-caller-identity --output text --query 'Account') --force
-aws configservice delete-remediation-configuration --config-rule-name s3-bucket-public-write-prohibited-rule
-aws configservice delete-config-rule --config-rule-name s3-bucket-public-write-prohibited
-aws sns delete-topic --topic-arn "arn:aws:sns:$(aws configure get region --output text):$(aws sts get-caller-identity --output text --query 'Account'):ccoa-config-topic"
-
-
-```
 
 ## Create an SNS Topic and Subscription
 
