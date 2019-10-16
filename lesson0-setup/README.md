@@ -41,6 +41,155 @@ aws events remove-targets --rule "ccoa-s3-write-cwe" --ids "TARGETIDSFROMABOVE" 
 * [AWS::Events::Rule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-rule.html)
 
 
+## Create CloudFormation Template to enable ConfigRecorder
+
+The following CloudFormation Resources are created in this section:
+
+* AWS::S3::Bucket (for Config Snapshots)
+* AWS::Config::DeliveryChannel
+* AWS::S3::BucketPolicy
+* AWS::SNS::Topic (for Config)
+* AWS::IAM::Role
+* AWS::Config::ConfigurationRecorder
+
+
+1. Create `lesson0` directory from your AWS Cloud9 environment: 
+
+```
+mkdir ~/environment/lesson0
+```
+
+2. Change directory: 
+
+```
+cd ~/environment/lesson0
+```
+
+3. Create a new file 
+
+```
+touch ccoa-config-recorder.yml
+```
+
+4. Paste the contents of the CloudFormation template into `ccoa-config-recorder.yml` and save the file 
+
+```AWSTemplateFormatVersion: '2010-09-09'
+Description: Setup AWS Config Service
+Resources:
+  ConfigBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub 'ccoa-awsconfig-${AWS::StackName}-${AWS::AccountId}'
+  DeliveryChannel: 
+    Type: AWS::Config::DeliveryChannel
+    Properties: 
+      ConfigSnapshotDeliveryProperties: 
+        DeliveryFrequency: "Six_Hours"
+      S3BucketName: 
+        Ref: ConfigBucket
+      SnsTopicARN: 
+        Ref: ConfigTopic
+  ConfigBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'ConfigBucket'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Id: PutObjPolicy
+        Statement:
+          - Sid: DenyUnEncryptedObjects
+            Effect: Deny
+            Principal: '*'
+            Action: s3:PutObject
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref 'ConfigBucket'
+                - /*
+            Condition:
+              StringNotEquals:
+                s3:x-amz-server-side-encryption: AES256
+  ConfigTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: !Sub 'ccoa-${AWS::StackName}-sns-topic'
+      TopicName: !Sub 'ccoa-${AWS::StackName}-sns-topic'
+  ConfigRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: !Ref 'ConfigTopic'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource:
+                  - !Join
+                    - ''
+                    - - 'arn:aws:s3:::'
+                      - !Ref 'ConfigBucket'
+                      - /AWSLogs/
+                      - !Ref 'AWS::AccountId'
+                      - /*
+                Condition:
+                  StringLike:
+                    s3:x-amz-acl: bucket-owner-full-control
+              - Effect: Allow
+                Action:
+                  - s3:GetBucketAcl
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref 'ConfigBucket'
+          PolicyName: root
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSConfigRole
+  ConfigRecorder:
+    Type: AWS::Config::ConfigurationRecorder
+    Properties:
+      Name: !Sub 'ccoa-${AWS::StackName}'
+      RecordingGroup:
+        AllSupported: true
+        IncludeGlobalResourceTypes: true
+      RoleARN: !GetAtt 'ConfigRole.Arn'
+Outputs:
+  StackName:
+    Value: !Ref 'AWS::StackName'
+```
+
+
+## Launch the CloudFormation stack to enable the ConfigRecorder
+
+From your AWS Cloud9 environment, run the following command:
+
+```
+aws cloudformation create-stack --stack-name ccoa-config-recorder --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
+```
+
+### Check CloudFormation stack status
+
+```
+aws cloudformation describe-stacks --stack-name ccoa-config-recorder
+```
+
+or, go to [CloudFormation console](https://console.aws.amazon.com/cloudformation/)
+
+
 # Autoremediate from the AWS Console
 
 ## Create an S3 Bucket for CloudTrail Trail
@@ -693,7 +842,7 @@ Resources:
   ConfigRecorder:
     Type: AWS::Config::ConfigurationRecorder
     Properties:
-      Name: aws-config-recorder
+      Name: !Sub 'ccoa-${AWS::StackName}'
       RecordingGroup:
         AllSupported: true
         IncludeGlobalResourceTypes: true
