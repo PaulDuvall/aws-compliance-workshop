@@ -14,6 +14,8 @@ aws configservice delete-configuration-recorder --configuration-recorder-name CO
 aws configservice describe-delivery-channels --region REGIONCODE
 aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGIONCODE
 aws s3 rb s3://ccoa-cloudtrail-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
+aws s3 rb s3://ccoa-awsconfig-ccoa-config-recorder-$(aws sts get-caller-identity --output text --query 'Account') --force --region REGIONCODE
+aws cloudformation delete-stack --stack-name ccoa-config-recorder --region us-east-2 --region REGIONCODE
 aws s3 rb s3://ccoa-s3-write-violation-$(aws sts get-caller-identity --output text --query 'Account') --region REGIONCODE
 aws iam delete-policy --policy-arn arn:aws:iam::$(aws sts get-caller-identity --output text --query 'Account'):policy/ccoa-s3-write-policy --region REGIONCODE
 aws lambda delete-function --function-name "ccoa-s3-write-remediation" --region REGIONCODE
