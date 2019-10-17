@@ -346,8 +346,8 @@ Resources:
           managedRuleIdentifier:
             - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
       Targets:
-        - Arn: !Sub '${LambdaArn}
-          Id: !Sub '${LambdaId}
+        - Arn: !Sub '${LambdaArn}'
+          Id: !Sub '${LambdaId}'
   AutoRemediationIamRole:
     Type: AWS::IAM::Role
     Properties:
@@ -398,7 +398,6 @@ Parameters:
     - Six_Hours
     - Twelve_Hours
     - TwentyFour_Hours
-
 ```
 
 4. From your AWS Cloud9 environment, run the following command:
@@ -406,6 +405,12 @@ Parameters:
 ```
 aws cloudformation create-stack --stack-name ccoa-config-rule --template-body file:///home/ec2-user/environment/lesson0/ccoa-config-rule.yml --parameters ParameterKey=LambdaArn,ParameterValue=LAMBDAARN ParameterKey=LambdaId,ParameterValue=LAMBDAID --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-2
 ```
+
+5. Manually edit the CloudWatch Events Rule and Save (Not sure why yet!)
+6. Run Config Rule
+7. Check S3 bucket
+8. Run Config Rule again
+
 
 ## Create a CloudWatch Events Rule
 
@@ -425,42 +430,8 @@ touch ccoa-cwe-rule.yml
 
 
 ```
----
-Description: Configure CloudWatch Events Rule
-Resources:
-  EventRule: 
-    Type: AWS::Events::Rule
-    Properties: 
-      Description: "EventRule"
-      EventPattern: 
-        source: 
-          - "aws.ec2"
-        detail-type: 
-          - "EC2 Instance State-change Notification"
-        detail: 
-          state: 
-            - "stopping"
-      State: "ENABLED"
-      Targets: 
-        - 
-          Arn: 
-            Fn::GetAtt: 
-              - "LambdaFunction"
-              - "Arn"
-          Id: "TargetFunctionV1"
-  PermissionForEventsToInvokeLambda: 
-    Type: AWS::Lambda::Permission
-    Properties: 
-      FunctionName: 
-        Ref: "LambdaFunction"
-      Action: "lambda:InvokeFunction"
-      Principal: "events.amazonaws.com"
-      SourceArn: 
-        Fn::GetAtt: 
-          - "EventRule"
-          - "Arn"
-
 ```
+
 
 
 
