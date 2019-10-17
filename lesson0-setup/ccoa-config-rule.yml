@@ -36,8 +36,7 @@ Resources:
             managedRuleIdentifier:
             - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
       Targets:
-        - Arn: 'arn:aws:lambda:us-east-2:114930652771:function:ccoa-s3-write-remediation'
-          Id: 'test'
+
   AutoRemediationIamRole:
     Type: AWS::IAM::Role
     Properties:
