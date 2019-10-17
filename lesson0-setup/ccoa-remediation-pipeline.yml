@@ -272,6 +272,7 @@ Resources:
           - Action:
             - codecommit:*
             - codebuild:*
+            - cloudformation:*
             Resource: "*"
             Effect: Allow
           Version: '2012-10-17'
@@ -420,3 +421,18 @@ Outputs:
   PipelineUrl:
     Value: !Sub https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}
     Description: CodePipeline URL
+  LambdaTrustRole:
+    Description: IAM role for AWS Lambda used for passRole to Lambda functions.
+    Export:
+      Name:
+        Fn::Join:
+        - ''
+        - - ""
+          - Ref: AWS::StackName
+          - "-"
+          - Ref: AWS::Region
+          - "-LambdaTrustRole"
+    Value:
+      Fn::GetAtt:
+      - LambdaTrustRole
+      - Arn
