@@ -433,7 +433,13 @@ touch ccoa-cwe-rule.yml
 ```
 
 
+# Create a Lambda Function that Auto Remediates S3 Bucket using CloudFormation
 
+Use `ccoa-remediation-pipeline.yml` in `lesson0-setup`
+
+```
+aws cloudformation create-stack --stack-name ccoa-remediation-pipeline --template-body file:///home/ec2-user/environment/lesson0/ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=youremailaddress@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback
+````
 
 # Autoremediate from the AWS Console
 
