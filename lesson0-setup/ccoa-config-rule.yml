@@ -36,7 +36,8 @@ Resources:
             managedRuleIdentifier:
             - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
       Targets:
-
+        - Arn: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ccoa-s3-write-remediation
+          Id: 'test'
   AutoRemediationIamRole:
     Type: AWS::IAM::Role
     Properties:
@@ -62,16 +63,6 @@ Parameters:
     Type: String
     Default: s3-bucket-public-write-prohibited
     Description: The name that you assign to the AWS Config rule.
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-  LambdaArn:
-    Type: String
-    Description: The Arn for an existing Lambda function
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-  LambdaId:
-    Type: String
-    Description: The Id for an existing Lambda function
     MinLength: '1'
     ConstraintDescription: This parameter is required.
   MaximumExecutionFrequency:
