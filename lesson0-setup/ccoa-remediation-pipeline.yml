@@ -20,6 +20,9 @@ Parameters:
     Type: String
     Default: ccoa-workshop/ccoa-lesson0-examples.zip
 Resources:
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
   LambdaTrustRole:
     Description: Creating service role in IAM for AWS Lambda
     Properties:
@@ -136,6 +139,81 @@ Resources:
           Ref: MySNSTopic
         Events:
         - all
+  CloudFormationTrustRole:
+    DependsOn:
+    - ArtifactBucket
+    Description: Creating service role in IAM for AWS CloudFormation
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - cloudformation.amazonaws.com
+      Path: "/"
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:GetObjectVersion
+            Effect: Allow
+            Resource:
+            - Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - Ref: ArtifactBucket
+            - Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - Ref: ArtifactBucket
+                - "/*"
+          - Action:
+            - lambda:CreateFunction
+            - lambda:DeleteFunction
+            - lambda:AddPermission
+            - lambda:UpdateFunction
+            - lambda:UpdateFunctionCode
+            - lambda:GetFunctionConfiguration
+            - lambda:UpdateFunctionConfiguration
+            - lambda:RemovePermission
+            - lambda:TagResource
+            - lambda:ListTags
+            - lambda:UntagResource
+            - lambda:InvokeFunction
+            - apigateway:*
+            - sns:CreateTopic
+            - sns:DeleteTopic
+            - sns:ListTopics
+            - sns:GetTopicAttributes
+            - sns:SetTopicAttributes
+            - s3:CreateBucket
+            - s3:DeleteBucket
+            - events:*
+            Effect: Allow
+            Resource: "*"
+          - Action:
+            - iam:PassRole
+            Effect: Allow
+            Resource:
+            - Fn::GetAtt:
+              - LambdaTrustRole
+              - Arn
+          - Action:
+            - cloudformation:CreateChangeSet
+            Effect: Allow
+            Resource:
+            - arn:aws:cloudformation:us-east-1:aws:transform/Serverless-2016-10-31
+        PolicyName: CloudFormationRolePolicy
+      RoleName:
+        Fn::Join:
+        - "-"
+        - - stelligent
+          - Ref: AWS::StackName
+          - CloudFormation
+    Type: AWS::IAM::Role
   CodeBuildRole:
     Type: AWS::IAM::Role
     Properties:

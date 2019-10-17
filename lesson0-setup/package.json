@@ -1,0 +1,11 @@
+{
+  "name": "mycompany-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"run some tests here\""
+  },
+  "author": "",
+  "license": "MIT"
+}
