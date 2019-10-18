@@ -103,7 +103,9 @@ Resources:
         PolicyDocument:
           Statement:
           - Effect: Allow
-            Action: "*"
+          - Action:
+            - lambda:*
+            - logs:*
             Resource: "*"
           Version: '2012-10-17'
   CodeBuildLambdaTrigger:
@@ -244,26 +246,6 @@ Resources:
           - Ref: AWS::StackName
           - CloudFormation
     Type: AWS::IAM::Role
-  CodeBuildRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - codebuild.amazonaws.com
-          Action:
-          - sts:AssumeRole
-      Path: "/"
-      Policies:
-      - PolicyName: codebuild-service
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action: "*"
-            Resource: "*"
-          Version: '2012-10-17'
   CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
