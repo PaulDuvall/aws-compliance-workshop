@@ -76,15 +76,10 @@ Resources:
       - PolicyDocument:
           Statement:
           - Action:
+            - s3:DeleteBucketPolicy
             - logs:CreateLogGroup
             - logs:CreateLogStream
             - logs:PutLogEvents
-            - codepipeline:*
-            - logs:*
-            - ssm:*
-            - cloudwatch:*
-            - ds:*
-            - ec2:*
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
