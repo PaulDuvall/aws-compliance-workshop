@@ -19,25 +19,6 @@ Parameters:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
     Default: ccoa-workshop/ccoa-lesson0-examples.zip
-Resources:
-  AWSConfigRule:
-    Type: AWS::Config::ConfigRule
-    Properties:
-      ConfigRuleName:
-        Ref: ConfigRuleName
-      Description: Checks that your Amazon S3 buckets do not allow public write access.
-        The rule checks the Block Public Access settings, the bucket policy, and the
-        bucket access control list (ACL).
-      InputParameters: {}
-      Scope:
-        ComplianceResourceTypes:
-        - AWS::S3::Bucket
-      Source:
-        Owner: AWS
-        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
-      MaximumExecutionFrequency:
-        Ref: MaximumExecutionFrequency
-Parameters:
   ConfigRuleName:
     Type: String
     Default: s3-bucket-public-write-prohibited
@@ -57,6 +38,24 @@ Parameters:
     - Six_Hours
     - Twelve_Hours
     - TwentyFour_Hours
+Resources:
+  AWSConfigRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName:
+        Ref: ConfigRuleName
+      Description: Checks that your Amazon S3 buckets do not allow public write access.
+        The rule checks the Block Public Access settings, the bucket policy, and the
+        bucket access control list (ACL).
+      InputParameters: {}
+      Scope:
+        ComplianceResourceTypes:
+        - AWS::S3::Bucket
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      MaximumExecutionFrequency:
+        Ref: MaximumExecutionFrequency
   ArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete

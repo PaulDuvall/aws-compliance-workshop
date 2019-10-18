@@ -435,10 +435,24 @@ touch ccoa-cwe-rule.yml
 
 # Create a Lambda Function that Auto Remediates S3 Bucket using CloudFormation
 
-Use `ccoa-remediation-pipeline.yml` in `lesson0-setup`
+1. Setup AWS Config in your AWS region `ccoa-config-recorder.yml`
+2. Create `index.js`
+3. Create `package.json`
+4. Create `buildspec-lambda.yml`
+5. Create `ccoa-remediation-pipeline.yml`
+6. Zip the files and upload to S3
+```
+sudo rm -rf codecommit
+mkdir codecommit
+zip ccoa-lesson0-examples.zip *.*
+mv ccoa-lesson0-examples.zip codecommit
+```
+
+7. Download the files and upload to S3
+8. Launch the CloudFormation stack
 
 ```
-aws cloudformation create-stack --stack-name ccoa-remediation-pipeline --template-body file:///home/ec2-user/environment/lesson0/0-ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=youremailaddress@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback
+aws cloudformation create-stack --stack-name ccoa-remediation-pipeline --template-body file:///home/ec2-user/environment/lesson0/0-ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=youremailaddress@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-1
 ````
 
 # Autoremediate from the AWS Console
