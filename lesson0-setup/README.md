@@ -435,24 +435,45 @@ touch ccoa-cwe-rule.yml
 
 # Create a Lambda Function that Auto Remediates S3 Bucket using CloudFormation
 
-1. Setup AWS Config in your AWS region `ccoa-config-recorder.yml`
-2. Create `index.js`
-3. Create `package.json`
-4. Create `buildspec-lambda.yml`
-5. Create `ccoa-remediation-pipeline.yml`
-6. Zip the files and upload to S3
 ```
+aws configure get region --output text
+aws configservice describe-configuration-recorders --region REGIONCODE
+aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGIONCODE
+aws configservice describe-delivery-channels --region REGIONCODE
+aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGIONCODE
+aws cloudformation delete-stack --stack-name ccoa-config-recorder-1124 --region REGIONCODE
+aws cloudformation delete-stack --stack-name cpl-rm-us-east-1 --region REGIONCODE
+aws cloudformation delete-stack --stack-name cpl-rm --region REGIONCODE
+aws s3 rb s3://cpl-rm-pipelinebucket-1nu3b3dd7y28m --region REGIONCODE --force
+aws s3 rb s3://cpl-rm-artifactbucket-agp5ki2yvki8 --region REGIONCODE --force
+sudo rm -rf ~/environment/tmp
+mkdir ~/environment/tmp
+cd ~/environment/tmp
+git clone https://github.com/PaulDuvall/aws-compliance-workshop.git
+sudo rm -rf ~/environment/lesson0
+mkdir ~/environment/lesson0
+sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson0-setup ~/environment/lesson0
+sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-recorder.yml ~/environment/lesson0
+```
+
+1. Zip the files and upload to S3
+```
+cd ~/environment/lesson0
 sudo rm -rf codecommit
 mkdir codecommit
 zip ccoa-lesson0-examples.zip *.*
 mv ccoa-lesson0-examples.zip codecommit
 ```
 
-7. Download the files and upload to S3
-8. Launch the CloudFormation stack
+2. Download the files and upload to S3
+3. Launch the CloudFormation stack for Config Recorder and Delivery Channel
+```
+aws cloudformation create-stack --stack-name ccoa-awsconfig --template-body file:///home/ec2-user/environment/lesson0/config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback
+```
+4. Launch the CloudFormation stack for Config Rules, CWE, and Pipeline
 
 ```
-aws cloudformation create-stack --stack-name ccoa-remediation-pipeline --template-body file:///home/ec2-user/environment/lesson0/0-ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=youremailaddress@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region us-east-1
+aws cloudformation create-stack --stack-name ccoa-rem --template-body file:///home/ec2-user/environment/lesson0/ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=EMAILADDRESS@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region REGIONCODE
 ````
 
 # Autoremediate from the AWS Console
