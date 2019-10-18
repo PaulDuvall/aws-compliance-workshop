@@ -17,47 +17,6 @@ Resources:
         SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
       MaximumExecutionFrequency:
         Ref: MaximumExecutionFrequency
-  AutoRemediationEventRule:
-    Type: 'AWS::Events::Rule'
-    Properties:
-      Name:
-        Ref: AWS::StackName
-      Description: 'auto remediation rule for config rule: s3-bucket-public-write-prohibited'
-      State: ENABLED
-      EventPattern:
-        source:
-        - aws.config
-        detail:
-          requestParameters:
-            evaluations:
-              complianceType:
-              - NON_COMPLIANT
-          additionalEventData:
-            managedRuleIdentifier:
-            - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
-      Targets:
-        - Arn: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ccoa-s3-write-remediation
-          Id: 'test'
-  AutoRemediationIamRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - lambda.amazonaws.com
-          Action:
-          - sts:AssumeRole
-      Path: "/"
-      Policies:
-      - PolicyName: lambda-policy
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action: "*"
-            Resource: "*"
-          Version: '2012-10-17'
 Parameters:
   ConfigRuleName:
     Type: String
