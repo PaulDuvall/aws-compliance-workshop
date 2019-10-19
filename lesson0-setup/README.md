@@ -458,11 +458,15 @@ sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-r
 
 1. Zip the files and upload to S3
 ```
-cd ~/environment/lesson0
-sudo rm -rf codecommit
+sudo rm -rf ~/environment/tmp
+
+cd ~/environment/tmp
+cd ~/environment/tmp
+sudo rm -rf ~/environment/tmp/codecommit
+cd ~/environment/tmp
 mkdir codecommit
 zip ccoa-lesson0-examples.zip *.*
-mv ccoa-lesson0-examples.zip codecommit
+mv ccoa-lesson0-examples.zip ~/environment/tmp/codecommit
 ```
 
 2. Download the files and upload to S3
