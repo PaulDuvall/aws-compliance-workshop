@@ -459,11 +459,14 @@ sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-r
 1. Zip the files and upload to S3
 ```
 
-sudo rm -rf ~/environment/tmp/codecommit
-mkdir ~/environment/tmp/codecommit
+sudo rm -rf ~/environment/tmp
+mkdir ~/environment/tmp
+cd ~/environment/tmp
+mkdir codecommit
 cd ~/environment/aws-compliance-workshop/lesson0-setup
 zip ccoa-lesson0-examples.zip *.*
 mv ccoa-lesson0-examples.zip ~/environment/tmp/codecommit
+aws s3 sync ~/environment/tmp/codecommit/ s3://pmd-compliance-workshop
 ```
 
 2. Download the files and upload to S3
@@ -474,7 +477,7 @@ aws cloudformation create-stack --stack-name ccoa-awsconfig --template-body file
 4. Launch the CloudFormation stack for Config Rules, CWE, and Pipeline
 
 ```
-aws cloudformation create-stack --stack-name ccoa-rem --template-body file:///home/ec2-user/environment/aws-compliance-workshop/lesson0-setup/ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=EMAILADDRESS@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=paulduvall.io ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-workshop/ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region REGIONCODE
+aws cloudformation create-stack --stack-name ccoa-rem --template-body file:///home/ec2-user/environment/aws-compliance-workshop/lesson0-setup/ccoa-remediation-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=EMAILADDRESS@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=pmd-compliance-workshop ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-lesson0-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback --region REGIONCODE
 ````
 
 # Autoremediate from the AWS Console

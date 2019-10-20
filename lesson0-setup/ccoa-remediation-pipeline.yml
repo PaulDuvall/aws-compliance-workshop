@@ -195,7 +195,7 @@ Resources:
           Statement:
           - Effect: Allow
           - Action:
-            - lambda:*
+            - lambda:*,
             - logs:*
             Resource: "*"
           Version: '2012-10-17'
