@@ -197,7 +197,7 @@ Resources:
             - logs:*
             - lambda:*
             Effect: Allow
-            Resource:
+            Resource: "*"
           Version: '2012-10-17'
   CodeBuildLambdaTrigger:
     Type: AWS::CodeBuild::Project
