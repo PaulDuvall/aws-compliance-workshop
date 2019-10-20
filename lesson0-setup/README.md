@@ -458,6 +458,10 @@ sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-r
 
 1. Zip the files and upload to S3
 ```
+aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE--force
+aws s3 rb s3://ARTIFACTBUCKET --region REGIONCODE --force
+aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-pmd-rem-awsconfig --region us-east-1 --force
+aws cloudformation delete-stack --stack-name pmd-rem --region us-east-1
 
 sudo rm -rf ~/environment/tmp
 mkdir ~/environment/tmp
