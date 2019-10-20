@@ -193,11 +193,11 @@ Resources:
       - PolicyName: codebuild-service
         PolicyDocument:
           Statement:
-          - Effect: Allow
           - Action:
-            - lambda:*,
             - logs:*
-            Resource: "*"
+            - lambda:*
+            Effect: Allow
+            Resource:
           Version: '2012-10-17'
   CodeBuildLambdaTrigger:
     Type: AWS::CodeBuild::Project
