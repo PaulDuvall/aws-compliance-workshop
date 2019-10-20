@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Simple CodePipeline example with CodeCommit and Approval
+Description: CodePipeline for Config Rules, CloudWatch Event Rules, and Lambda
 Parameters:
   EmailAddress:
     Description: Email Address for sending SNS notifications for CodeCommit
