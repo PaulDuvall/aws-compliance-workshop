@@ -196,6 +196,9 @@ Resources:
           - Action:
             - logs:*
             - lambda:*
+            - cloudwatch:*
+            - codebuild:*
+            - s3:*
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
