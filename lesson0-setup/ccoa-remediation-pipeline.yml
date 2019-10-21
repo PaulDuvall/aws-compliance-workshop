@@ -480,15 +480,6 @@ Resources:
           Name: ExecuteChangeSetAlexaFunction
           OutputArtifacts: []
           RunOrder: 2
-        - Name: Deploy
-          ActionTypeId:
-            Category: Approval
-            Owner: AWS
-            Version: '1'
-            Provider: Manual
-          Configuration:
-            ExternalEntityLink: https://mphasis.com
-          RunOrder: 3
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineBucket
