@@ -433,27 +433,6 @@ touch ccoa-cwe-rule.yml
 
 # Create a Lambda Function that Auto Remediates S3 Bucket using CloudFormation
 
-```
-aws configure get region --output text
-aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE--force
-aws s3 rb s3://ARTIFACTBUCKET --region REGIONCODE --force
-aws configservice describe-configuration-recorders --region REGIONCODE
-aws configservice delete-configuration-recorder --configuration-recorder-name CONFIGRECORDERNAME --region REGIONCODE
-aws configservice describe-delivery-channels --region REGIONCODE
-aws configservice delete-delivery-channel --delivery-channel-name DELIVERYCHANNELNAME --region REGIONCODE
-aws cloudformation delete-stack --stack-name ccoa-awsconfig --region REGIONCODE
-aws cloudformation delete-stack --stack-name ccoa-rem-us-east-1 --region REGIONCODE
-aws cloudformation delete-stack --stack-name ccoa-rem --region REGIONCODE
-sudo rm -rf ~/environment/tmp
-mkdir ~/environment/tmp
-cd ~/environment/tmp
-git clone https://github.com/PaulDuvall/aws-compliance-workshop.git
-sudo rm -rf ~/environment/lesson0
-mkdir ~/environment/lesson0
-sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson0-setup ~/environment/lesson0
-sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-recorder.yml ~/environment/lesson0
-```
-
 1. Zip the files and upload to S3
 ```
 aws s3 ls

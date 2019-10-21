@@ -150,7 +150,7 @@ Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
-  LambdaTrustRole:
+  MyLambdaTrustRole:
     Description: Creating service role in IAM for AWS Lambda
     Properties:
       AssumeRolePolicyDocument:
@@ -325,7 +325,7 @@ Resources:
             Effect: Allow
             Resource:
             - Fn::GetAtt:
-              - LambdaTrustRole
+              - MyLambdaTrustRole
               - Arn
           - Action:
             - cloudformation:CreateChangeSet
@@ -497,8 +497,8 @@ Outputs:
           - Ref: AWS::StackName
           - "-"
           - Ref: AWS::Region
-          - "-LambdaTrustRole"
+          - "-MyLambdaTrustRole"
     Value:
       Fn::GetAtt:
-      - LambdaTrustRole
+      - MyLambdaTrustRole
       - Arn
