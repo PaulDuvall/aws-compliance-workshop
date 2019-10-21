@@ -14,11 +14,11 @@ Parameters:
   CodeCommitS3Bucket:
     Description: S3 bucket that holds zip of source code for CodeCommit Repo
     Type: String
-    Default: paulduvall.io
+    Default: pmd-compliance-workshop
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    Default: ccoa-workshop/ccoa-lesson0-examples.zip
+    Default: ccoa-lesson0-examples.zip
   ConfigRuleName:
     Type: String
     Default: s3-bucket-public-write-prohibited
