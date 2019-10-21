@@ -439,7 +439,9 @@ aws s3 ls
 aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE --force
 aws s3 rb s3://ARTIFACTBUCKET --region REGIONCODE --force
 aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-pmd-rem-awsconfig --region REGIONCODE --force
-aws cloudformation delete-stack --stack-name pmd-rem --region REGIONCODE
+aws cloudformation delete-stack --stack-name ccoa-rem-$(aws configure get region --output text) --region REGIONCODE
+aws cloudformation delete-stack --stack-name ccoa-rem --region REGIONCODE
+
 
 sudo rm -rf ~/environment/tmp
 mkdir ~/environment/tmp

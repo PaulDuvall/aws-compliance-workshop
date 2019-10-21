@@ -497,7 +497,7 @@ Outputs:
           - Ref: AWS::StackName
           - "-"
           - Ref: AWS::Region
-          - "-MyLambdaTrustRole"
+          - "-LambdaTrustRole"
     Value:
       Fn::GetAtt:
       - MyLambdaTrustRole
