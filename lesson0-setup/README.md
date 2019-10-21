@@ -458,10 +458,11 @@ sudo cp -r ~/environment/tmp/aws-compliance-workshop/lesson6-continuous/config-r
 
 1. Zip the files and upload to S3
 ```
-aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE--force
+aws s3 ls
+aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE --force
 aws s3 rb s3://ARTIFACTBUCKET --region REGIONCODE --force
-aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-pmd-rem-awsconfig --region us-east-1 --force
-aws cloudformation delete-stack --stack-name pmd-rem --region us-east-1
+aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-pmd-rem-awsconfig --region REGIONCODE --force
+aws cloudformation delete-stack --stack-name pmd-rem --region REGIONCODE
 
 sudo rm -rf ~/environment/tmp
 mkdir ~/environment/tmp
@@ -473,11 +474,6 @@ mv ccoa-lesson0-examples.zip ~/environment/tmp/codecommit
 aws s3 sync ~/environment/tmp/codecommit/ s3://pmd-compliance-workshop
 ```
 
-2. Download the files and upload to S3
-3. Launch the CloudFormation stack for Config Recorder and Delivery Channel
-```
-aws cloudformation create-stack --stack-name ccoa-awsconfig --template-body file:///home/ec2-user/environment/lesson0/config-recorder.yml --capabilities CAPABILITY_NAMED_IAM --disable-rollback
-```
 4. Launch the CloudFormation stack for Config Rules, CWE, and Pipeline
 
 ```
