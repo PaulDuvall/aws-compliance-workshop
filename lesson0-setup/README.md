@@ -436,6 +436,7 @@ touch ccoa-cwe-rule.yml
 1. Zip the files and upload to S3
 ```
 aws s3 ls
+aws s3 rb s3://ccoa-rem-awsconfig --region REGIONCODE --force
 aws s3 rb s3://PIPELINEBUCKET --region REGIONCODE --force
 aws s3 rb s3://ARTIFACTBUCKET --region REGIONCODE --force
 aws s3 rb s3://$(aws sts get-caller-identity --output text --query 'Account')-pmd-rem-awsconfig --region REGIONCODE --force
