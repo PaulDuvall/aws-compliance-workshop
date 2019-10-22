@@ -253,7 +253,7 @@ Resources:
     Properties:
       RepositoryName:
         Ref: AWS::StackName
-      RepositoryDescription: CodeCommit Repository for cfn_nag solution
+      RepositoryDescription: CodeCommit Repository for Config Rule solution
       Code:
         S3:
           Bucket: !Ref CodeCommitS3Bucket
