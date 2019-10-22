@@ -435,7 +435,7 @@ Resources:
         Actions:
         - InputArtifacts:
           - Name: lambdatrigger-BuildArtifact
-          Name: GenerateChangeSetAlexaFunction
+          Name: GenerateChangeSetLambdaFunction
           ActionTypeId:
             Category: Deploy
             Owner: AWS
@@ -477,7 +477,7 @@ Resources:
                 - Ref: AWS::Region
                 - ""
           InputArtifacts: []
-          Name: ExecuteChangeSetAlexaFunction
+          Name: ExecuteChangeSetLambdaFunction
           OutputArtifacts: []
           RunOrder: 2
       ArtifactStore:
