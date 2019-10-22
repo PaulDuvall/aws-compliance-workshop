@@ -16,7 +16,7 @@ Parameters:
     Type: String
     Default: pmd-compliance-workshop
   CodeCommitS3Key:
-    Description: zipfile key located in CodeCommitS3Bucket 
+    Description: zipfile key located in CodeCommitS3Bucket
     Type: String
     Default: ccoa-lesson0-examples.zip
   ConfigRuleName:
@@ -44,81 +44,80 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub '${AWS::StackName}-awsconfig'
+      BucketName: "${AWS::StackName}-awsconfig"
   ConfigTopic:
     Type: AWS::SNS::Topic
-  DeliveryChannel: 
+  DeliveryChannel:
     Type: AWS::Config::DeliveryChannel
-    Properties: 
-      ConfigSnapshotDeliveryProperties: 
-        DeliveryFrequency: "Six_Hours"
-      S3BucketName: 
+    Properties:
+      ConfigSnapshotDeliveryProperties:
+        DeliveryFrequency: Six_Hours
+      S3BucketName:
         Ref: ConfigBucket
-      SnsTopicARN: 
+      SnsTopicARN:
         Ref: ConfigTopic
   ConfigBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref 'ConfigBucket'
+      Bucket: ConfigBucket
       PolicyDocument:
         Version: '2012-10-17'
         Id: PutObjPolicy
         Statement:
-          - Sid: DenyUnEncryptedObjects
-            Effect: Deny
-            Principal: '*'
-            Action: s3:PutObject
-            Resource: !Join
-              - ''
-              - - 'arn:aws:s3:::'
-                - !Ref 'ConfigBucket'
-                - /*
-            Condition:
-              StringNotEquals:
-                s3:x-amz-server-side-encryption: AES256
+        - Sid: DenyUnEncryptedObjects
+          Effect: Deny
+          Principal: "*"
+          Action: s3:PutObject
+          Resource:
+          - ''
+          - - 'arn:aws:s3:::'
+            - ConfigBucket
+            - "/*"
+          Condition:
+            StringNotEquals:
+              s3:x-amz-server-side-encryption: AES256
   ConfigRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Statement:
-          - Action:
-              - sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                - config.amazonaws.com
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - config.amazonaws.com
         Version: '2012-10-17'
-      Path: /
+      Path: "/"
       Policies:
-        - PolicyDocument:
-            Statement:
-              - Effect: Allow
-                Action: sns:Publish
-                Resource: !Ref 'ConfigTopic'
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                Resource:
-                  - !Join
-                    - ''
-                    - - 'arn:aws:s3:::'
-                      - !Ref 'ConfigBucket'
-                      - /AWSLogs/
-                      - !Ref 'AWS::AccountId'
-                      - /*
-                Condition:
-                  StringLike:
-                    s3:x-amz-acl: bucket-owner-full-control
-              - Effect: Allow
-                Action:
-                  - s3:GetBucketAcl
-                Resource: !Join
-                  - ''
-                  - - 'arn:aws:s3:::'
-                    - !Ref 'ConfigBucket'
-          PolicyName: root
+      - PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action: sns:Publish
+            Resource: ConfigTopic
+          - Effect: Allow
+            Action:
+            - s3:PutObject
+            Resource:
+            - - ''
+              - - 'arn:aws:s3:::'
+                - ConfigBucket
+                - "/AWSLogs/"
+                - AWS::AccountId
+                - "/*"
+            Condition:
+              StringLike:
+                s3:x-amz-acl: bucket-owner-full-control
+          - Effect: Allow
+            Action:
+            - s3:GetBucketAcl
+            Resource:
+            - ''
+            - - 'arn:aws:s3:::'
+              - ConfigBucket
+        PolicyName: root
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSConfigRole
+      - arn:aws:iam::aws:policy/service-role/AWSConfigRole
   ConfigRecorder:
     Type: AWS::Config::ConfigurationRecorder
     Properties:
@@ -126,11 +125,11 @@ Resources:
       RecordingGroup:
         AllSupported: true
         IncludeGlobalResourceTypes: true
-      RoleARN: !GetAtt 'ConfigRole.Arn'
+      RoleARN: ConfigRole.Arn
   AWSConfigRule:
     DependsOn:
-      - DeliveryChannel
-      - ConfigRecorder
+    - DeliveryChannel
+    - ConfigRecorder
     Type: AWS::Config::ConfigRule
     Properties:
       ConfigRuleName:
@@ -175,7 +174,7 @@ Resources:
             Resource: "*"
           Version: '2012-10-17'
         PolicyName: MyLambdaWorkerPolicy
-      RoleName: !Ref AWS::StackName
+      RoleName: AWS::StackName
     Type: AWS::IAM::Role
   CodeBuildRole:
     Type: AWS::IAM::Role
@@ -210,7 +209,7 @@ Resources:
         Fn::Join:
         - ''
         - - Run
-          - "CodePipeline"
+          - CodePipeline
           - Ref: AWS::StackName
       Description: Build application
       ServiceRole:
@@ -256,8 +255,8 @@ Resources:
       RepositoryDescription: CodeCommit Repository for cfn_nag solution
       Code:
         S3:
-          Bucket: !Ref CodeCommitS3Bucket
-          Key: !Ref CodeCommitS3Key
+          Bucket: CodeCommitS3Bucket
+          Key: CodeCommitS3Key
       Triggers:
       - Name: MasterTrigger
         CustomData:
@@ -388,8 +387,6 @@ Resources:
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      RoleArn: !GetAtt CodePipelineRole.Arn
-    Properties:
       RoleArn:
         Fn::Join:
         - ''
@@ -453,11 +450,11 @@ Resources:
             StackName:
               Fn::Join:
               - ''
-              - - ""
+              - - ''
                 - Ref: AWS::StackName
                 - "-"
                 - Ref: AWS::Region
-                - ""
+                - ''
             TemplatePath: lambdatrigger-BuildArtifact::template-export.json
           RunOrder: 1
         - ActionTypeId:
@@ -471,21 +468,21 @@ Resources:
             StackName:
               Fn::Join:
               - ''
-              - - ""
+              - - ''
                 - Ref: AWS::StackName
                 - "-"
                 - Ref: AWS::Region
-                - ""
+                - ''
           InputArtifacts: []
           Name: ExecuteChangeSetAlexaFunction
           OutputArtifacts: []
           RunOrder: 2
       ArtifactStore:
         Type: S3
-        Location: !Ref PipelineBucket
+        Location: PipelineBucket
 Outputs:
   PipelineUrl:
-    Value: !Sub https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}
+    Value: https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}
     Description: CodePipeline URL
   LambdaTrustRole:
     Description: IAM role for AWS Lambda used for passRole to Lambda functions.
@@ -493,7 +490,7 @@ Outputs:
       Name:
         Fn::Join:
         - ''
-        - - ""
+        - - ''
           - Ref: AWS::StackName
           - "-"
           - Ref: AWS::Region
