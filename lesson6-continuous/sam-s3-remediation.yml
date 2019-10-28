@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+  - 'AWS::Serverless-2016-10-31'
+Resources:
+  PermissionForEventsToInvokeLambda:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName:
+        Ref: S3F
+      Action: 'lambda:InvokeFunction'
+      Principal: events.amazonaws.com
+      SourceArn:
+        'Fn::GetAtt':
+          - S3F
+          - Arn
+  S3F:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Events:
+        S3CWE:
+          Type: CloudWatchEvent
+          Properties:
+            Pattern:
+              source:
+                - aws.config
+              detail:
+                requestParameters:
+                  evaluations:
+                    complianceType:
+                      - NON_COMPLIANT
+                additionalEventData:
+                  managedRuleIdentifier:
+                    - S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      Role:
+        'Fn::ImportValue':
+          'Fn::Join':
+            - '-'
+            - - Ref: 'AWS::StackName'
+              - LambdaTrustRole
