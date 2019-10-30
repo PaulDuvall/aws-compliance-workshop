@@ -1,10 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CodePipeline for Config Rules, CloudWatch Event Rules, and Lambda
+Description: CodePipeline for Deploying Multiple Managed Config Rules
 Parameters:
-  EmailAddress:
-    Description: Email Address for sending SNS notifications for CodeCommit
-    Type: String
   RepositoryBranch:
     Description: The name of the branch for the CodeCommit repo
     Type: String
@@ -17,25 +14,6 @@ Parameters:
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-  ConfigRuleName:
-    Type: String
-    Default: s3-bucket-public-write-prohibited
-    Description: The name that you assign to the AWS Config rule.
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-  MaximumExecutionFrequency:
-    Type: String
-    Default: TwentyFour_Hours
-    Description: The frequency that you want AWS Config to run evaluations for the
-      rule.
-    MinLength: '1'
-    ConstraintDescription: This parameter is required.
-    AllowedValues:
-    - One_Hour
-    - Three_Hours
-    - Six_Hours
-    - Twelve_Hours
-    - TwentyFour_Hours
 Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
@@ -58,7 +36,6 @@ Resources:
           Statement:
           - Action:
             - logs:*
-            - lambda:*
             - cloudwatch:*
             - codebuild:*
             - s3:*
@@ -106,11 +83,6 @@ Resources:
         Value: MyCodeBuildProject
   MySNSTopic:
     Type: AWS::SNS::Topic
-    Properties:
-      Subscription:
-      - Endpoint:
-          Ref: EmailAddress
-        Protocol: email
   CodeCommitRepo:
     Type: AWS::CodeCommit::Repository
     Properties:
@@ -161,18 +133,6 @@ Resources:
                 - Ref: ArtifactBucket
                 - "/*"
           - Action:
-            - lambda:CreateFunction
-            - lambda:DeleteFunction
-            - lambda:AddPermission
-            - lambda:UpdateFunction
-            - lambda:UpdateFunctionCode
-            - lambda:GetFunctionConfiguration
-            - lambda:UpdateFunctionConfiguration
-            - lambda:RemovePermission
-            - lambda:TagResource
-            - lambda:ListTags
-            - lambda:UntagResource
-            - lambda:InvokeFunction
             - sns:CreateTopic
             - sns:DeleteTopic
             - sns:ListTopics
@@ -181,17 +141,16 @@ Resources:
             - s3:CreateBucket
             - s3:DeleteBucket
             - events:*
+            - config:*      
             Effect: Allow
             Resource: "*"
           - Action:
             - iam:PassRole
             Effect: Allow
-            Resource:
-            - Fn::GetAtt:
-              - MyLambdaTrustRole
-              - Arn
+            Resource: "*"
           - Action:
             - cloudformation:CreateChangeSet
+            - config:*
             Effect: Allow
             Resource:
             - arn:aws:cloudformation:us-east-1:aws:transform/Serverless-2016-10-31
@@ -278,11 +237,11 @@ Resources:
             RepositoryName:
               Ref: AWS::StackName
           RunOrder: 1
-     - Name: Build
+      - Name: Build
         Actions:
         - InputArtifacts:
           - Name: MyApp
-          Name: StoreConfigRuleTemplates
+          Name: StoreConfigRules
           ActionTypeId:
             Category: Build
             Owner: AWS
@@ -298,7 +257,7 @@ Resources:
         Actions:
         - InputArtifacts:
           - Name: ConfigRuleTemplateArtifacts
-          Name: GenerateChangeSetLambdaFunction
+          Name: DeployCloudTrailEncryptionTemplate
           ActionTypeId:
             Category: Deploy
             Owner: AWS
@@ -340,7 +299,7 @@ Resources:
                 - Ref: AWS::Region
                 - ""
           InputArtifacts: []
-          Name: ExecuteChangeSetLambdaFunction
+          Name: ExecuteChangeSetCloudTrailEncryption
           OutputArtifacts: []
           RunOrder: 2
       ArtifactStore:
