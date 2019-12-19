@@ -9,4 +9,5 @@ tests:
   lesson2-cfn-nag-pipeline:
     template: ./lesson2-preventive/cfn-nag-pipeline.yml
     # Create buildspec.yml, cfn-nag-pipeline.yml, volume.yml and zip to ccoa-workshop/2
-    parameter_input: ./lesson2-preventive/input.json
+    parameters:
+      CodeCommitS3Key: '2/ccoa-2-examples.zip'
