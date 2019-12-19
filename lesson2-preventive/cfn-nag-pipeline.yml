@@ -5,6 +5,7 @@ Parameters:
   EmailAddress:
     Description: Email Address for sending SNS notifications for CodeCommit
     Type: String
+    Default: you@example.com
   RepositoryBranch:
     Description: The name of the branch for the CodeCommit repo
     Type: String
@@ -14,7 +15,7 @@ Parameters:
   CodeCommitS3Bucket:
     Description: S3 bucket that holds zip of source code for CodeCommit Repo
     Type: String
-    Default: "ccoa-workshop"
+    Default: ccoa-workshop
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String

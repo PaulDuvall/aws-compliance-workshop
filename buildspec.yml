@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - taskcat test run
+      - taskcat -d test run
   post_build:
     commands:
       - echo Build completed on `date`
