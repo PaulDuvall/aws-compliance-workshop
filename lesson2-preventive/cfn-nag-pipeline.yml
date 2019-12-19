@@ -14,11 +14,9 @@ Parameters:
   CodeCommitS3Bucket:
     Description: S3 bucket that holds zip of source code for CodeCommit Repo
     Type: String
-    Default: paulduvall.io
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    Default: ccoa-workshop/ccoa-lesson2-examples.zip
 Resources:
   MySNSTopic:
     Type: AWS::SNS::Topic

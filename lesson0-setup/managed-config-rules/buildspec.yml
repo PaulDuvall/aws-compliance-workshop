@@ -1,9 +1,10 @@
 version: 0.2
-
 phases:
   build:
     commands:
-      - wget https://s3.amazonaws.com/aws-configservice-us-east-1/cloudformation-templates-for-managed-rules/CLOUD_TRAIL_ENCRYPTION_ENABLED.template
+      - >-
+        wget
+        https://s3.amazonaws.com/aws-configservice-us-east-1/cloudformation-templates-for-managed-rules/CLOUD_TRAIL_ENCRYPTION_ENABLED.template
   post_build:
     commands:
       - echo Build completed on `date`
