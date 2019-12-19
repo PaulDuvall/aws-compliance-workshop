@@ -1,0 +1,10 @@
+[ 
+  { 
+    "ParameterKey":"CodeCommitS3Bucket",
+    "ParameterValue":"ccoa-workshop"
+  },
+  { 
+    "ParameterKey":"CodeCommitS3Key",
+    "ParameterValue":"2/ccoa-2-examples.zip"
+  }
+]
