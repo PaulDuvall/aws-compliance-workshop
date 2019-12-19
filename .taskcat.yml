@@ -4,9 +4,11 @@ project:
     - us-east-1
     - us-east-2
 tests:
-  lesson2-cfn-nag-pipeline:
-    template: ./lesson2-preventive/cfn-nag-pipeline.yml
-     # Create buildspec.yml, cfn-nag-pipeline.yml, volume.yml and zip to ccoa-workshop/2
-     parameters:
-       CodeCommitS3Bucket: 'ccoa-workshop'
-       CodeCommitS3Key: '2/ccoa-2-examples.zip'
+  lesson1-sqs:
+    template: ./lesson1-automation/ccoa-1-cfn.yml
+#   lesson2-cfn-nag-pipeline:
+#     template: ./lesson2-preventive/cfn-nag-pipeline.yml
+#      # Create buildspec.yml, cfn-nag-pipeline.yml, volume.yml and zip to ccoa-workshop/2
+#      parameters:
+#       CodeCommitS3Bucket: 'ccoa-workshop'
+#       CodeCommitS3Key: '2/ccoa-2-examples.zip'
