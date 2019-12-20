@@ -119,11 +119,29 @@ Resources:
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
+  CodeBuildSetup:
+    Type: AWS::CodeBuild::Project
+    DependsOn: CodeBuildRole
+    Properties:
+      Name: !Sub ccoa-${AWS::StackName}-setup
+      Description: Setup Test Files. For example uploading to S3
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
+      Source:
+        Type: GITHUB
+        Location: https://github.com/paulduvall/aws-compliance-workshop.git
+        BuildSpec: buildspec-setup.yml
+      TimeoutInMinutes: 10
   CodeBuildTest:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ceoa-${AWS::StackName}
+      Name: !Sub ccoa-${AWS::StackName}-taskcat
       Description: Run TaskCat
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -139,7 +157,7 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ${AWS::StackName}-DeploySite
+      Name: !Sub ${AWS::StackName}-dashboard
       Description: Deploy site to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -193,6 +211,19 @@ Resources:
         Actions:
         - InputArtifacts:
           - Name: SourceArtifacts
+          Name: Setup
+          ActionTypeId:
+            Category: Test
+            Owner: AWS
+            Version: '1'
+            Provider: CodeBuild
+          OutputArtifacts: [] 
+          Configuration:
+            ProjectName:
+              Ref: CodeBuildTest
+          RunOrder: 1
+        - InputArtifacts:
+          - Name: SourceArtifacts
           Name: RunTaskCat
           ActionTypeId:
             Category: Test
@@ -204,7 +235,7 @@ Resources:
           Configuration:
             ProjectName:
               Ref: CodeBuildTest
-          RunOrder: 1
+          RunOrder: 10
         - InputArtifacts:
           - Name: TaskCatArtifacts
           Name: TaskCatDashboard
@@ -217,7 +248,7 @@ Resources:
           Configuration:
             ProjectName:
               Ref: CodeBuildWebsite
-          RunOrder: 2
+          RunOrder: 20
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineBucket
