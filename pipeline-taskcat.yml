@@ -112,6 +112,7 @@ Resources:
             - ec2:*
             - dynamodb:*
             - sqs:*
+            - iam:CreateRole
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
