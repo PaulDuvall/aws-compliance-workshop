@@ -143,7 +143,6 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
   Pipeline:
-    DependsOn: CodeBuildCfnNag
     Type: AWS::CodePipeline::Pipeline
     Properties:
       RoleArn: !GetAtt CodePipelineRole.Arn
