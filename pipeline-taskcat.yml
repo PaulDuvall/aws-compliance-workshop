@@ -112,6 +112,7 @@ Resources:
             - ec2:*
             - dynamodb:*
             - sqs:*
+            - sns:*
             - iam:*
             - codepipeline:*
             Effect: Allow
