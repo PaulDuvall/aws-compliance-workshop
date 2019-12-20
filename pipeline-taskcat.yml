@@ -127,7 +127,7 @@ Resources:
       Description: Setup Test Files. For example uploading to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
-        Type: CODEPIPELINE
+        Type: NO_ARTIFACTS
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -220,7 +220,7 @@ Resources:
           OutputArtifacts: [] 
           Configuration:
             ProjectName:
-              Ref: CodeBuildTest
+              Ref: CodeBuildSetup
           RunOrder: 1
         - InputArtifacts:
           - Name: SourceArtifacts
