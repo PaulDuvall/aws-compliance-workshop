@@ -137,6 +137,24 @@ Resources:
         Location: https://github.com/paulduvall/aws-compliance-workshop.git
         BuildSpec: buildspec-setup.yml
       TimeoutInMinutes: 10
+  CodeBuildCleanup:
+    Type: AWS::CodeBuild::Project
+    DependsOn: CodeBuildRole
+    Properties:
+      Name: !Sub ccoa-${AWS::StackName}-cleanup
+      Description: Setup Test Files. For example uploading to S3
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
+      Source:
+        Type: GITHUB
+        Location: https://github.com/paulduvall/aws-compliance-workshop.git
+        BuildSpec: buildspec-cleanup.yml
+      TimeoutInMinutes: 10
   CodeBuildTest:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
@@ -250,6 +268,21 @@ Resources:
             ProjectName:
               Ref: CodeBuildWebsite
           RunOrder: 20
+      - Name: Cleanup
+        Actions:
+        - InputArtifacts:
+          - Name: SourceArtifacts
+          Name: RemoveS3Buckets
+          ActionTypeId:
+            Category: Test
+            Owner: AWS
+            Version: '1'
+            Provider: CodeBuild
+          OutputArtifacts: []
+          Configuration:
+            ProjectName:
+              Ref: CodeBuildCleanup
+          RunOrder: 1
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineBucket
