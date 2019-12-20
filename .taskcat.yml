@@ -7,6 +7,10 @@ tests:
   lesson1-sqs:
     template: ./lesson1-automation/ccoa-1-cfn.yml
   lesson2-cfn-nag:
+    # Create buildspec.yml, cfn-nag-pipeline.yml, volume.yml and zip to ccoa-workshop/2
+    parameters:
+      CodeCommitS3Bucket: 'ccoa-workshop'
+      CodeCommitS3Key: '2/ccoa-2-examples.zip'
     template: ./lesson2-preventive/cfn-nag-pipeline.yml
   lesson1-sqs:
     template: ./lesson1-automation/ccoa-1-cfn.yml
