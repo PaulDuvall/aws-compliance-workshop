@@ -146,13 +146,7 @@ Resources:
     DependsOn: CodeBuildCfnNag
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      RoleArn:
-        Fn::Join:
-        - ''
-        - - 'arn:aws:iam::'
-          - Ref: AWS::AccountId
-          - ":role/"
-          - Ref: CodePipelineRole
+      RoleArn: !GetAtt CodePipelineRole.Arn
       Stages:
       - Name: Source
         Actions:
