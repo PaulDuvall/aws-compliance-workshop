@@ -103,18 +103,19 @@ Resources:
         PolicyDocument:
           Statement:
           - Action:
-            - logs:*
-            - lambda:*
+            - cloudformation:*
             - cloudwatch:*
             - codebuild:*
-            - s3:*
-            - cloudformation:*
-            - ec2:*
-            - dynamodb:*
-            - sqs:*
-            - sns:*
-            - iam:*
+            - codecommit:*
             - codepipeline:*
+            - dynamodb:*
+            - ec2:*
+            - iam:*
+            - lambda:*
+            - logs:*
+            - s3:*
+            - sns:*
+            - sqs:*
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
