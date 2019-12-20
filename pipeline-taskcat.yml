@@ -112,7 +112,8 @@ Resources:
             - ec2:*
             - dynamodb:*
             - sqs:*
-            - iam:CreateRole
+            - iam:*
+            - codepipeline:*
             Effect: Allow
             Resource: "*"
           Version: '2012-10-17'
