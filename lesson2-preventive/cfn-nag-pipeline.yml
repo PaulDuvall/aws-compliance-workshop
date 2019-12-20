@@ -36,8 +36,10 @@ Resources:
       RepositoryDescription: CodeCommit Repository for cfn_nag solution
       Code:
         S3:
-          Bucket: !Ref CodeCommitS3Bucket
-          Key: !Ref CodeCommitS3Key
+          Bucket:
+            Ref: CodeCommitS3Bucket
+          Key: 
+            Ref: CodeCommitS3Key
       Triggers:
       - Name: MasterTrigger
         CustomData:
@@ -107,7 +109,7 @@ Resources:
             Resource: "*"
             Effect: Allow
           Version: '2012-10-17'
-  CodeBuildWebsite:
+  CodeBuildCfnNag:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
@@ -141,10 +143,8 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
   Pipeline:
+    DependsOn: CodeBuildCfnNag
     Type: AWS::CodePipeline::Pipeline
-    Properties:
-      RoleArn: !GetAtt CodePipelineRole.Arn
-    DependsOn: CodeBuildWebsite
     Properties:
       RoleArn:
         Fn::Join:
@@ -184,7 +184,7 @@ Resources:
           OutputArtifacts: []
           Configuration:
             ProjectName:
-              Ref: CodeBuildWebsite
+              Ref: CodeBuildCfnNag
           RunOrder: 1
         - InputArtifacts:
           - Name: MyApp
@@ -198,7 +198,7 @@ Resources:
           - Name: MyAppBuild
           Configuration:
             ProjectName:
-              Ref: CodeBuildWebsite
+              Ref: CodeBuildCfnNag
           RunOrder: 1
       - Name: Deploy
         Actions:
