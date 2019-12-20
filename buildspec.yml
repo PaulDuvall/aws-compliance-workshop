@@ -12,7 +12,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - taskcat -d test run --lint-disable 
+      - aws s3 sync lesson2-preventive/ccoa-2-examples.zip s3://ccoa-workshop/5
+      - taskcat -d test run --lint-disable
   post_build:
     commands:
       - echo Build completed on `date`

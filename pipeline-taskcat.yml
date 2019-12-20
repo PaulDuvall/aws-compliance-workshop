@@ -224,7 +224,7 @@ Resources:
               Ref: CodeBuildSetup
           RunOrder: 1
         - InputArtifacts:
-          - Name: SourceArtifacts
+          - Name: SetupArtifacts
           Name: RunTaskCat
           ActionTypeId:
             Category: Test
