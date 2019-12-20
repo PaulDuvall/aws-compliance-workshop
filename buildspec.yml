@@ -5,14 +5,14 @@ phases:
       python: 3.7
     commands:
       - python --version
-      - curl -O https://bootstrap.pypa.io/get-pip.py
+      - 'curl -O https://bootstrap.pypa.io/get-pip.py'
       - python3 get-pip.py
       - pip install --upgrade pip
       - pip3 install taskcat
   build:
     commands:
       - echo Build started on `date`
-      - taskcat -d test run
+      - taskcat -d test run --lint-disable 
   post_build:
     commands:
       - echo Build completed on `date`

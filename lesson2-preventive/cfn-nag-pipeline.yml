@@ -19,6 +19,7 @@ Parameters:
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
+    Default: 2/ccoa-2-examples.zip
 Resources:
   MySNSTopic:
     Type: AWS::SNS::Topic
