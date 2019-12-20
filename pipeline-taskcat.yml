@@ -217,7 +217,8 @@ Resources:
             Owner: AWS
             Version: '1'
             Provider: CodeBuild
-          OutputArtifacts: [] 
+          OutputArtifacts: 
+          - Name: SetupArtifacts
           Configuration:
             ProjectName:
               Ref: CodeBuildSetup

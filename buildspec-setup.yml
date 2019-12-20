@@ -14,3 +14,6 @@ phases:
   post_build:
     commands:
       - echo In buildspec-setup.yml Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
