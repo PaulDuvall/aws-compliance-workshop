@@ -174,7 +174,6 @@ Resources:
             Resource: "*"
           Version: '2012-10-17'
         PolicyName: MyLambdaWorkerPolicy
-      RoleName: !Ref AWS::StackName
     Type: AWS::IAM::Role
   CodeBuildRole:
     Type: AWS::IAM::Role
@@ -332,12 +331,6 @@ Resources:
             Resource:
             - arn:aws:cloudformation:us-east-1:aws:transform/Serverless-2016-10-31
         PolicyName: CloudFormationRolePolicy
-      RoleName:
-        Fn::Join:
-        - "-"
-        - - stelligent
-          - Ref: AWS::StackName
-          - CloudFormation
     Type: AWS::IAM::Role
   CodePipelineRole:
     Type: AWS::IAM::Role
