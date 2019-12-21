@@ -5,6 +5,7 @@ Parameters:
   EmailAddress:
     Description: Email Address for sending SNS notifications for CodeCommit
     Type: String
+    Default: you@example.com
   RepositoryBranch:
     Description: The name of the branch for the CodeCommit repo
     Type: String
