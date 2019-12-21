@@ -8,6 +8,7 @@ phases:
   build:
     commands:
       - echo In buildspec-setup.yml Build started on `date`
+      - aws s3 sync . s3://ccoa-workshop
       - cd lesson2-preventive
       - zip ccoa-2-examples.zip *.*
       - cd ../lesson6-continuous
