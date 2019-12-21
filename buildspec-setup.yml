@@ -10,7 +10,7 @@ phases:
       - echo In buildspec-setup.yml Build started on `date`
       - cd lesson2-preventive
       - zip ccoa-2-examples.zip *.*
-      - cd lesson6-continuous
+      - cd ../lesson6-continuous
       - zip ccoa-lesson6-examples.zip *.*
   post_build:
     commands:
