@@ -43,7 +43,7 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub '${AWS::StackId}-config'
+      BucketName: !Sub '${AWS::StackName}-config'
   ConfigTopic:
     Type: AWS::SNS::Topic
   DeliveryChannel: 
@@ -174,7 +174,7 @@ Resources:
             Resource: "*"
           Version: '2012-10-17'
         PolicyName: MyLambdaWorkerPolicy
-      RoleName: !Ref AWS::StackId
+      RoleName: !Ref AWS::StackName
     Type: AWS::IAM::Role
   CodeBuildRole:
     Type: AWS::IAM::Role
@@ -210,7 +210,7 @@ Resources:
         - ''
         - - Run
           - "CodePipeline"
-          - Ref: AWS::StackId
+          - Ref: AWS::StackName
       Description: Build application
       ServiceRole:
         Fn::GetAtt:
@@ -234,7 +234,7 @@ Resources:
           - - https://git-codecommit.
             - Ref: AWS::Region
             - ".amazonaws.com/v1/repos/"
-            - Ref: AWS::StackId
+            - Ref: AWS::StackName
         Type: CODECOMMIT
       TimeoutInMinutes: 10
       Tags:
@@ -251,7 +251,7 @@ Resources:
     Type: AWS::CodeCommit::Repository
     Properties:
       RepositoryName:
-        Ref: AWS::StackId
+        Ref: AWS::StackName
       RepositoryDescription: CodeCommit Repository for Config Rule solution
       Code:
         S3:
@@ -260,7 +260,7 @@ Resources:
       Triggers:
       - Name: MasterTrigger
         CustomData:
-          Ref: AWS::StackId
+          Ref: AWS::StackName
         DestinationArn:
           Ref: MySNSTopic
         Events:
@@ -336,7 +336,7 @@ Resources:
         Fn::Join:
         - "-"
         - - stelligent
-          - Ref: AWS::StackId
+          - Ref: AWS::StackName
           - CloudFormation
     Type: AWS::IAM::Role
   CodePipelineRole:
@@ -386,7 +386,7 @@ Resources:
     DependsOn: CodeBuildRole
     Properties:
       Name:
-        Ref: AWS::StackId
+        Ref: AWS::StackName
       Description: Build application
       ServiceRole:
         Fn::GetAtt:
@@ -405,7 +405,7 @@ Resources:
           - - https://git-codecommit.
             - Ref: AWS::Region
             - ".amazonaws.com/v1/repos/"
-            - Ref: AWS::StackId
+            - Ref: AWS::StackName
         Type: CODECOMMIT
       TimeoutInMinutes: 10
       Tags:
@@ -434,7 +434,7 @@ Resources:
             BranchName:
               Ref: RepositoryBranch
             RepositoryName:
-              Ref: AWS::StackId
+              Ref: AWS::StackName
           RunOrder: 1
       - Name: Build
         Actions:
@@ -488,7 +488,7 @@ Resources:
               Fn::Join:
               - ''
               - - ""
-                - Ref: AWS::StackId
+                - Ref: AWS::StackName
                 - "-"
                 - Ref: AWS::Region
                 - ""
@@ -506,7 +506,7 @@ Resources:
               Fn::Join:
               - ''
               - - ""
-                - Ref: AWS::StackId
+                - Ref: AWS::StackName
                 - "-"
                 - Ref: AWS::Region
                 - ""
