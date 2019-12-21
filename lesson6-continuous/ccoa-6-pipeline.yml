@@ -43,7 +43,6 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub '${AWS::StackName}-config'
   ConfigTopic:
     Type: AWS::SNS::Topic
   DeliveryChannel: 
