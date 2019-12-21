@@ -12,7 +12,6 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - aws s3 sync . s3://ccoa-workshop
       - taskcat -d test run --lint-disable
   post_build:
     commands:
