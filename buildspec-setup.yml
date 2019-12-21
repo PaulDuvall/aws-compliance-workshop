@@ -11,10 +11,10 @@ phases:
       - aws s3 sync . s3://ccoa-workshop
       - cd lesson2-preventive
       - zip ccoa-2-examples.zip *.*
-      - aws s3 sync . s3://ccoa-workshop
+      - aws s3 sync ccoa-2-examples.zip s3://ccoa-workshop
       - cd ../lesson6-continuous
       - zip ccoa-lesson6-examples.zip *.*
-      - aws s3 sync . s3://ccoa-workshop
+      - aws s3 sync ccoa-lesson6-examples.zip s3://ccoa-workshop
   post_build:
     commands:
       - echo In buildspec-setup.yml Build completed on `date`
