@@ -5,7 +5,7 @@ Parameters:
   GitHubUser:
     Type: String
     Description: GitHub User
-    Default: "PaulDuvall"
+    Default: "paulduvall"
   GitHubRepo:
     Type: String
     Description: GitHub Repo to pull from. Only the Name. not the URL
@@ -18,7 +18,7 @@ Parameters:
     NoEcho: true
     Type: String
     Default: '{{resolve:secretsmanager:github/personal-access-token:SecretString}}'
-    Description: Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens
+    Description: GitHub Token. Must be defined in AWS Secrets Manager and here https://github.com/settings/tokens
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -135,7 +135,7 @@ Resources:
         Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
       Source:
         Type: GITHUB
-        Location: https://github.com/paulduvall/aws-compliance-workshop.git
+        Location: !Sub https://github.com/${GitHubUser}/${GitHubRepo}.git
         BuildSpec: buildspec-setup.yml
       TimeoutInMinutes: 10
   CodeBuildCleanup:
@@ -153,7 +153,7 @@ Resources:
         Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
       Source:
         Type: GITHUB
-        Location: https://github.com/paulduvall/aws-compliance-workshop.git
+        Location: !Sub https://github.com/${GitHubUser}/${GitHubRepo}.git
         BuildSpec: buildspec-cleanup.yml
       TimeoutInMinutes: 10
   CodeBuildTest:

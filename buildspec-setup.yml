@@ -15,6 +15,9 @@ phases:
       - cd ../lesson6-continuous
       - zip ccoa-lesson6-examples.zip *.*
       - aws s3 sync . s3://ccoa-workshop
+      - cd ../lesson5-remediation
+      - zip ccoa-lesson5-examples.zip *.*
+      - aws s3 sync . s3://ccoa-workshop
   post_build:
     commands:
       - echo In buildspec-setup.yml Build completed on `date`

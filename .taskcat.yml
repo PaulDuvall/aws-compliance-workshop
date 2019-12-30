@@ -12,6 +12,8 @@ tests:
       CodeCommitS3Bucket: 'ccoa-workshop'
       CodeCommitS3Key: 'ccoa-2-examples.zip'
     template: ./lesson2-preventive/cfn-nag-pipeline.yml
+  lesson5-remediation:
+    template: ./lesson5-remediation/ec2-eip-remediation.yml
   lesson6-continuous:
     parameters:
       CodeCommitS3Bucket: 'ccoa-workshop'
