@@ -37,15 +37,16 @@ Parameters:
     - Six_Hours
     - Twelve_Hours
     - TwentyFour_Hours
-  CreateConfig:
+  EnvType: 
+    Description: Environment type.
+    Default: prod
     Type: String
-    Default: no
-    AllowedValues:
-      - yes
-      - no
-    ConstraintDescription: must specify yes or no.
-Conditions:
-  CreateConfigResources: !Equals [ !Ref CreateConfig, yes ]
+    AllowedValues: 
+      - prod
+      - test
+    ConstraintDescription: must specify prod or test.
+Conditions: 
+  CreateConfigResources: !Equals [ !Ref EnvType, prod ]
 Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
