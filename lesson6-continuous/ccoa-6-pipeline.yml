@@ -39,7 +39,7 @@ Parameters:
     - TwentyFour_Hours
   EnvType: 
     Description: Environment type.
-    Default: prod
+    Default: test
     Type: String
     AllowedValues: 
       - prod
