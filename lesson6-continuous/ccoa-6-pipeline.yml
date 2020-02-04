@@ -39,7 +39,7 @@ Parameters:
     - TwentyFour_Hours
   CreateConfig:
     Type: String
-    Default: No
+    Default: no
     AllowedValues:
       - yes
       - no
