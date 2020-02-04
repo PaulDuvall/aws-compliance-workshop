@@ -8,7 +8,6 @@ phases:
   build:
     commands:
       - echo In buildspec-cleanup.yml Build started on `date`
-      - aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tcat-`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
   post_build:
     commands:
       - echo In buildspec-cleanup.yml Build completed on `date`

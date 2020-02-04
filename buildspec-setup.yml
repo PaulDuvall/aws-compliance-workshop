@@ -8,16 +8,21 @@ phases:
   build:
     commands:
       - echo In buildspec-setup.yml Build started on `date`
-      - aws s3 sync . s3://ccoa-workshop
+      - >-
+        aws s3api list-buckets --query 'Buckets[?starts_with(Name,
+        `ccoa-workshop`) == `true`].[Name]' --output text | xargs -I {} aws s3
+        rb s3://{} --force
+      - 'aws s3 mb s3://ccoa-workshop'
+      - 'aws s3 sync . s3://ccoa-workshop'
       - cd lesson2-preventive
       - zip ccoa-2-examples.zip *.*
-      - aws s3 sync . s3://ccoa-workshop
+      - 'aws s3 sync . s3://ccoa-workshop'
       - cd ../lesson6-continuous
       - zip ccoa-lesson6-examples.zip *.*
-      - aws s3 sync . s3://ccoa-workshop
+      - 'aws s3 sync . s3://ccoa-workshop'
       - cd ../lesson5-remediation
       - zip ccoa-lesson5-examples.zip *.*
-      - aws s3 sync . s3://ccoa-workshop
+      - 'aws s3 sync . s3://ccoa-workshop'
   post_build:
     commands:
       - echo In buildspec-setup.yml Build completed on `date`
