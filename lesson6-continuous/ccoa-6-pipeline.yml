@@ -37,16 +37,27 @@ Parameters:
     - Six_Hours
     - Twelve_Hours
     - TwentyFour_Hours
+  CreateConfig:
+    Type: String
+    Default: No
+    AllowedValues:
+      - Yes
+      - No
+Conditions:
+  CreateConfigResources: !Equals [ !Ref CreateConfig, "Yes" ]
 Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
+    Condition: CreateConfigResources
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
   ConfigTopic:
     Type: AWS::SNS::Topic
+    Condition: CreateConfigResources
   DeliveryChannel: 
     Type: AWS::Config::DeliveryChannel
+    Condition: CreateConfigResources
     Properties: 
       ConfigSnapshotDeliveryProperties: 
         DeliveryFrequency: "Six_Hours"
@@ -56,6 +67,7 @@ Resources:
         Ref: ConfigTopic
   ConfigBucketPolicy:
     Type: AWS::S3::BucketPolicy
+    Condition: CreateConfigResources
     Properties:
       Bucket: !Ref 'ConfigBucket'
       PolicyDocument:
@@ -76,6 +88,7 @@ Resources:
                 s3:x-amz-server-side-encryption: AES256
   ConfigRole:
     Type: AWS::IAM::Role
+    Condition: CreateConfigResources
     Properties:
       AssumeRolePolicyDocument:
         Statement:
@@ -119,6 +132,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AWSConfigRole
   ConfigRecorder:
     Type: AWS::Config::ConfigurationRecorder
+    Condition: CreateConfigResources
     Properties:
       Name: aws-config-recorder
       RecordingGroup:
@@ -126,9 +140,6 @@ Resources:
         IncludeGlobalResourceTypes: true
       RoleARN: !GetAtt 'ConfigRole.Arn'
   AWSConfigRule:
-    DependsOn:
-      - DeliveryChannel
-      - ConfigRecorder
     Type: AWS::Config::ConfigRule
     Properties:
       ConfigRuleName:

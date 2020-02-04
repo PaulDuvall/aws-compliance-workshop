@@ -4,7 +4,7 @@ Parameters:
   SourceRepo:
     Type: String
     Description: Provide specific repository
-    Default: paulduvall/aws-config
+    Default: PaulDuvall/aws-config
   GitHubToken:
     NoEcho: true
     Type: String
@@ -118,7 +118,7 @@ Resources:
         - Action:
           - config:PutConfigRule
           - config:PutDeliveryChannel
-          - config:DescribeConfigurationRecorders
+          - config:DescribConfigurationRecorders
           - config:PutConfigurationRecorder
           - config:DeleteConfigRule
           - config:DeleteConfigurationRecorder
