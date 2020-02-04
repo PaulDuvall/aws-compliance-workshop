@@ -15,7 +15,7 @@ Resources:
       Source:
         Owner: AWS
         SourceIdentifier: EIP_ATTACHED
-  AuoRemediationEventRule:
+  AutoRemediationEventRule:
     Type: 'AWS::Events::Rule'
     Properties:
       Name: auto-remediate-eip-attached
@@ -68,12 +68,13 @@ Resources:
       Policies:
         - PolicyName: ReleaseElasticIPPermissions
           PolicyDocument:
-            Version: '2012-10-17'
             Statement:
-              - Sid: ReleaseElasticIPPermissions
-                Effect: Allow
-                Action: 'ec2:ReleaseAddress'
-                Resource: '*'
+            - Action:
+              - events:DescribeRule
+              - ec2:ReleaseAddress
+              Effect: Allow
+              Resource: "*"
+            Version: '2012-10-17'
   AutomationPassRolePolicy:
     Type: 'AWS::IAM::Policy'
     Properties:
