@@ -143,6 +143,9 @@ Resources:
       RoleARN: !GetAtt 'ConfigRole.Arn'
   AWSConfigRule:
     Type: AWS::Config::ConfigRule
+    DependsOn: 
+      - ConfigRecorder
+      - DeliveryChannel
     Properties:
       ConfigRuleName:
         Ref: ConfigRuleName
