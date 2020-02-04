@@ -1,8 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: ''
+Description: Create EIP Auto Remediation using SSM Automation
+  EnvType: 
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues: 
+      - prod
+      - test
+    ConstraintDescription: must specify prod or test.
+Conditions: 
+  CreateConfigResources: !Equals [ !Ref EnvType, prod ]
 Resources:
   ConfigRule:
     Type: 'AWS::Config::ConfigRule'
+    Condition: CreateConfigResources
     Properties:
       ConfigRuleName: eip-attached
       Description: >-

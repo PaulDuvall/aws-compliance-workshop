@@ -9,5 +9,5 @@ aws s3 sync ~/environment/aws-compliance-workshop/lesson0-setup/managed-config-r
 
 
 ```
-aws cloudformation create-stack --stack-name managed-config-rules-pipeline --template-body file:///home/ec2-user/environment/aws-compliance-workshop/lesson0-setup/managed-config-rules/managed-config-rules-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=you@example.com ParameterKey=CodeCommitS3Bucket,ParameterValue=ccoa-mcr-$(aws sts get-caller-identity --output text --query 'Account') ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-mcr-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback
+aws cloudformation create-stack --stack-name managed-config-rules-pipeline --template-body file:///home/ec2-user/environment/aws-compliance-workshop/lesson0-setup/managed-config-rules/managed-config-rules-pipeline.yml --parameters ParameterKey=EmailAddress,ParameterValue=fake-email@fake-fake-fake-email.com ParameterKey=CodeCommitS3Bucket,ParameterValue=ccoa-mcr-$(aws sts get-caller-identity --output text --query 'Account') ParameterKey=CodeCommitS3Key,ParameterValue=ccoa-mcr-examples.zip --capabilities CAPABILITY_NAMED_IAM --disable-rollback
 ```
