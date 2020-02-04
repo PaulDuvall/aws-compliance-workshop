@@ -9,9 +9,9 @@ tests:
     parameters:
       CodeCommitS3Bucket: ccoa-workshop
       CodeCommitS3Key: ccoa-2-examples.zip
-    template: ./lesson2-preventive/ccoa-cfn-nag-pipeline.yml
+    template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
   lesson5-remediation:
-    template: ./lesson5-remediation/ccoa-ec2-eip-remediation.yml
+    template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
   lesson6-continuous:
     parameters:
       CodeCommitS3Bucket: ccoa-workshop
