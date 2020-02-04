@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Create EIP Auto Remediation using SSM Automation
+Parameters:
   EnvType: 
     Description: Environment type.
     Default: test
