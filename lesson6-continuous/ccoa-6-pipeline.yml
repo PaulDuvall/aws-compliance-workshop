@@ -41,10 +41,11 @@ Parameters:
     Type: String
     Default: No
     AllowedValues:
-      - Yes
-      - No
+      - yes
+      - no
+    ConstraintDescription: must specify yes or no.
 Conditions:
-  CreateConfigResources: !Equals [ !Ref CreateConfig, "Yes" ]
+  CreateConfigResources: !Equals [ !Ref CreateConfig, yes ]
 Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
