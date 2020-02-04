@@ -111,6 +111,7 @@ Resources:
             - config:*
             - dynamodb:*
             - ec2:*
+            - events:*
             - iam:*
             - lambda:*
             - logs:*
