@@ -14,7 +14,7 @@ tests:
     parameters:
       CodeCommitS3Bucket: ccoa-workshop
       CodeCommitS3Key: ccoa-lesson6-examples.zip
-      EnvType: test
+      EnvType: prod
     template: ./lesson6-continuous/ccoa-6-pipeline.yml
   # lesson3-config-rules-s3:
   #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
