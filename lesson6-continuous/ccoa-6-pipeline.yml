@@ -39,14 +39,14 @@ Parameters:
     - TwentyFour_Hours
   EnvType: 
     Description: Environment type.
-    Default: test
+    Default: donotcreate
     Type: String
     AllowedValues: 
-      - prod
-      - test
-    ConstraintDescription: must specify prod or test.
+      - create
+      - donotcreate
+    ConstraintDescription: must specify create or donotcreate.
 Conditions: 
-  CreateConfigResources: !Equals [ !Ref EnvType, prod ]
+  CreateConfigResources: !Equals [ !Ref EnvType, create ]
 Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
