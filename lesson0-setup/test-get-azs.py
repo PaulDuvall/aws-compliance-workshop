@@ -14,4 +14,4 @@ for region in aws_regions['Regions']:
     aws_azs = ec2_region.describe_availability_zones(Filters=my_region)
     for az in aws_azs['AvailabilityZones']:
         zone = az['ZoneName']
-        print(zone)
+        # print(zone)
