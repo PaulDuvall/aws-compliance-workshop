@@ -37,8 +37,8 @@ Parameters:
     - Six_Hours
     - Twelve_Hours
     - TwentyFour_Hours
-  EnvType: 
-    Description: Environment type.
+  CreateConfig: 
+    Description: Flag to Create a Config Recorder and Delivery Channel
     Default: donotcreate
     Type: String
     AllowedValues: 
@@ -46,20 +46,20 @@ Parameters:
       - donotcreate
     ConstraintDescription: must specify create or donotcreate.
 Conditions: 
-  CreateConfigResources: !Equals [ !Ref EnvType, create ]
+  CreateNewConfigResources: !Equals [ !Ref CreateConfig, create ]
 Resources:
   ConfigBucket:
     Type: AWS::S3::Bucket
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
   ConfigTopic:
     Type: AWS::SNS::Topic
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
   DeliveryChannel: 
     Type: AWS::Config::DeliveryChannel
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     Properties: 
       ConfigSnapshotDeliveryProperties: 
         DeliveryFrequency: "Six_Hours"
@@ -69,7 +69,7 @@ Resources:
         Ref: ConfigTopic
   ConfigBucketPolicy:
     Type: AWS::S3::BucketPolicy
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     Properties:
       Bucket: !Ref 'ConfigBucket'
       PolicyDocument:
@@ -90,7 +90,7 @@ Resources:
                 s3:x-amz-server-side-encryption: AES256
   ConfigRole:
     Type: AWS::IAM::Role
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     Properties:
       AssumeRolePolicyDocument:
         Statement:
@@ -134,7 +134,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AWSConfigRole
   ConfigRecorder:
     Type: AWS::Config::ConfigurationRecorder
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     Properties:
       Name: aws-config-recorder
       RecordingGroup:
