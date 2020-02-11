@@ -163,7 +163,7 @@ Resources:
         Ref: MaximumExecutionFrequency
   ArtifactBucket:
     Type: AWS::S3::Bucket
-    DeletionPolicy: Delete
+    DeletionPolicy: Retain
   MyLambdaTrustRole:
     Description: Creating service role in IAM for AWS Lambda
     Properties:
