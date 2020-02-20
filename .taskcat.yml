@@ -18,7 +18,7 @@ tests:
     template: ./lesson6-continuous/ccoa-6-pipeline.yml
   # lesson3-config-rules-s3:
   #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
-  # lesson5-remediation:
-  #   parameters:
-  #     EnvType: prod
-  #   template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
+  lesson5-remediation:
+    parameters:
+      EnvType: prod
+    template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
