@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Build started on `date`
       # - taskcat -d test run --lint-disable
-      - taskcat test run --lint-disable
+      - taskcat test run -n --lint-disable
   post_build:
     commands:
       - echo Build completed on `date`
