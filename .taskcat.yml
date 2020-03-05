@@ -3,8 +3,8 @@ project:
   regions:
     - us-east-1
 tests:
-  # lesson1-sqs:
-  #   template: ./lesson1-automation/ccoa-1-cfn.yml
+  lesson1-sqs:
+    template: ./lesson1-automation/ccoa-1-cfn.yml
   lesson2-cfn-nag:
     parameters:
       CodeCommitS3Bucket: ccoa-workshop
