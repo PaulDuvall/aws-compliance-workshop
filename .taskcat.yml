@@ -3,21 +3,21 @@ project:
   regions:
     - us-east-1
 tests:
-  lesson1-sqs:
-    template: ./lesson1-automation/ccoa-1-cfn.yml
-  lesson2-cfn-nag:
-    parameters:
-      CodeCommitS3Bucket: ccoa-workshop
-      CodeCommitS3Key: ccoa-2-examples.zip
-    template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
-  # lesson6-continuous:
+  # lesson1-sqs:
+  #   template: ./lesson1-automation/ccoa-1-cfn.yml
+  # lesson2-cfn-nag:
   #   parameters:
   #     CodeCommitS3Bucket: ccoa-workshop
-  #     CodeCommitS3Key: ccoa-lesson6-examples.zip
-  #     CreateConfig: create
-  #   template: ./lesson6-continuous/ccoa-6-pipeline.yml
-  lesson3-config-rules-s3:
-    template: ./lesson3-detective/ccoa-config-rules-s3.yml
+  #     CodeCommitS3Key: ccoa-2-examples.zip
+  #   template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
+  lesson6-continuous:
+    parameters:
+      CodeCommitS3Bucket: ccoa-workshop
+      CodeCommitS3Key: ccoa-lesson6-examples.zip
+      CreateConfig: create
+    template: ./lesson6-continuous/ccoa-6-pipeline.yml
+  # lesson3-config-rules-s3:
+  #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
   # lesson5-remediation:
   #   parameters:
   #     EnvType: prod
