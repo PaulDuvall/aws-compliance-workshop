@@ -15,7 +15,7 @@ phases:
       - 'aws s3 mb s3://ccoa-workshop'
       - 'aws s3 sync . s3://ccoa-workshop'
       - cd lesson0-setup
-      - python ccoa-delete-config.py
+      # - python ccoa-delete-config.py
       - cd ../lesson2-preventive
       - zip ccoa-2-examples.zip *.*
       - 'aws s3 sync . s3://ccoa-workshop'
