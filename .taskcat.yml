@@ -12,10 +12,10 @@ tests:
     template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
   # lesson3-config-rules-s3:
   #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
-  lesson5-remediation:
-    parameters:
-      CreateConfig: create
-    template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
+  # lesson5-remediation:
+  #   parameters:
+  #     CreateConfig: create
+  #   template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
   lesson6-continuous:
     parameters:
       CodeCommitS3Bucket: ccoa-workshop
