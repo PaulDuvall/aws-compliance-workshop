@@ -14,7 +14,7 @@ Conditions:
 Resources:
   ConfigRule:
     Type: 'AWS::Config::ConfigRule'
-    Condition: CreateConfigResources
+    Condition: CreateNewConfigResources
     Properties:
       ConfigRuleName: eip-attached
       Description: >-
