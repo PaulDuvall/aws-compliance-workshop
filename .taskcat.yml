@@ -14,7 +14,7 @@ tests:
   #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
   lesson5-remediation:
     parameters:
-      EnvType: prod
+      CreateConfig: create
     template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
   lesson6-continuous:
     parameters:

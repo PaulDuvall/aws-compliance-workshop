@@ -1,16 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Create EIP Auto Remediation using SSM Automation
 Parameters:
-  EnvType: 
-    Description: Environment type.
-    Default: test
+  CreateConfig: 
+    Description: Flag to Create a Config Recorder and Delivery Channel
+    Default: create
     Type: String
     AllowedValues: 
-      - prod
-      - test
-    ConstraintDescription: must specify prod or test.
+      - create
+      - donotcreate
+    ConstraintDescription: must specify create or donotcreate.
 Conditions: 
-  CreateConfigResources: !Equals [ !Ref EnvType, prod ]
+  CreateNewConfigResources: !Equals [ !Ref CreateConfig, create ]
 Resources:
   ConfigRule:
     Type: 'AWS::Config::ConfigRule'
