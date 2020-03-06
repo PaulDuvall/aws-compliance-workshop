@@ -39,7 +39,7 @@ Parameters:
     - TwentyFour_Hours
   CreateConfig: 
     Description: Flag to Create a Config Recorder and Delivery Channel
-    Default: donotcreate
+    Default: create
     Type: String
     AllowedValues: 
       - create
