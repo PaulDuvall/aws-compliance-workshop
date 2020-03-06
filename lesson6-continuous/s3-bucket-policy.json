@@ -1,0 +1,21 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject",
+        "s3:GetBucket*",
+        "s3:GetObject",
+        "s3:List*",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::ccoa-6-s3-violation-ACCOUNTID",
+        "arn:aws:s3:::ccoa-6-s3-violation-ACCOUNTID/*"
+      ]
+    }
+  ]
+}
