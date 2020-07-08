@@ -22,10 +22,10 @@ tests:
   # #   parameters:
   # #     CreateConfig: create
   # #   template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
-  # lesson6-continuous:
-  #   parameters:
-  #     CodeCommitS3Bucket: ccoa-workshop
-  #     CodeCommitS3Key: ccoa-lesson6-examples.zip
-  #     CreateConfig: create
-  #   template: ./lesson6-continuous/ccoa-6-pipeline.yml
+  lesson6-continuous:
+    parameters:
+      CodeCommitS3Bucket: ccoa-workshop
+      CodeCommitS3Key: ccoa-6-examples.zip
+      CreateConfig: create
+    template: ./lesson6-continuous/ccoa-6-pipeline.yml
 
