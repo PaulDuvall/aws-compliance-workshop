@@ -106,36 +106,6 @@ Resources:
             Resource: "*"
             Effect: Allow
           Version: '2012-10-17'
-  CodeBuildWebsite:
-    Type: AWS::CodeBuild::Project
-    DependsOn: CodeBuildRole
-    Properties:
-      Name:
-        Ref: AWS::StackName
-      Description: Build application
-      ServiceRole:
-        Fn::GetAtt:
-        - CodeBuildRole
-        - Arn
-      Artifacts:
-        Type: no_artifacts
-      Environment:
-        Type: LINUX_CONTAINER
-        ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/eb-ruby-2.3-amazonlinux-64:2.1.6
-      Source:
-        Location:
-          Fn::Join:
-          - ''
-          - - https://git-codecommit.
-            - Ref: AWS::Region
-            - ".amazonaws.com/v1/repos/"
-            - Ref: AWS::StackName
-        Type: CODECOMMIT
-      TimeoutInMinutes: 10
-      Tags:
-      - Key: Owner
-        Value: MyCodeBuildProject  
   PipelineBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
@@ -143,15 +113,6 @@ Resources:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       RoleArn: !GetAtt CodePipelineRole.Arn
-    DependsOn: CodeBuildWebsite
-    Properties:
-      RoleArn:
-        Fn::Join:
-        - ''
-        - - 'arn:aws:iam::'
-          - Ref: AWS::AccountId
-          - ":role/"
-          - Ref: CodePipelineRole
       Stages:
       - Name: Source
         Actions:
