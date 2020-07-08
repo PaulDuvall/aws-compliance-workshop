@@ -125,17 +125,12 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/eb-ruby-2.3-amazonlinux-64:2.1.6
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
       Source:
-        Location:
-          Fn::Join:
-          - ''
-          - - https://git-codecommit.
-            - Ref: AWS::Region
-            - ".amazonaws.com/v1/repos/"
-            - Ref: AWS::StackName
+        BuildSpec: buildspec.yml
+        Location: !Sub https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${AWS::StackName}/
         Type: CODECOMMIT
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: 10 
       Tags:
       - Key: Owner
         Value: MyCodeBuildProject  
