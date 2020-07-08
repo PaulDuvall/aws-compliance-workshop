@@ -6,6 +6,8 @@ tests:
   lesson1-sqs:
     template: ./lesson1-automation/ccoa-1-cfn.yml
   lesson1-pipeline:
+    parameters:
+      EmailAddress: fake-email@fake-fake-fake-email.com
     template: ./lesson1-automation/ccoa-1-pipeline.yml
   # lesson2-cfn-nag:
   #   parameters:
