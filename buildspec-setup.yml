@@ -10,7 +10,7 @@ phases:
       - echo In buildspec-setup.yml Build started on `date`
       - >-
         aws s3api list-buckets --query 'Buckets[?starts_with(Name,
-        `ccoa-workshop`) == `true`].[Name]' --output text | xargs -I {} aws s3
+        `ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3
         rb s3://{} --force
       - 'aws s3 mb s3://ccoa-workshop'
       - 'aws s3 sync . s3://ccoa-workshop'
