@@ -14,16 +14,22 @@ echo Environment: $TASKCAT
 echo "Removing buckets previously used by this script"
 aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tcat-ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
 
-echo "Deleting Lesson 6 stacks"
-aws cloudformation delete-stack --stack-name tCaT-lesson6-continuous-$TASKCAT-$AWS_REGION
-aws cloudformation wait stack-delete-complete --stack-name tCaT-lesson6-continuous-$TASKCAT-$AWS_REGION
-aws cloudformation delete-stack --stack-name tCaT-lesson6-continuous-$TASKCAT
-aws cloudformation wait stack-delete-complete --stack-name tCaT-lesson6-continuous-$TASKCAT
+echo "Deleting tCaT-ccoa-lesson6-continuous-$TASKCAT-$AWS_REGION stack"
+aws cloudformation delete-stack --stack-name tCaT-ccoa-lesson6-continuous-$TASKCAT-$AWS_REGION
+aws cloudformation wait stack-delete-complete --stack-name tCaT-ccoa-lesson6-continuous-$TASKCAT-$AWS_REGION
 
-echo "Deleting Lesson 2 stacks "
-aws cloudformation delete-stack --stack-name tCaT-lesson2-cfn-nag-$TASKCAT
-aws cloudformation wait stack-delete-complete --stack-name tCaT-lesson2-cfn-nag-$TASKCAT
+echo "Deleting tCaT-ccoa-lesson6-continuous-$TASKCAT stack"
+aws cloudformation delete-stack --stack-name tCaT-ccoa-lesson6-continuous-$TASKCAT
+aws cloudformation wait stack-delete-complete --stack-name tCaT-ccoa-lesson6-continuous-$TASKCAT
 
-echo "Deleting Lesson 1 stacks tCaT-ccoa-lesson1-pipeline-$TASKCAT"
+echo "Deleting tCaT-ccoa-lesson2-cfn-nag-$TASKCAT stack"
+aws cloudformation delete-stack --stack-name tCaT-ccoa-lesson2-cfn-nag-$TASKCAT
+aws cloudformation wait stack-delete-complete --stack-name tCaT-ccoa-lesson2-cfn-nag-$TASKCAT
+
+echo "Deleting tCaT-ccoa-lesson1-pipeline-$TASKCAT stack"
 aws cloudformation delete-stack --stack-name tCaT-ccoa-lesson1-pipeline-$TASKCAT
 aws cloudformation wait stack-delete-complete --stack-name tCaT-ccoa-lesson1-pipeline-$TASKCAT
+
+echo "Deleting tCaT-ccoa-lesson1-sqs-$TASKCAT stack"
+aws cloudformation delete-stack --stack-name tCaT-ccoa-lesson1-sqs-$TASKCAT
+aws cloudformation wait stack-delete-complete --stack-name tCaT-ccoa-lesson1-sqs-$TASKCAT
