@@ -14,7 +14,9 @@ echo Environment: $TASKCAT
 echo "Removing buckets previously used by this script"
 aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tcat-ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
 
+
 # echo "Deleting ccoa-taskcat stack"
+# aws s3api list-buckets --query 'Buckets[?starts_with(Name, `ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
 # aws cloudformation delete-stack --stack-name ccoa-taskcat
 # aws cloudformation wait stack-delete-complete --stack-name
 
