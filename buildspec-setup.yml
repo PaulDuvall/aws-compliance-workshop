@@ -26,7 +26,7 @@ phases:
       - >-
         zip -r ccoa-5-examples.zip ./lesson5-remediation -j -x '*.git*'
       - >-
-        zip -r ccoa-8-examples.zip ./lesson6-continuous -j -x '*.git*'
+        zip -r ccoa-6-examples.zip ./lesson6-continuous -j -x '*.git*'
       - >-
         aws s3 sync . s3://$PIPELINE_BUCKET
   post_build:
