@@ -5,30 +5,31 @@ phases:
       python: 3.7
     commands:
       - python --version
+  pre_build:
+    commands:
+      - >-
+        ls -las
+      - chmod +x *.sh
+      - ./update-taskcat.sh $PIPELINE_BUCKET
   build:
     commands:
       - echo In buildspec-setup.yml Build started on `date`
-      # - >-
-      #   aws s3api list-buckets --query 'Buckets[?starts_with(Name,
-      #   `ccoa-`) == `true`].[Name]' --output text | xargs -I {} aws s3
-      #   rb s3://{} --force
-      # - sleep 20
-      # - 'aws s3 mb s3://ccoa-workshop'
-      - 'aws s3 sync . s3://ccoa-workshop'
-      - cd lesson0-setup
-      - python ccoa-delete-config.py
-      - cd ../lesson1-automation
-      - zip ccoa-1-examples.zip *.*
-      - 'aws s3 sync . s3://ccoa-workshop'
-      - cd ../lesson2-preventive
-      - zip ccoa-2-examples.zip *.*
-      - 'aws s3 sync . s3://ccoa-workshop'
-      - cd ../lesson5-remediation
-      - zip ccoa-lesson5-examples.zip *.*
-      - 'aws s3 sync . s3://ccoa-workshop'
-      - cd ../lesson6-continuous
-      - zip ccoa-6-examples.zip *.*
-      - 'aws s3 sync . s3://ccoa-workshop'
+      - >-
+        aws cloudformation create-stack --stack-name ccoa-cr --capabilities CAPABILITY_NAMED_IAM --disable-rollback --template-body file://lesson5-remediation/ccoa-5-config-recorder.yml
+      - >-
+        zip -r ccoa-1-examples.zip ./lesson1-automation -j -x '*.git*'
+      - >-
+        zip -r ccoa-2-examples.zip ./lesson2-preventive -j -x '*.git*'
+      - >-
+        zip -r ccoa-3-examples.zip ./lesson3-detective -j -x '*.git*'
+      - >-
+        zip -r ccoa-4-examples.zip ./lesson4-detective-more -j -x '*.git*'
+      - >-
+        zip -r ccoa-5-examples.zip ./lesson5-remediation -j -x '*.git*'
+      - >-
+        zip -r ccoa-6-examples.zip ./lesson6-continuous -j -x '*.git*'
+      - >-
+        aws s3 sync . s3://$PIPELINE_BUCKET
   post_build:
     commands:
       - echo In buildspec-setup.yml Build completed on `date`

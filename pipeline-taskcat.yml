@@ -125,7 +125,6 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-setup
       Description: Setup Test Files. For example uploading to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -133,7 +132,12 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
+        EnvironmentVariables:
+          - Name: PIPELINE_BUCKET
+            Type: PLAINTEXT
+            Value:
+              Fn::Sub: ${PipelineBucket}
       Source:
         Type: GITHUB
         Location: !Sub https://github.com/${GitHubUser}/${GitHubRepo}.git
@@ -143,7 +147,6 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-cleanup
       Description: Setup Test Files. For example uploading to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -157,11 +160,10 @@ Resources:
         Location: !Sub https://github.com/${GitHubUser}/${GitHubRepo}.git
         BuildSpec: buildspec-cleanup.yml
       TimeoutInMinutes: 10
-  CodeBuildTest:
+  CodeBuildTaskCatTest:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-taskcat
       Description: Run TaskCat
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -169,15 +171,14 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
       Source:
         Type: CODEPIPELINE
-      TimeoutInMinutes: 10
-  CodeBuildWebsite:
+      TimeoutInMinutes: 60   
+  CodeBuildDashboard:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ${AWS::StackName}-dashboard
       Description: Deploy site to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -185,7 +186,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:1.0"
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
       Source:
         Type: CODEPIPELINE
         BuildSpec: !Sub |
@@ -255,7 +256,7 @@ Resources:
           - Name: TaskCatArtifacts
           Configuration:
             ProjectName:
-              Ref: CodeBuildTest
+              Ref: CodeBuildTaskCatTest
           RunOrder: 10
         - InputArtifacts:
           - Name: TaskCatArtifacts
@@ -268,7 +269,7 @@ Resources:
           OutputArtifacts: [] 
           Configuration:
             ProjectName:
-              Ref: CodeBuildWebsite
+              Ref: CodeBuildDashboard
           RunOrder: 20
       - Name: Cleanup
         Actions:

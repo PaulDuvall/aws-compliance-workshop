@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.7
+    commands:
+      - ruby --version
+  build:
+    commands:
+      - echo Build started on `date`
+      - gem install cfn-nag
+      - cfn_nag_scan --input-path volume.yml
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
