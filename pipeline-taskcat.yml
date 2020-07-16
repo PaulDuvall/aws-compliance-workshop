@@ -125,7 +125,6 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-setup
       Description: Setup Test Files. For example uploading to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -148,7 +147,6 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-cleanup
       Description: Setup Test Files. For example uploading to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -166,7 +164,6 @@ Resources:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ccoa-${AWS::StackName}-taskcat
       Description: Run TaskCat
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -176,13 +173,14 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
       Source:
-        Type: CODEPIPELINE
-      TimeoutInMinutes: 10
-  CodeBuildWebsite:
+        BuildSpec: buildspec-taskcat.yml
+        Location: !Sub https://github.com/${GitHubUser}/${GitHubRepo}/
+        Type: GITHUB
+      TimeoutInMinutes: 10   
+  CodeBuildDashboard:
     Type: AWS::CodeBuild::Project
     DependsOn: CodeBuildRole
     Properties:
-      Name: !Sub ${AWS::StackName}-dashboard
       Description: Deploy site to S3
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
@@ -273,7 +271,7 @@ Resources:
           OutputArtifacts: [] 
           Configuration:
             ProjectName:
-              Ref: CodeBuildWebsite
+              Ref: CodeBuildDashboard
           RunOrder: 20
       - Name: Cleanup
         Actions:

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Bash template based on https://github.com/eppeters/bashtemplate.sh
 # sudo chmod +x *.sh
-# ./launch-taskcat.sh
+# ./launch-taskcat.sh GH_BRANCH
 set -euo pipefail
 IFS=$'\n\t'
 

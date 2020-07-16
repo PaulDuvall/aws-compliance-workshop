@@ -2,9 +2,10 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      ruby: 2.7
+      nodejs: 12
     commands:
-      - ruby --version
+          - echo "Installing Node.js version 12 ..."
+          - n $NODE_12_VERSION
   build:
     commands:
       - npm install
