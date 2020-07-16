@@ -14,11 +14,12 @@ Parameters:
   CodeCommitS3Bucket:
     Description: S3 bucket that holds zip of source code for CodeCommit Repo
     Type: String
-    Default: pmd-initial-code-for-codecommit
+    AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
+    MaxLength: 63
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    Default: readme.zip
+    AllowedPattern: "^[0-9a-zA-Z-/]*$"
 Resources:
   MySNSTopic:
     Type: AWS::SNS::Topic
