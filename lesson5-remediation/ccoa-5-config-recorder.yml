@@ -5,7 +5,6 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub ${AWS::StackName}
   DeliveryChannel: 
     Type: AWS::Config::DeliveryChannel
     Properties: 
