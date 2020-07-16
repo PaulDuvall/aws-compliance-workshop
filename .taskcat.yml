@@ -3,8 +3,6 @@ project:
   regions:
     - us-east-1
 tests:
-  l5-cr:
-    template: ./lesson5-remediation/ccoa-5-config-recorder.yml
   lesson1-sqs:
     template: ./lesson1-automation/ccoa-1-cfn.yml
   lesson1-pipeline:

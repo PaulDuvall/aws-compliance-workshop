@@ -14,7 +14,8 @@ phases:
   build:
     commands:
       - echo In buildspec-setup.yml Build started on `date`
-      -
+      - >-
+        aws cloudformation create-stack --stack-name ccoa-cr-$(aws secretsmanager get-random-password --password-length 4 --exclude-uppercase --exclude-punctuation --exclude-numbers --output text) --region $(aws configure get region --output text) --capabilities CAPABILITY_NAMED_IAM --disable-rollback --template-body file://lesson5-remediation/ccoa-5-config-recorder.yml
       - >-
         zip -r ccoa-1-examples.zip ./lesson1-automation -j -x '*.git*'
       - >-
