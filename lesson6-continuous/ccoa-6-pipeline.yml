@@ -164,6 +164,7 @@ Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
   MyLambdaTrustRole:
     Description: Creating service role in IAM for AWS Lambda
     Properties:
@@ -491,7 +492,7 @@ Resources:
             Category: Deploy
             Owner: AWS
             Provider: CloudFormation
-            Version: 1
+            Version: '1'
           Configuration:
             ActionMode: CHANGE_SET_EXECUTE
             ChangeSetName: pipeline-changeset
