@@ -135,6 +135,7 @@ Resources:
       RoleARN: !GetAtt 'ConfigRole.Arn'
   AWSConfigRule:
     Type: AWS::Config::ConfigRule
+    Condition: CreateNewConfigResources
     DependsOn: ConfigRecorder
     Properties:
       ConfigRuleName:

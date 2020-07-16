@@ -25,6 +25,11 @@ aws s3api list-buckets --query 'Buckets[?starts_with(Name, `'$S3_PREFIX-$PROJECT
 # aws cloudformation delete-stack --stack-name ccoa-taskcat
 # aws cloudformation wait stack-delete-complete --stack-name
 
+# Remove Config Recorder
+echo "Deleting ccoa-cr stack"
+aws cloudformation delete-stack --stack-name ccoa-cr
+aws cloudformation wait stack-delete-complete --stack-name ccoa-cr
+
 # Lesson 6
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE-$AWS_REGION stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE-$AWS_REGION
