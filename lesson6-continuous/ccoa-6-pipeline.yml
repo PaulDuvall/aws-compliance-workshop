@@ -274,16 +274,9 @@ Resources:
             - s3:GetObject
             - s3:GetObjectVersion
             Effect: Allow
-            Resource:
-            - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - Ref: ArtifactBucket
-            - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - Ref: ArtifactBucket
-                - "/*"
+            Resource: 
+            - !Sub arn:aws:s3:::${ArtifactBucket}
+            - !Sub arn:aws:s3:::${ArtifactBucket}/*
           - Action:
             - lambda:CreateFunction
             - lambda:DeleteFunction
