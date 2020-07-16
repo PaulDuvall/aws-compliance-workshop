@@ -114,24 +114,14 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:PutObject
-                Resource:
-                  - !Join
-                    - ''
-                    - - 'arn:aws:s3:::'
-                      - !Ref 'ConfigBucket'
-                      - /AWSLogs/
-                      - !Ref 'AWS::AccountId'
-                      - /*
+                Resource: !Sub arn:aws:s3:::${ConfigBucket}/AWSLogs/${AWS::AccountId}/*
                 Condition:
                   StringLike:
                     s3:x-amz-acl: bucket-owner-full-control
               - Effect: Allow
                 Action:
                   - s3:GetBucketAcl
-                Resource: !Join
-                  - ''
-                  - - 'arn:aws:s3:::'
-                    - !Ref 'ConfigBucket'
+                Resource: !Sub arn:aws:s3:::${ConfigBucket}
           PolicyName: root
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSConfigRole
@@ -145,6 +135,7 @@ Resources:
       RoleARN: !GetAtt 'ConfigRole.Arn'
   AWSConfigRule:
     Type: AWS::Config::ConfigRule
+    DependsOn: ConfigRecorder
     Properties:
       ConfigRuleName:
         Ref: ConfigRuleName
