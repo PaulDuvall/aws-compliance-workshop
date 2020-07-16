@@ -20,7 +20,6 @@ Parameters:
   CodeCommitS3Key:
     Description: zipfile key located in CodeCommitS3Bucket 
     Type: String
-    AllowedPattern: "^[0-9a-zA-Z-/]*$."
 Resources:
   MySNSTopic:
     Type: AWS::SNS::Topic
