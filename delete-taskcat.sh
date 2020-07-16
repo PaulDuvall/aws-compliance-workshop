@@ -25,6 +25,7 @@ aws s3api list-buckets --query 'Buckets[?starts_with(Name, `'$S3_PREFIX-$PROJECT
 # aws cloudformation delete-stack --stack-name ccoa-taskcat
 # aws cloudformation wait stack-delete-complete --stack-name
 
+# Lesson 6
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE-$AWS_REGION stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE-$AWS_REGION
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE-$AWS_REGION
@@ -33,10 +34,22 @@ echo "Deleting $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE
 
+# Lesson 5 lesson5-remediation
+echo "Deleting $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE stack"
+aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE
+aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE
+
+# Lesson 3
+echo "Deleting $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODEN stack"
+aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODE
+aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODE
+
+# Lesson 2
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson2-cfn-nag-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson2-cfn-nag-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson2-cfn-nag-$TASKCAT_CODE
 
+# Lesson 1
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson1-pipeline-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson1-pipeline-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson1-pipeline-$TASKCAT_CODE

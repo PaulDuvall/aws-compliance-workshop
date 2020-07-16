@@ -16,16 +16,16 @@ tests:
       CodeCommitS3Bucket: S3_BUCKET_TOKEN
       CodeCommitS3Key: ccoa-2-examples.zip
     template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
-  # # lesson3-config-rules-s3:
-  # #   template: ./lesson3-detective/ccoa-config-rules-s3.yml
-  # # lesson5-remediation:
-  # #   parameters:
-  # #     CreateConfig: create
-  # #   template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
+  lesson3-config-rules-s3:
+    template: ./lesson3-detective/ccoa-config-rules-s3.yml
+  lesson5-remediation:
+    parameters:
+      CreateConfig: create
+    template: ./lesson5-remediation/ccoa-5-ec2-eip-remediation.yml
   lesson6-continuous:
     parameters:
       CodeCommitS3Bucket: S3_BUCKET_TOKEN
       CodeCommitS3Key: ccoa-6-examples.zip
-      CreateConfig: create
+      CreateConfig: donotcreate
     template: ./lesson6-continuous/ccoa-6-pipeline.yml
 
