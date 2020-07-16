@@ -166,7 +166,6 @@ Resources:
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
   MyLambdaTrustRole:
-    Description: Creating service role in IAM for AWS Lambda
     Properties:
       AssumeRolePolicyDocument:
         Statement:
@@ -280,7 +279,6 @@ Resources:
         Events:
         - all
   CloudFormationTrustRole:
-    Description: Creating service role in IAM for AWS CloudFormation
     Properties:
       AssumeRolePolicyDocument:
         Statement:
