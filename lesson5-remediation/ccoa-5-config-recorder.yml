@@ -5,7 +5,7 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
-      BucketName: !Sub '${AWS::StackName}'
+      BucketName: !Sub ${AWS::StackName}
   DeliveryChannel: 
     Type: AWS::Config::DeliveryChannel
     Properties: 
@@ -27,11 +27,7 @@ Resources:
             Effect: Deny
             Principal: '*'
             Action: s3:PutObject
-            Resource: !Join
-              - ''
-              - - 'arn:aws:s3:::'
-                - !Ref 'ConfigBucket'
-                - /*
+            Resource: !Sub arn:aws:s3:::${ConfigBucket}/*
             Condition:
               StringNotEquals:
                 s3:x-amz-server-side-encryption: AES256
@@ -62,31 +58,20 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:PutObject
-                Resource:
-                  - !Join
-                    - ''
-                    - - 'arn:aws:s3:::'
-                      - !Ref 'ConfigBucket'
-                      - /AWSLogs/
-                      - !Ref 'AWS::AccountId'
-                      - /*
+                Resource: !Sub arn:aws:s3:::${ConfigBucket}/AWSLogs/${AWS::AccountId}/*
                 Condition:
                   StringLike:
                     s3:x-amz-acl: bucket-owner-full-control
               - Effect: Allow
                 Action:
                   - s3:GetBucketAcl
-                Resource: !Join
-                  - ''
-                  - - 'arn:aws:s3:::'
-                    - !Ref 'ConfigBucket'
+                Resource: !Sub arn:aws:s3:::${ConfigBucket}
           PolicyName: root
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSConfigRole
-  ConfigRecorder:
+  ConfigRecorderCcoa5:
     Type: AWS::Config::ConfigurationRecorder
     Properties:
-      Name: !Sub 'ccoa-${AWS::StackName}'
       RecordingGroup:
         AllSupported: true
         IncludeGlobalResourceTypes: true

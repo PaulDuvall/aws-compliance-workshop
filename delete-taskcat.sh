@@ -34,7 +34,11 @@ echo "Deleting $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE
 
-# Lesson 5 lesson5-remediation
+# Lesson 5
+echo "Deleting $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE stack"
+aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE
+aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE
+
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE
