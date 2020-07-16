@@ -3,6 +3,8 @@ project:
   regions:
     - us-east-1
 tests:
+  l5-cr:
+    template: ./lesson5-remediation/ccoa-5-config-recorder.yml
   lesson1-sqs:
     template: ./lesson1-automation/ccoa-1-cfn.yml
   lesson1-pipeline:
@@ -16,8 +18,6 @@ tests:
       CodeCommitS3Bucket: S3_BUCKET_TOKEN
       CodeCommitS3Key: ccoa-2-examples.zip
     template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
-  l5-cr:
-    template: ./lesson5-remediation/ccoa-5-config-recorder.yml
   lesson3-config-rules-s3:
     template: ./lesson3-detective/ccoa-config-rules-s3.yml
   lesson5-remediation:
