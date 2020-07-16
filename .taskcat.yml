@@ -16,7 +16,7 @@ tests:
       CodeCommitS3Bucket: S3_BUCKET_TOKEN
       CodeCommitS3Key: ccoa-2-examples.zip
     template: ./lesson2-preventive/ccoa-2-cfn-nag-pipeline.yml
-  lesson5-config-recorder:
+  l5-cr:
     template: ./lesson5-remediation/ccoa-5-config-recorder.yml
   lesson3-config-rules-s3:
     template: ./lesson3-detective/ccoa-config-rules-s3.yml

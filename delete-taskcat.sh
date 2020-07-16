@@ -35,8 +35,8 @@ aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson6-conti
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson6-continuous-$TASKCAT_CODE
 
 # Lesson 5
-echo "Deleting $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE stack"
-aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE
+echo "Deleting $PREFIX-$PROJECT_NAME-l5-cr-$TASKCAT_CODE stack"
+aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-l5-cr-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson5-config-recorder-$TASKCAT_CODE
 
 echo "Deleting $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE stack"
@@ -44,7 +44,7 @@ aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson5-remed
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson5-remediation-$TASKCAT_CODE
 
 # Lesson 3
-echo "Deleting $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODEN stack"
+echo "Deleting $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODE stack"
 aws cloudformation delete-stack --stack-name $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODE
 aws cloudformation wait stack-delete-complete --stack-name $PREFIX-$PROJECT_NAME-lesson3-config-rules-s3-$TASKCAT_CODE
 
