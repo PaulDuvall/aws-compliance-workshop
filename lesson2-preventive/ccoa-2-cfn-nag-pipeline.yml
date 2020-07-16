@@ -112,7 +112,6 @@ Resources:
           Version: '2012-10-17'
   CodeBuildCfnNag:
     Type: AWS::CodeBuild::Project
-    DependsOn: CodeBuildRole
     Properties:
       Name:
         Ref: AWS::StackName
@@ -122,7 +121,7 @@ Resources:
         - CodeBuildRole
         - Arn
       Artifacts:
-        Type: no_artifacts
+        Type: NO_ARTIFACTS
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL

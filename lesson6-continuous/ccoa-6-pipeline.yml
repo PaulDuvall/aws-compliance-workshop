@@ -55,6 +55,7 @@ Resources:
     Type: AWS::S3::Bucket
     Condition: CreateNewConfigResources
     DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Properties:
       AccessControl: BucketOwnerFullControl
   ConfigTopic:
@@ -139,16 +140,12 @@ Resources:
     Type: AWS::Config::ConfigurationRecorder
     Condition: CreateNewConfigResources
     Properties:
-      Name: aws-config-recorder
       RecordingGroup:
         AllSupported: true
         IncludeGlobalResourceTypes: true
       RoleARN: !GetAtt 'ConfigRole.Arn'
   AWSConfigRule:
     Type: AWS::Config::ConfigRule
-    DependsOn: 
-      - ConfigRecorder
-      - DeliveryChannel
     Properties:
       ConfigRuleName:
         Ref: ConfigRuleName
@@ -220,7 +217,6 @@ Resources:
           Version: '2012-10-17'
   CodeBuildLambdaTrigger:
     Type: AWS::CodeBuild::Project
-    DependsOn: CodeBuildRole
     Properties:
       Name:
         Fn::Join:
@@ -234,7 +230,7 @@ Resources:
         - CodeBuildRole
         - Arn
       Artifacts:
-        Type: no_artifacts
+        Type: NO_ARTIFACTS
       Environment:
         EnvironmentVariables:
         - Name: S3_BUCKET
@@ -283,8 +279,6 @@ Resources:
         Events:
         - all
   CloudFormationTrustRole:
-    DependsOn:
-    - ArtifactBucket
     Description: Creating service role in IAM for AWS CloudFormation
     Properties:
       AssumeRolePolicyDocument:
@@ -394,7 +388,6 @@ Resources:
           Version: '2012-10-17'
   CodeBuildWebsite:
     Type: AWS::CodeBuild::Project
-    DependsOn: CodeBuildRole
     Properties:
       Name:
         Ref: AWS::StackName
@@ -404,27 +397,23 @@ Resources:
         - CodeBuildRole
         - Arn
       Artifacts:
-        Type: no_artifacts
+        Type: NO_ARTIFACTS
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/eb-ruby-2.3-amazonlinux-64:2.1.6
+        Image: "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
       Source:
-        Location:
-          Fn::Join:
-          - ''
-          - - https://git-codecommit.
-            - Ref: AWS::Region
-            - ".amazonaws.com/v1/repos/"
-            - Ref: AWS::StackName
+        BuildSpec: buildspec-lambda.yml
+        Location: !Sub https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${AWS::StackName}/
         Type: CODECOMMIT
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: 10  
       Tags:
       - Key: Owner
         Value: MyCodeBuildProject
   PipelineBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -495,14 +484,7 @@ Resources:
               - CloudFormationTrustRole
               - Arn
             Capabilities: CAPABILITY_IAM
-            StackName:
-              Fn::Join:
-              - ''
-              - - ""
-                - Ref: AWS::StackName
-                - "-"
-                - Ref: AWS::Region
-                - ""
+            StackName: !Sub ${AWS::StackName}-${AWS::Region}
             TemplatePath: lambdatrigger-BuildArtifact::template-export.json
           RunOrder: 1
         - ActionTypeId:
@@ -513,14 +495,7 @@ Resources:
           Configuration:
             ActionMode: CHANGE_SET_EXECUTE
             ChangeSetName: pipeline-changeset
-            StackName:
-              Fn::Join:
-              - ''
-              - - ""
-                - Ref: AWS::StackName
-                - "-"
-                - Ref: AWS::Region
-                - ""
+            StackName: !Sub ${AWS::StackName}-${AWS::Region}
           InputArtifacts: []
           Name: ExecuteChangeSetLambdaFunction
           OutputArtifacts: []
@@ -535,14 +510,7 @@ Outputs:
   LambdaTrustRole:
     Description: IAM role for AWS Lambda used for passRole to Lambda functions.
     Export:
-      Name:
-        Fn::Join:
-        - ''
-        - - ""
-          - Ref: AWS::StackName
-          - "-"
-          - Ref: AWS::Region
-          - "-LambdaTrustRole"
+      Name: !Sub ${AWS::StackName}-${AWS::Region}-LambdaTrustRole
     Value:
       Fn::GetAtt:
       - MyLambdaTrustRole

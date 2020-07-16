@@ -7,11 +7,7 @@ Resources:
   MyQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName:
-        Fn::Join:
-        - ''
-        - - SampleQueue-
-          - Ref: AWS::StackName
+      QueueName: !Sub SampleQueue-${AWS::StackName}
 Outputs:
   MyAWSAccountId:
     Value:

@@ -1,5 +1,10 @@
 version: 0.2
 phases:
+  install:
+    runtime-versions:
+      ruby: 2.7
+    commands:
+      - ruby --version
   build:
     commands:
       - npm install
