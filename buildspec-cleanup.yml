@@ -8,6 +8,10 @@ phases:
   build:
     commands:
       - echo In buildspec-cleanup.yml Build started on `date`
+      - >-
+        aws cloudformation delete-stack --stack-name ccoa-cr
+      - >-
+        aws cloudformation wait stack-delete-complete --stack-name ccoa-cr
   post_build:
     commands:
       - echo In buildspec-cleanup.yml Build completed on `date`
