@@ -9,6 +9,10 @@ phases:
     commands:
       - echo In buildspec-cleanup.yml Build started on `date`
       - >-
+        aws s3api list-buckets --query 'Buckets[?starts_with(Name, `ccoa-cr-`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
+      - >-
+        sleep 20
+      - >-
         aws cloudformation delete-stack --stack-name ccoa-cr
       - >-
         aws cloudformation wait stack-delete-complete --stack-name ccoa-cr
