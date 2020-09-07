@@ -9,7 +9,9 @@ phases:
     commands:
       - echo In buildspec-cleanup.yml Build started on `date`
       - >-
-        aws s3api list-buckets --query 'Buckets[?starts_with(Name, `ccoa-cr-`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
+        AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+      - >-
+        aws s3api list-buckets --query 'Buckets[?starts_with(Name, `ccoa-cr`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
       - >-
         sleep 20
       - >-

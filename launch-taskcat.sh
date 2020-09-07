@@ -24,11 +24,13 @@ fatal()   { echo "[FATAL]   $@" | tee -a "$LOG_FILE" >&2 ; exit 1 ; }
 AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 
 echo "Removing buckets previously used by this script"
-aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tasckat-ceoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
+aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tasckat-ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
 
-echo "Deleting taskcat-ceoa stack"
-aws cloudformation delete-stack --stack-name taskcat-ceoa
-aws cloudformation wait stack-delete-complete --stack-name taskcat-ceoa
+aws s3api list-buckets --query 'Buckets[?starts_with(Name, `tcat-ccoa`) == `true`].[Name]' --output text | xargs -I {} aws s3 rb s3://{} --force
+
+echo "Deleting taskcat-ccoa stack"
+aws cloudformation delete-stack --stack-name taskcat-ccoa
+aws cloudformation wait stack-delete-complete --stack-name taskcat-ccoa
 
 GH_BRANCH=${1:-${GH_BRANCH:-}}
 if [ -z "$GH_BRANCH" ]; then
