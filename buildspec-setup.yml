@@ -19,7 +19,7 @@ phases:
       - >-
         echo AWS_REGION is $AWS_REGION
       - >-
-        aws cloudformation create-stack --stack-name ccoa-cr-$AWS_REGION --capabilities CAPABILITY_NAMED_IAM --disable-rollback --template-body file://lesson5-remediation/ccoa-5-config-recorder.yml
+        aws cloudformation create-stack --stack-name ccoa-cr-$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/') --capabilities CAPABILITY_NAMED_IAM --disable-rollback --template-body file://lesson5-remediation/ccoa-5-config-recorder.yml
       - >-
         zip -r ccoa-1-examples.zip ./lesson1-automation -j -x '*.git*'
       - >-
