@@ -13,7 +13,7 @@ Parameters:
   GitHubBranch:
     Type: String
     Description: GitHub Branch
-    Default: "master"
+    Default: "main"
   GitHubToken:
     NoEcho: true
     Type: String
