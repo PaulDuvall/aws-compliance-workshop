@@ -201,18 +201,6 @@ Resources:
           RunOrder: 1
         - InputArtifacts:
           - Name: MyApp
-          Name: Build
-          ActionTypeId:
-            Category: Build
-            Owner: AWS
-            Version: '1'
-            Provider: CodeBuild
-          OutputArtifacts:
-          - Name: MyAppBuild
-          Configuration:
-            ProjectName:
-              Ref: CodeBuildCfnNag
-          RunOrder: 1
       - Name: Deploy
         Actions:
         - Name: Deploy
