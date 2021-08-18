@@ -199,8 +199,6 @@ Resources:
             ProjectName:
               Ref: CodeBuildCfnNag
           RunOrder: 1
-        - InputArtifacts:
-          - Name: MyApp
       - Name: Deploy
         Actions:
         - Name: Deploy
