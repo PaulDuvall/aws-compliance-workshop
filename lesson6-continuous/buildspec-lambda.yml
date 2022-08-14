@@ -5,7 +5,7 @@ phases:
       nodejs: 16
     commands:
           - echo "Installing Node.js version 12 ..."
-          - n $NODE_12_VERSION
+          - n $NODE_16_VERSION
   build:
     commands:
       - npm install

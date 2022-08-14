@@ -194,7 +194,7 @@ Resources:
           phases:
             install:
               runtime-versions:
-                python: 3.7
+                python: 3.9
             post_build:
               commands:
                 - aws s3 cp --recursive --acl public-read ./taskcat_outputs s3://${SiteBucket}/ 
